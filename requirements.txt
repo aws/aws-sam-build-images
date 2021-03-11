@@ -1,2 +1,9 @@
 #docker minor version updates can include breaking changes. Auto update micro version only.
 docker~=4.2.0
+pylint~=2.6.0
+
+# Test requirements
+pytest==6.1.1
+
+# formatter
+black==20.8b1

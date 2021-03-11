@@ -2,7 +2,7 @@
 # environment variable.
 
 init:
-	SAM_CLI_DEV=1 pip install -e '.[dev]'
+	pip install -Ur requirements.txt
 
 build:
 	build-image-src/build_all_images.sh
@@ -10,14 +10,20 @@ build:
 test:
 	pytest tests
 
+lint:
+	# Linter performs static analysis to catch latent bugs
+	pylint --rcfile .pylintrc tests
+	# mypy performs type check
+	mypy tests
+
 dev:
 	lint test
 
 black:
-	black setup.py tests
+	black tests
 
 black-check:
-	black --check setup.py tests
+	black --check tests
 
 # Verifications to run before sending a pull request
 pr: init build black-check dev

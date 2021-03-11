@@ -89,9 +89,7 @@ class BuildImageBase(TestCase):
         """
         apps = []
         try:
-            apps = next(os.walk(self.app_location))[
-                1
-            ]  # Get all directories one level below the app location
+            _, apps, _ = next(os.walk(self.app_location))  # Get all directories one level below the app location
         except StopIteration:  # When no apps are present in the app location
             pytest.skip("No external apps found for testing.")
 
