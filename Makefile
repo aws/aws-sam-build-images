@@ -10,6 +10,9 @@ build:
 test:
 	pytest tests
 
+dev:
+	lint test
+
 black:
 	black setup.py tests
 
@@ -17,4 +20,4 @@ black-check:
 	black --check setup.py tests
 
 # Verifications to run before sending a pull request
-pr: init black-check build test
+pr: init build black-check dev
