@@ -1,11 +1,6 @@
-## My Project
+## AWS SAM CLI Build Images
 
-TODO: Fill this README out!
-
-Be sure to:
-
-* Change the title in this README
-* Edit your repository description on GitHub
+AWS SAM Build Images contains docker images for all supported runtimes to build and deploy serverless applications inside a docker container.
 
 ## Security
 
