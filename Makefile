@@ -5,7 +5,7 @@ init:
 	pip install -Ur requirements.txt
 
 build:
-	build-image-src/build_all_images.sh
+	cd build-image-src && ./build_all_images.sh
 
 test:
 	pytest tests
