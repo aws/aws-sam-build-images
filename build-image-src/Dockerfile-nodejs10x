@@ -22,6 +22,7 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   grep \
   curl \
   make \
+  rsync \
   binutils \
   gcc-c++ \
   procps \
