@@ -1,19 +1,6 @@
-FROM amazon/aws-sam-cli-emulation-image-python2.7
+FROM public.ecr.aws/lambda/python:2.7
 
-# Install build tools
-# The base image essentially corrupts the RPM DB,
-#  so we need to make changes for yum to run successfully.
-RUN chmod 1777 /tmp && \
-  /usr/bin/python3 -c "from configparser import SafeConfigParser; \
-  yum_conf = SafeConfigParser(); \
-  yum_conf.read('/etc/yum.conf'); \
-  yum_conf.has_section('main') or yum_conf.add_section('main'); \
-  yum_conf.set('main', 'plugins', '1'); \
-  f = open('/etc/yum.conf', 'w'); \
-  yum_conf.write(f); \
-  f.close();" && \
-  rpm --rebuilddb && \
-  yum groupinstall -y development && \
+RUN yum groupinstall -y development && \
   yum install -d1 -y \
   tar \
   gzip \
@@ -59,3 +46,7 @@ RUN pip3 install wheel
 RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py && python get-pip.py && rm get-pip.py
 
 COPY ATTRIBUTION.txt /
+
+# Compatible with initial base image
+ENTRYPOINT []
+CMD ["/bin/bash"]
