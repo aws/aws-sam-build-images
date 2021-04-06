@@ -28,6 +28,7 @@ RUN chmod 1777 /tmp && \
   grep \
   curl \
   make \
+  rsync \
   gcc-c++ \
   binutils \
   procps \
