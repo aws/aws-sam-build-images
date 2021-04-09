@@ -71,11 +71,12 @@ class BuildImageBase(TestCase):
         Test using non-root `sam` user
         """
         output = (
-            self.client.containers.run(image=self.image, user="sam", command="whoami")
+            self.client.containers.run(image=self.image, user="sam", command="id -u")
             .decode()
             .strip()
         )
-        self.assertEqual(output, "sam")
+        # Root account has UID 0
+        self.assertNotEqual(output, "0")
 
     def test_sam_init(self):
         """
