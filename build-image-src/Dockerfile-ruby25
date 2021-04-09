@@ -64,4 +64,6 @@ ENV LANG=en_US.UTF-8
 
 ENV PATH=/var/lang/bin:$PATH
 
+RUN /usr/sbin/useradd sam
+
 COPY ATTRIBUTION.txt /

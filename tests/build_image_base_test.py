@@ -66,6 +66,17 @@ class BuildImageBase(TestCase):
         self.assertTrue(self.is_package_present("aws"))
         self.assertTrue(self.is_package_present("jq"))
 
+    def test_non_root_user(self):
+        """
+        Test using non-root `sam` user
+        """
+        output = (
+            self.client.containers.run(image=self.image, user="sam", command="whoami")
+            .decode()
+            .strip()
+        )
+        self.assertEqual(output, "sam")
+
     def test_sam_init(self):
         """
         Test sam init hello world application for the given runtime and dependency manager

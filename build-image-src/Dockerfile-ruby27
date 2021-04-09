@@ -50,4 +50,6 @@ RUN pip3 install wheel
 
 ENV LANG=en_US.UTF-8
 
+RUN /sbin/useradd sam
+
 COPY ATTRIBUTION.txt /

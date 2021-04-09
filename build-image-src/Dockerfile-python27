@@ -59,4 +59,6 @@ RUN pip3 install wheel
 
 RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py && python get-pip.py && rm get-pip.py
 
+RUN /usr/sbin/useradd sam
+
 COPY ATTRIBUTION.txt /

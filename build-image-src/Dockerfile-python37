@@ -56,4 +56,6 @@ ENV LANG=en_US.UTF-8
 # Python for it to be picked up during `sam build`
 RUN pip3 install wheel
 
+RUN /usr/sbin/useradd sam
+
 COPY ATTRIBUTION.txt /
