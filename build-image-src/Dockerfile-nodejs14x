@@ -53,6 +53,6 @@ ENV LANG=en_US.UTF-8
 # Python for it to be picked up during `sam build`
 RUN pip3 install wheel
 
-RUN /usr/sbin/useradd --uid 1000 --user-group --shell /bin/bash --create-home sam
+RUN /usr/sbin/useradd --uid 1000 --user-group --shell /bin/bash --create-home --comment "Non-root AWS SAM build image user" sam
 
 COPY ATTRIBUTION.txt /
