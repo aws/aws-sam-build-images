@@ -70,6 +70,4 @@ RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle-dn
 
 ENV PATH="/usr/local/gradle/gradle-6.2.2/bin:/usr/local/maven/apache-maven-3.6.3/bin:${PATH}"
 
-RUN /usr/sbin/useradd --uid 1000 --user-group --shell /bin/bash --create-home --comment "Non-root AWS SAM build image user" sam
-
 COPY ATTRIBUTION.txt /
