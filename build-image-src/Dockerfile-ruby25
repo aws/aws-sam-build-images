@@ -64,4 +64,6 @@ ENV LANG=en_US.UTF-8
 
 ENV PATH=/var/lang/bin:$PATH
 
+RUN /usr/sbin/useradd --uid 1000 --user-group --shell /bin/bash --create-home --comment "Non-root AWS SAM build image user" sam
+
 COPY ATTRIBUTION.txt /
