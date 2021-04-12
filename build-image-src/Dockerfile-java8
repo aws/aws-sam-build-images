@@ -70,6 +70,6 @@ ENV PATH="/usr/local/gradle/gradle-6.2.2/bin:/usr/local/maven/apache-maven-3.6.3
 
 ENV JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk"
 
-RUN /usr/sbin/useradd sam
+RUN /usr/sbin/useradd --uid 1000 --user-group --shell /bin/bash --create-home sam
 
 COPY ATTRIBUTION.txt /

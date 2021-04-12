@@ -59,6 +59,6 @@ RUN pip3 install wheel
 
 RUN curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py && python get-pip.py && rm get-pip.py
 
-RUN /usr/sbin/useradd sam
+RUN /usr/sbin/useradd --uid 1000 --user-group --shell /bin/bash --create-home sam
 
 COPY ATTRIBUTION.txt /

@@ -59,6 +59,6 @@ ENV LANG=en_US.UTF-8
 
 ENV PATH=/var/lang/bin:$PATH
 
-RUN /usr/sbin/useradd sam
+RUN /usr/sbin/useradd --uid 1000 --user-group --shell /bin/bash --create-home sam
 
 COPY ATTRIBUTION.txt /

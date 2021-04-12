@@ -50,6 +50,6 @@ RUN pip3 install wheel
 
 ENV LANG=en_US.UTF-8
 
-RUN /sbin/useradd sam
+RUN /sbin/useradd --uid 1000 --user-group --shell /bin/bash --create-home sam
 
 COPY ATTRIBUTION.txt /
