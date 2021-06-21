@@ -1,7 +1,6 @@
 FROM amazon/aws-sam-cli-emulation-image-go1.x
 
-RUN chmod 1777 /tmp && \
-  yum groupinstall -y development && \
+RUN yum groupinstall -y development && \
   yum install -d1 -y \
   tar \
   gzip \
