@@ -1,6 +1,6 @@
 ## AWS SAM build images
 
-AWS SAM build images for all supported runtimes to build and deploy [serverless applications](https://aws.amazon.com/serverless/) on AWS.
+AWS SAM build container images for all supported runtimes to build and deploy [serverless applications](https://aws.amazon.com/serverless/) on AWS.
 
 ## Security
 
