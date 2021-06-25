@@ -19,7 +19,7 @@ class BuildImageBase(TestCase):
         :param dep_manager: dependency manager of the build image
         """
         cls.image = f"amazon/aws-sam-cli-build-image-{runtime}:latest"
-        cls.app_location = f"tests/buildimages/apps/{runtime}"
+        cls.app_location = f"tests/apps/{runtime}"
         cls.runtime = runtime
         cls.dep_manager = dep_manager
         cls.client = docker.from_env()

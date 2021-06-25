@@ -1,0 +1,50 @@
+FROM amazon/aws-sam-cli-emulation-image-go1.x
+
+RUN yum groupinstall -y development && \
+  yum install -d1 -y \
+  tar \
+  gzip \
+  unzip \
+  python3 \
+  jq \
+  git \
+  grep \
+  curl \
+  make \
+  rsync \
+  gcc-c++ \
+  binutils \
+  procps \
+  libgmp3-dev \
+  zlib1g-dev \
+  liblzma-dev \
+  libxslt-devel \
+  libmpc-devel \
+  && yum clean all
+
+# Install Go
+RUN curl -L https://golang.org/dl/go1.16.5.linux-amd64.tar.gz | tar -zx -C /usr/local
+ENV PATH=$PATH:/usr/local/go/bin:/root/go/bin
+# Set GOPROXY envvar to avoid using the default proxy.golang.org proxy
+ENV GOPROXY=direct
+
+# Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm awscliv2.zip && rm -rf ./aws
+
+# Install SAM CLI in a dedicated Python virtualenv
+ARG SAM_CLI_VERSION
+RUN curl -L "https://github.com/awslabs/aws-sam-cli/archive/v$SAM_CLI_VERSION.zip" -o "samcli.zip" && \
+  unzip samcli.zip && python3 -m venv /usr/local/opt/sam-cli && \
+  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install -r ./aws-sam-cli-$SAM_CLI_VERSION/requirements/reproducible-linux.txt && \
+  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install ./aws-sam-cli-$SAM_CLI_VERSION && \
+  rm samcli.zip && rm -rf aws-sam-cli-develop
+
+ENV PATH=$PATH:/usr/local/opt/sam-cli/bin
+
+ENV LANG=en_US.UTF-8
+
+# Wheel is required by SAM CLI to build libraries like cryptography. It needs to be installed in the system
+# Python for it to be picked up during `sam build`
+RUN pip3 install wheel
+
+COPY ATTRIBUTION.txt /
