@@ -65,6 +65,7 @@ class BuildImageBase(TestCase):
         )
         self.assertTrue(self.is_package_present("aws"))
         self.assertTrue(self.is_package_present("jq"))
+        self.assertTrue(self.is_package_present("yum"))
 
     def test_sam_init(self):
         """

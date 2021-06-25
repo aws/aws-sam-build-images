@@ -13,6 +13,7 @@ ENV PATH=/var/lang/bin:$PATH \
 # Installing by yum at copied location
 RUN yum groupinstall -y development --installroot=/rootfs && \
   yum install -d1 --installroot=/rootfs -y \
+  yum \
   tar \
   gzip \
   unzip \
