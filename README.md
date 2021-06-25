@@ -1,6 +1,6 @@
-## AWS SAM CLI Build Images
+## AWS SAM build images
 
-AWS SAM Build Images contains docker images for all supported runtimes to build and deploy serverless applications inside a docker container.
+AWS SAM build container images for all supported runtimes to build and deploy [serverless applications](https://aws.amazon.com/serverless/) on AWS.
 
 ## Security
 
