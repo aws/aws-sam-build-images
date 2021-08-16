@@ -24,7 +24,7 @@ docker build -f Dockerfile-python27 -t amazon/aws-sam-cli-build-image-python2.7 
 docker build -f Dockerfile-python36 -t amazon/aws-sam-cli-build-image-python3.6 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker build -f Dockerfile-python37 -t amazon/aws-sam-cli-build-image-python3.7 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker build -f Dockerfile-python38 -t amazon/aws-sam-cli-build-image-python3.8 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
-docker build -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
+DOCKER_CONTENT_TRUST=0 docker build -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker build -f Dockerfile-ruby25 -t amazon/aws-sam-cli-build-image-ruby2.5 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker build -f Dockerfile-ruby27 -t amazon/aws-sam-cli-build-image-ruby2.7 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker build -f Dockerfile-go1x -t amazon/aws-sam-cli-build-image-go1.x --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
