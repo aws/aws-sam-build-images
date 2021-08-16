@@ -27,7 +27,7 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   && yum clean all
 
 # Copying root from AL2 to runtimes image
-FROM amazon/aws-sam-cli-emulation-image-python3.9
+FROM public.ecr.aws/sam/emulation-python3.9
 COPY --from=1 /rootfs /
 
 # Install AWS CLI
