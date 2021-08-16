@@ -1,4 +1,4 @@
-FROM amazon/aws-sam-cli-emulation-image-python3.9
+FROM public.ecr.aws/sam/emulation-python3.9
 
 # To learn more context around use of `amazonlinux:2` image please read comment in java11/build/Dockerfile
 # Copying root from runtimes image to AL2
