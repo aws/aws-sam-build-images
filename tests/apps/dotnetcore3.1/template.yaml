@@ -7,7 +7,7 @@ Resources:
     Properties:
       Handler: sam-test-app::sam_test_app.Functions::Get
       Runtime: dotnetcore3.1
-      CodeUri: ''
+      CodeUri: ./src/
       MemorySize: 256
       Timeout: 30
       Policies:
