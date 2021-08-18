@@ -1,8 +1,8 @@
 from unittest import TestCase
 from pathlib import Path
-import docker
 import os
 import tarfile
+import docker  # type: ignore
 import pytest
 
 
@@ -74,12 +74,20 @@ class BuildImageBase(TestCase):
         if self.runtime == "provided" or self.runtime == "provided.al2":
             pytest.skip("Skipping sam init test for self-provided images")
 
+        sam_init = f"sam init \
+--name sam-app \
+--runtime {self.runtime} \
+--package-type Zip \
+--app-template hello-world"
+        if self.dep_manager:
+            sam_init += f" --dependency-manager {self.dep_manager}"
+
         op = self.client.containers.run(
             image=self.image,
             command=[
                 "/bin/sh",
                 "-c",
-                f"sam init --name sam-app --runtime {self.runtime} --dependency-manager {self.dep_manager} --app-template hello-world && cd sam-app && sam build",
+                sam_init + " && cd sam-app && sam build",
             ],
         ).decode()
         self.assertTrue(op.find("Build Succeeded"))
@@ -90,7 +98,9 @@ class BuildImageBase(TestCase):
         """
         apps = []
         try:
-            _, apps, _ = next(os.walk(self.app_location))  # Get all directories one level below the app location
+            _, apps, _ = next(
+                os.walk(self.app_location)
+            )  # Get all directories one level below the app location
         except StopIteration:  # When no apps are present in the app location
             pytest.skip("No external apps found for testing.")
 
@@ -108,9 +118,7 @@ class BuildImageBase(TestCase):
                     self.image, "/bin/bash", detach=True, tty=True
                 )
                 container.put_archive("/var/task", tar_data)
-                ex_code, out = container.exec_run(
-                    "sam build", workdir="/var/task/" + app
-                )
+                _, out = container.exec_run("sam build", workdir="/var/task/" + app)
                 os.remove(app + ".tar")
                 container.kill()
 
