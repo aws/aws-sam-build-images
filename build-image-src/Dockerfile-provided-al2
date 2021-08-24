@@ -42,7 +42,11 @@ RUN curl -L "https://github.com/awslabs/aws-sam-cli/archive/v$SAM_CLI_VERSION.zi
   /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install ./aws-sam-cli-$SAM_CLI_VERSION && \
   rm samcli.zip && rm -rf aws-sam-cli-$SAM_CLI_VERSION
 
-ENV PATH=$PATH:/usr/local/opt/sam-cli/bin
+# Install cargo and other Rust friends
+RUN curl -L "https://sh.rustup.rs" -o "rustup.sh"
+RUN chmod +x rustup.sh && sh rustup.sh -y
+
+ENV PATH=$PATH:/usr/local/opt/sam-cli/bin:$HOME/.cargo/bin
 
 ENV LANG=en_US.UTF-8
 
