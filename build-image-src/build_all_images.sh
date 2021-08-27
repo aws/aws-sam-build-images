@@ -29,3 +29,5 @@ DOCKER_CONTENT_TRUST=0 docker build -f Dockerfile-python39 -t amazon/aws-sam-cli
 docker build -f Dockerfile-ruby25 -t amazon/aws-sam-cli-build-image-ruby2.5 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker build -f Dockerfile-ruby27 -t amazon/aws-sam-cli-build-image-ruby2.7 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker build -f Dockerfile-go1x -t amazon/aws-sam-cli-build-image-go1.x --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
+# Disable DOCKER_CONTENT_TRUST for pulling from public ECR
+DOCKER_CONTENT_TRUST=0 docker build -f Dockerfile-dotnetcore31 -t amazon/aws-sam-cli-build-image-dotnetcore3.1 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .

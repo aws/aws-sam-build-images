@@ -1692,7 +1692,8 @@ IN THE SOFTWARE.
 
 ------
 
-** lambci/docker-lambda/provided/run/init.go; version 1 --
+** lambci/docker-lambda/provided/run/init.go; version 1
+** lambci/docker-lambda/dotnetcore3.1/build/Dockerfile; commit 231bde0674894a215ac9a04a181924f62832230e --
 https://github.com/lambci/docker-lambda
 Copyright 2016 Michael Hart and LambCI contributors
 
