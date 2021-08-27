@@ -55,8 +55,7 @@ ENV DOTNET_ROOT=/var/lang/bin
 
 # Install .NET build tools
 
-ENV PATH=/root/.dotnet/tools:$PATH \
-    AWS_EXECUTION_ENV=AWS_Lambda_dotnetcore3.1 \
+ENV AWS_EXECUTION_ENV=AWS_Lambda_dotnetcore3.1 \
     DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_NOLOGO=1 \
     NUGET_XMLDOC_MODE=skip
@@ -68,5 +67,19 @@ RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -s -- -c 3.1 -i "${DOTNE
   dotnet new > /dev/null && \
   cd / && \
   rm -rf /tmp/warmup /tmp/NuGetScratch /tmp/.dotnet
+
+# Now we do something tricky. Installing Amazon.Lambda.Tools here as a --global tool will
+# make it impossible to upgrade – either directly or by running `sam build`. Not so great.
+# But .NET tools *can* obey the path. By installing the Lambda tools to the .NET root and
+# putting the Global Tools install directory ahead of it in the path, we enable this:
+#
+# - `dotnet lambda` works out of the box because it's found on the path at the .NET root.
+# - Installing or upgrading Amazon.Lambda.Tools as a global tool succeeds because it will
+#   write to the same layer. No cross-mount writes.
+# - Running `dotnet lambda` after installing or upgrading (either directly or via running
+#   `sam build`) will pick up the newly installed, globally installed version of the tool.
+ENV PATH=~/.dotnet/tools:$PATH
+
+RUN dotnet tool install --tool-path "${DOTNET_ROOT}" Amazon.Lambda.Tools --verbosity quiet
 
 COPY ATTRIBUTION.txt /
