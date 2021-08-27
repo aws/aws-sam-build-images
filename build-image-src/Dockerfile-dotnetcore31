@@ -55,12 +55,10 @@ ENV DOTNET_ROOT=/var/lang/bin
 
 # Install .NET build tools
 
-# Suppress first-time output.
-ENV DOTNET_NOLOGO=true
-
 ENV PATH=/root/.dotnet/tools:$PATH \
     AWS_EXECUTION_ENV=AWS_Lambda_dotnetcore3.1 \
     DOTNET_CLI_TELEMETRY_OPTOUT=1 \
+    DOTNET_NOLOGO=1 \
     NUGET_XMLDOC_MODE=skip
 
 # Warm up the nuget cache once now for faster startup on each use.
