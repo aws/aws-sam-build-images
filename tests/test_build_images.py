@@ -161,6 +161,7 @@ class TestBIPython38(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.8."))
         self.assertTrue(self.is_package_present("pip"))
 
+
 class TestBIPython39(BuildImageBase):
     __test__ = True
 
@@ -174,8 +175,6 @@ class TestBIPython39(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
         self.assertTrue(self.is_package_present("pip"))
-
-
 
 
 class TestBIDotNetCore31(BuildImageBase):
