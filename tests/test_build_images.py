@@ -1,4 +1,4 @@
-from build_image_base_test import BuildImageBase
+from tests.build_image_base_test import BuildImageBase
 
 
 class TestBIJava8(BuildImageBase):
@@ -161,20 +161,35 @@ class TestBIPython38(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.8."))
         self.assertTrue(self.is_package_present("pip"))
 
-# class TestBIPython39(BuildImageBase):
-#     __test__ = True
 
-#     @classmethod
-#     def setUpClass(cls):
-#         super().setUpClass("python3.9", "Dockerfile-python39", "pip")
+class TestBIPython39(BuildImageBase):
+    __test__ = True
 
-#     def test_packages(self):
-#         """
-#         Test packages specific to this build image
-#         """
-#         self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
-#         self.assertTrue(self.is_package_present("pip"))
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.9", "Dockerfile-python39", "pip")
 
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
+        self.assertTrue(self.is_package_present("pip"))
+
+
+class TestBIDotNetCore31(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("dotnetcore3.1", "Dockerfile-dotnetcore31")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "3.1"))
+        self.assertTrue(self.is_package_present("dotnet"))
 
 class TestBIRuby25(BuildImageBase):
     __test__ = True

@@ -14,10 +14,9 @@ lint:
 	# Linter performs static analysis to catch latent bugs
 	pylint --rcfile .pylintrc tests
 	# mypy performs type check
-	mypy tests
+	mypy tests/*.py
 
-dev:
-	lint test
+dev: lint test
 
 black:
 	black tests

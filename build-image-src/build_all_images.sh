@@ -32,8 +32,9 @@ docker ${CROSS_DOCKER_BUILDX} build ${GUEST_PLATFORM} -f Dockerfile-python27 -t 
 docker ${CROSS_DOCKER_BUILDX} build ${GUEST_PLATFORM} -f Dockerfile-python36 -t amazon/aws-sam-cli-build-image-python3.6 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker ${CROSS_DOCKER_BUILDX} build ${GUEST_PLATFORM} -f Dockerfile-python37 -t amazon/aws-sam-cli-build-image-python3.7 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker ${CROSS_DOCKER_BUILDX} build ${GUEST_PLATFORM} -f Dockerfile-python38 -t amazon/aws-sam-cli-build-image-python3.8 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
-# Disable DOCKER_CONTENT_TRUST for pulling from public ECR
-DOCKER_CONTENT_TRUST=0 docker ${CROSS_DOCKER_BUILDX} build ${GUEST_PLATFORM} -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
+docker ${CROSS_DOCKER_BUILDX} build ${GUEST_PLATFORM} -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker ${CROSS_DOCKER_BUILDX} build ${GUEST_PLATFORM} -f Dockerfile-ruby25 -t amazon/aws-sam-cli-build-image-ruby2.5 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker ${CROSS_DOCKER_BUILDX} build ${GUEST_PLATFORM} -f Dockerfile-ruby27 -t amazon/aws-sam-cli-build-image-ruby2.7 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 docker ${CROSS_DOCKER_BUILDX} build ${GUEST_PLATFORM} -f Dockerfile-go1x -t amazon/aws-sam-cli-build-image-go1.x --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
+# Disable DOCKER_CONTENT_TRUST for pulling from public ECR
+DOCKER_CONTENT_TRUST=0 docker build -f Dockerfile-dotnetcore31 -t amazon/aws-sam-cli-build-image-dotnetcore3.1 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
