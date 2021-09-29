@@ -1,7 +1,7 @@
-FROM amazon/aws-sam-cli-emulation-image-ruby2.7
+FROM public.ecr.aws/sam/emulation-ruby2.7
 
 # To learn more context around use of `amazonlinux:2` image please read comment in java11/build/Dockerfile
-FROM amazonlinux:2
+FROM public.ecr.aws/amazonlinux/amazonlinux:2
 
 COPY --from=0 / /rootfs
 
@@ -25,13 +25,14 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   libmpc-devel \
   && yum clean all
 
-FROM amazon/aws-sam-cli-emulation-image-ruby2.7
+FROM public.ecr.aws/sam/emulation-ruby2.7
 COPY --from=1 /rootfs /
 
 RUN gem update --system --no-document
 
 # Install AWS CLI
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm awscliv2.zip && rm -rf ./aws
+ARG AWS_CLI_ARCH
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm awscliv2.zip && rm -rf ./aws
 
 # Install SAM CLI in a dedicated Python virtualenv
 ARG SAM_CLI_VERSION

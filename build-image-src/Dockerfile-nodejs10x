@@ -1,8 +1,8 @@
-FROM amazon/aws-sam-cli-emulation-image-nodejs10.x
+FROM public.ecr.aws/sam/emulation-nodejs10.x
 
 # To learn more context around use of `amazonlinux:2` image please read comment in java11/build/Dockerfile
 # Copying root from runtimes image to AL2
-FROM amazonlinux:2
+FROM public.ecr.aws/amazonlinux/amazonlinux:2
 COPY --from=0 / /rootfs
 
 ENV PATH=/var/lang/bin:$PATH \
@@ -32,7 +32,7 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   && yum clean all
 
 # Copying root from AL2 to runtimes image
-FROM amazon/aws-sam-cli-emulation-image-nodejs10.x
+FROM public.ecr.aws/sam/emulation-nodejs10.x
 COPY --from=1 /rootfs /
 
 # Install AWS CLI

@@ -10,7 +10,7 @@ class BuildImageBase(TestCase):
     __test__ = False
 
     @classmethod
-    def setUpClass(cls, runtime, dockerfile, dep_manager=None):
+    def setUpClass(cls, runtime, dockerfile, dep_manager=None, tag="x86_64"):
         """
         Test setup for each build image
 
@@ -18,7 +18,7 @@ class BuildImageBase(TestCase):
         :param dockerfile: dockerfile name of the build image
         :param dep_manager: dependency manager of the build image
         """
-        cls.image = f"amazon/aws-sam-cli-build-image-{runtime}:latest"
+        cls.image = f"amazon/aws-sam-cli-build-image-{runtime}:{tag}"
         cls.app_location = f"tests/apps/{runtime}"
         cls.runtime = runtime
         cls.dep_manager = dep_manager
@@ -71,7 +71,7 @@ class BuildImageBase(TestCase):
         """
         Test sam init hello world application for the given runtime and dependency manager
         """
-        if self.runtime == "provided" or self.runtime == "provided.al2":
+        if self.runtime in ["provided", "provided.al2"]:
             pytest.skip("Skipping sam init test for self-provided images")
 
         sam_init = f"sam init \
@@ -146,3 +146,23 @@ class BuildImageBase(TestCase):
             .decode()
             .strip()
         )
+
+    def is_architecture(self, architecture):
+        """
+        Returns a value indicating whether the current container is of the specified architecture or not
+
+        Parameters
+        ----------
+        architecture : str
+            Architecture
+
+        Returns
+        -------
+        bool
+            True if the container is of the architecture, False otherwise
+        """
+
+        result = str(
+            self.client.containers.run(self.image, command=["/bin/uname", "-m"])
+        )
+        return architecture in result

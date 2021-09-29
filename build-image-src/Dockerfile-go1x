@@ -1,4 +1,4 @@
-FROM amazon/aws-sam-cli-emulation-image-go1.x
+FROM public.ecr.aws/sam/emulation-go1.x
 
 RUN yum groupinstall -y development && \
   yum install -d1 -y \

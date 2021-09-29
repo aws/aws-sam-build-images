@@ -1,4 +1,4 @@
-FROM amazon/aws-sam-cli-emulation-image-python3.7
+FROM public.ecr.aws/sam/emulation-python3.7
 
 # Install build tools
 # The base image essentially corrupts the RPM DB,
