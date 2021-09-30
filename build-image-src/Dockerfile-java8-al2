@@ -1,4 +1,5 @@
-FROM public.ecr.aws/sam/emulation-java8.al2
+ARG IMAGE_ARCH
+FROM public.ecr.aws/sam/emulation-java8.al2:latest-$IMAGE_ARCH
 
 # Copying root from runtimes image to AL2
 FROM public.ecr.aws/amazonlinux/amazonlinux:2
@@ -29,7 +30,7 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   && yum clean all
 
 # Copying root from AL2 to runtimes image
-FROM public.ecr.aws/sam/emulation-java8.al2
+FROM public.ecr.aws/sam/emulation-java8.al2:latest-$IMAGE_ARCH
 
 COPY --from=1 /rootfs /
 
