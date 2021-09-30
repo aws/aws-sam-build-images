@@ -41,8 +41,8 @@ docker build -f Dockerfile-ruby27 -t amazon/aws-sam-cli-build-image-ruby2.7:x86_
 # Delete multi arch al2 image and start building arm64 images
 docker rmi public.ecr.aws/amazonlinux/amazonlinux:2
 docker build -f Dockerfile-dotnetcore31 -t amazon/aws-sam-cli-build-image-dotnetcore3.1:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 .
-docker build -f Dockerfile-java8-al2 -t amazon/aws-sam-cli-build-image-java8.al2:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=aarch64 .
-docker build -f Dockerfile-java11 -t amazon/aws-sam-cli-build-image-java11:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=aarch64 .
+docker build -f Dockerfile-java8-al2 -t amazon/aws-sam-cli-build-image-java8.al2:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 .
+docker build -f Dockerfile-java11 -t amazon/aws-sam-cli-build-image-java11:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 .
 docker build -f Dockerfile-nodejs12x -t amazon/aws-sam-cli-build-image-nodejs12.x:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 .
 docker build -f Dockerfile-nodejs14x -t amazon/aws-sam-cli-build-image-nodejs14.x:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 .
 docker build -f Dockerfile-provided-al2 -t amazon/aws-sam-cli-build-image-provided.al2:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 .
