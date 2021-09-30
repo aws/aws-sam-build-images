@@ -17,6 +17,7 @@ class TestBIJava8(BuildImageBase):
         )
         self.assertTrue(self.is_package_present("mvn"))
         self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
 
 
 class TestBIJava8AL2(BuildImageBase):
@@ -24,7 +25,7 @@ class TestBIJava8AL2(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("java8.al2", "Dockerfile-java8-al2", "gradle")
+        super().setUpClass("java8.al2", "Dockerfile-java8-al2", "gradle", tag="x86_64")
 
     def test_packages(self):
         """
@@ -35,6 +36,26 @@ class TestBIJava8AL2(BuildImageBase):
         )
         self.assertTrue(self.is_package_present("mvn"))
         self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+class TestBIJava8AL2ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java8.al2", "Dockerfile-java8-al2", "gradle", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "1.8', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
 
 
 class TestBIJava11(BuildImageBase):
@@ -42,7 +63,7 @@ class TestBIJava11(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("java11", "Dockerfile-java11", "maven")
+        super().setUpClass("java11", "Dockerfile-java11", "maven", tag="x86_64")
 
     def test_packages(self):
         """
@@ -53,6 +74,26 @@ class TestBIJava11(BuildImageBase):
         )
         self.assertTrue(self.is_package_present("mvn"))
         self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+class TestBIJava11ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java11", "Dockerfile-java11", "maven", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "11.0.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
 
 
 class TestBINode10(BuildImageBase):
@@ -68,6 +109,7 @@ class TestBINode10(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("node --version", "v10."))
         self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("x86_64"))
 
 
 class TestBINode12(BuildImageBase):
@@ -75,7 +117,7 @@ class TestBINode12(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("nodejs12.x", "Dockerfile-nodejs12x", "npm")
+        super().setUpClass("nodejs12.x", "Dockerfile-nodejs12x", "npm", tag="x86_64")
 
     def test_packages(self):
         """
@@ -83,6 +125,23 @@ class TestBINode12(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("node --version", "v12."))
         self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+class TestBINode12ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs12.x", "Dockerfile-nodejs12x", "npm", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v12."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("aarch64"))
 
 
 class TestBINode14(BuildImageBase):
@@ -90,7 +149,7 @@ class TestBINode14(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("nodejs14.x", "Dockerfile-nodejs14x", "npm")
+        super().setUpClass("nodejs14.x", "Dockerfile-nodejs14x", "npm", tag="x86_64")
 
     def test_packages(self):
         """
@@ -98,6 +157,23 @@ class TestBINode14(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("node --version", "v14."))
         self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+class TestBINode14ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs14.x", "Dockerfile-nodejs14x", "npm", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v14."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("aarch64"))
 
 
 class TestBIPython27(BuildImageBase):
@@ -115,6 +191,7 @@ class TestBIPython27(BuildImageBase):
             self.check_package_output("python --version", "Python 2.7.", True)
         )
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.is_architecture("x86_64"))
 
 
 class TestBIPython36(BuildImageBase):
@@ -130,6 +207,7 @@ class TestBIPython36(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.6."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.is_architecture("x86_64"))
 
 
 class TestBIPython37(BuildImageBase):
@@ -145,6 +223,7 @@ class TestBIPython37(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.7."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.is_architecture("x86_64"))
 
 
 class TestBIPython38(BuildImageBase):
@@ -152,7 +231,7 @@ class TestBIPython38(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("python3.8", "Dockerfile-python38", "pip")
+        super().setUpClass("python3.8", "Dockerfile-python38", "pip", tag="x86_64")
 
     def test_packages(self):
         """
@@ -160,6 +239,23 @@ class TestBIPython38(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.8."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+class TestBIPython38ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.8", "Dockerfile-python38", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.8."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.is_architecture("aarch64"))
 
 
 class TestBIPython39(BuildImageBase):
@@ -167,7 +263,22 @@ class TestBIPython39(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("python3.9", "Dockerfile-python39", "pip")
+        super().setUpClass("python3.9", "Dockerfile-python39", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
+        self.assertTrue(self.is_package_present("pip"))
+
+
+class TestBIPython39ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.9", "Dockerfile-python39", "pip", tag="arm64")
 
     def test_packages(self):
         """
@@ -191,6 +302,7 @@ class TestBIDotNetCore31(BuildImageBase):
         self.assertTrue(self.check_package_output("dotnet --version", "3.1"))
         self.assertTrue(self.is_package_present("dotnet"))
 
+
 class TestBIRuby25(BuildImageBase):
     __test__ = True
 
@@ -205,6 +317,7 @@ class TestBIRuby25(BuildImageBase):
         self.assertTrue(self.check_package_output("ruby --version", "ruby 2.5."))
         self.assertTrue(self.is_package_present("bundler"))
         self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("x86_64"))
 
 
 class TestBIRuby27(BuildImageBase):
@@ -212,7 +325,7 @@ class TestBIRuby27(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("ruby2.7", "Dockerfile-ruby27", "bundler")
+        super().setUpClass("ruby2.7", "Dockerfile-ruby27", "bundler", tag="x86_64")
 
     def test_packages(self):
         """
@@ -221,6 +334,24 @@ class TestBIRuby27(BuildImageBase):
         self.assertTrue(self.check_package_output("ruby --version", "ruby 2.7."))
         self.assertTrue(self.is_package_present("bundler"))
         self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+class TestBIRuby27ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("ruby2.7", "Dockerfile-ruby27", "bundler", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("ruby --version", "ruby 2.7."))
+        self.assertTrue(self.is_package_present("bundler"))
+        self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("aarch64"))
 
 
 class TestBIGo1(BuildImageBase):
@@ -251,4 +382,24 @@ class TestBIProvidedAL2(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("provided.al2", "Dockerfile-provided-al2")
+        super().setUpClass("provided.al2", "Dockerfile-provided-al2", tag="x86_64")
+
+    def test_architecture(self):
+        """
+        Test architecture of this build image
+        """
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+class TestBIProvidedAL2ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("provided.al2", "Dockerfile-provided-al2", tag="arm64")
+
+    def test_architecture(self):
+        """
+        Test architecture of this build image
+        """
+        self.assertTrue(self.is_architecture("aarch64"))

@@ -1,4 +1,4 @@
-FROM amazon/aws-sam-cli-emulation-image-ruby2.5
+FROM public.ecr.aws/sam/emulation-ruby2.5
 
 # Ruby 2.5 is the default "ruby", and bundler is present - update system gems
 

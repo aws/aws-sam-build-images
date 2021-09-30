@@ -1,4 +1,4 @@
-FROM amazon/aws-sam-cli-emulation-image-provided:latest
+FROM public.ecr.aws/sam/emulation-provided
 
 # Install build tools
 # The base image essentially corrupts the RPM DB,
