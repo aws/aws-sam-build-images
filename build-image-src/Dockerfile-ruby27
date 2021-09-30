@@ -1,4 +1,5 @@
-FROM public.ecr.aws/sam/emulation-ruby2.7
+ARG IMAGE_ARCH
+FROM public.ecr.aws/sam/emulation-ruby2.7:latest-$IMAGE_ARCH
 
 # To learn more context around use of `amazonlinux:2` image please read comment in java11/build/Dockerfile
 FROM public.ecr.aws/amazonlinux/amazonlinux:2
@@ -25,7 +26,7 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   libmpc-devel \
   && yum clean all
 
-FROM public.ecr.aws/sam/emulation-ruby2.7
+FROM public.ecr.aws/sam/emulation-ruby2.7:latest-$IMAGE_ARCH
 COPY --from=1 /rootfs /
 
 RUN gem update --system --no-document
