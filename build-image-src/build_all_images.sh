@@ -14,6 +14,7 @@ fi
 
 # Disable DOCKER_CONTENT_TRUST for pulling from public ECR
 export DOCKER_CONTENT_TRUST=0
+export DOCKER_CLI_EXPERIMENTAL=enabled
 
 # Single arch images
 #docker build -f Dockerfile-java8 -t amazon/aws-sam-cli-build-image-java8:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
