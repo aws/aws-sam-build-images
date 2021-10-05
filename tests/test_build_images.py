@@ -354,20 +354,19 @@ class TestBIRuby27ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-# Commented out until Let's Encrypt certificate issue fixed
-# class TestBIGo1(BuildImageBase):
-#     __test__ = True
-#
-#     @classmethod
-#     def setUpClass(cls):
-#         super().setUpClass("go1.x", "Dockerfile-go1x", "mod")
-#
-#     def test_packages(self):
-#         """
-#         Test packages specific to this build image
-#         """
-#         self.assertTrue(self.check_package_output("go version", "go1."))
-#         self.assertTrue(self.is_package_present("go"))
+class TestBIGo1(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("go1.x", "Dockerfile-go1x", "mod")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
 
 
 class TestBIProvided(BuildImageBase):

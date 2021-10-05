@@ -24,9 +24,8 @@ docker build -f Dockerfile-python27 -t amazon/aws-sam-cli-build-image-python2.7:
 docker build -f Dockerfile-python36 -t amazon/aws-sam-cli-build-image-python3.6:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION . &
 docker build -f Dockerfile-python37 -t amazon/aws-sam-cli-build-image-python3.7:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION . &
 docker build -f Dockerfile-ruby25 -t amazon/aws-sam-cli-build-image-ruby2.5:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION . &
+docker build -f Dockerfile-go1x -t amazon/aws-sam-cli-build-image-go1.x:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION . &
 wait
-# Commented out until Let's Encrypt certificate issue fixed
-# docker build -f Dockerfile-go1x -t amazon/aws-sam-cli-build-image-go1.x:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION .
 
 # Multi arch images
 # First build all x86
