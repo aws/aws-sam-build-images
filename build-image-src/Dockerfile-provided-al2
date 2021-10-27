@@ -26,6 +26,7 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   liblzma-dev \
   libxslt-devel \
   libmpc-devel \
+  python3-devel \
   && yum clean all
 
 # Copying root from AL2 to runtimes image
