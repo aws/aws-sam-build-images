@@ -25,6 +25,7 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   libgmp3-dev \
   zlib1g-dev \
   libmpc-devel \
+  python3-devel \
   && yum clean all
 
 # Copying root from AL2 to runtimes image
