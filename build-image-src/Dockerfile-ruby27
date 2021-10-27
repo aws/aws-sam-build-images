@@ -24,6 +24,7 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   libgmp3-dev \
   zlib1g-dev \
   libmpc-devel \
+  python3-devel \
   && yum clean all
 
 FROM public.ecr.aws/sam/emulation-ruby2.7:latest-$IMAGE_ARCH
