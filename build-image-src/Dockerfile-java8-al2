@@ -26,6 +26,7 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   liblzma-dev \
   libxslt-devel \
   libmpc-devel \
+  python3-devel \
   java-1.8.0-openjdk-devel \
   && yum clean all
 
