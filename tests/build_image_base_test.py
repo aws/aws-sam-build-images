@@ -22,7 +22,7 @@ class BuildImageBase(TestCase):
         cls.app_location = f"tests/apps/{runtime}"
         cls.runtime = runtime
         cls.dep_manager = dep_manager
-        cls.client = docker.from_env()
+        cls.client = docker.from_env(timeout=300)
         cls.sam_version = os.getenv("SAM_CLI_VERSION")
         TestCase().assertTrue(
             cls.sam_version
