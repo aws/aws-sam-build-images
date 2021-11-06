@@ -60,7 +60,7 @@ test-single-arch: pre-build
 	pytest tests -m $(RUNTIME)
 
 test-multi-arch: pre-build pre-build-multi-arch
-	pytest tests -m $(RUNTIME).$(ARCHITECTURE)
+	pytest tests -m $(RUNTIME)_$(ARCHITECTURE)
 
 lint:
 	# Linter performs static analysis to catch latent bugs

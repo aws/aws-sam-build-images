@@ -293,7 +293,7 @@ class TestBIPython39ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 
-@pytest.mark.dotnetcore31.x86_64
+@pytest.mark.dotnetcore31_x86_64
 class TestBIDotNetCore31(BuildImageBase):
     __test__ = True
 
@@ -309,7 +309,7 @@ class TestBIDotNetCore31(BuildImageBase):
         self.assertTrue(self.is_package_present("dotnet"))
 
 
-@pytest.mark.dotnetcore31.arm64
+@pytest.mark.dotnetcore31_arm64
 class TestBIDotNetCore31Arm(BuildImageBase):
     __test__ = True
 
