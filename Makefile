@@ -30,10 +30,10 @@ build:
 	cd build-image-src && ./build_all_images.sh
 
 pre-build-multi-arch:
-ifeq ($(strip $(architecture)),)
+ifeq ($(strip $(ARCHITECTURE)),)
 	exit 1
 else
-	@echo "Architecture $(architecture)"
+	@echo "Architecture $(ARCHITECTURE)"
 endif
 
 pre-build:
@@ -43,24 +43,24 @@ else
 	@echo "SAM CLI VERSION $(SAM_CLI_VERSION)"
 endif
 
-ifeq ($(strip $(runtime)),)
+ifeq ($(strip $(RUNTIME)),)
 	exit 1
 else
-	@echo "Building runtime $(runtime)"
+	@echo "Building runtime $(RUNTIME)"
 endif
 
 build-single-arch: pre-build
-	docker build -f build-image-src/Dockerfile-$(runtime) -t amazon/aws-sam-cli-build-image-$(IS_$(runtime)):x86_64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) ./build-image-src
+	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) ./build-image-src
 
 build-multi-arch: pre-build pre-build-multi-arch
 	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-	docker build -f build-image-src/Dockerfile-$(runtime) -t amazon/aws-sam-cli-build-image-$(IS_$(runtime)):$(architecture) --platform $(AP_$(architecture)) --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=$(AWS_CLI_ARCH_$(architecture)) --build-arg IMAGE_ARCH=$(architecture) ./build-image-src
+	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):$(ARCHITECTURE) --platform $(AP_$(ARCHITECTURE)) --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=$(AWS_CLI_ARCH_$(ARCHITECTURE)) --build-arg IMAGE_ARCH=$(ARCHITECTURE) ./build-image-src
 
 test-single-arch: pre-build
-	pytest tests -m $(runtime)
+	pytest tests -m $(RUNTIME)
 
 test-multi-arch: pre-build pre-build-multi-arch
-	pytest tests -m $(runtime).$(architecture)
+	pytest tests -m $(RUNTIME).$(ARCHITECTURE)
 
 lint:
 	# Linter performs static analysis to catch latent bugs
