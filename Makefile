@@ -10,17 +10,17 @@ build:
 	cd build-image-src && ./build_all_images.sh
 
 pre-build:
-	ifeq ($(SAM_CLI_VERSION),)
-		exit 1
-	else
-		echo "SAM CLI VERSION $(SAM_CLI_VERSION)"
-	endif
+ifeq ($(strip $(SAM_CLI_VERSION)),)
+	exit 1
+else
+	@echo "SAM CLI VERSION $(SAM_CLI_VERSION)"
+endif
 
-	ifeq ($(runtime),)
-		exit 1
-	else
-		echo "Building runtime $(runtime)"
-	endif
+ifeq ($(strip $(runtime)),)
+	exit 1
+else
+	@echo "Building runtime $(runtime)"
+endif
 
 build-single-arch: pre-build
 	cd build-image-src
