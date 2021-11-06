@@ -29,6 +29,13 @@ init:
 build:
 	cd build-image-src && ./build_all_images.sh
 
+pre-build-multi-arch:
+ifeq ($(strip $(architecture)),)
+	exit 1
+else
+	@echo "Architecture $(architecture)"
+endif
+
 pre-build:
 ifeq ($(strip $(SAM_CLI_VERSION)),)
 	exit 1
@@ -42,21 +49,18 @@ else
 	@echo "Building runtime $(runtime)"
 endif
 
-ifeq ($(strip $(image_suffix)),)
-	exit 1
-else
-	@echo "Building with image_suffix $(image_suffix)"
-endif
-
 build-single-arch: pre-build
 	docker build -f build-image-src/Dockerfile-$(runtime) -t amazon/aws-sam-cli-build-image-$(IS_$(runtime)):x86_64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) ./build-image-src
 
-build-multi-arch: pre-build
+build-multi-arch: pre-build pre-build-multi-arch
 	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 	docker build -f build-image-src/Dockerfile-$(runtime) -t amazon/aws-sam-cli-build-image-$(IS_$(runtime)):$(architecture) --platform $(AP_$(architecture)) --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=$(AWS_CLI_ARCH_$(architecture)) --build-arg IMAGE_ARCH=$(architecture) ./build-image-src
 
-test: pre-build
+test-single-arch: pre-build
 	pytest tests -m $(runtime)
+
+test-multi-arch: pre-build pre-build-multi-arch
+	pytest tests -m $(runtime).$(architecture)
 
 lint:
 	# Linter performs static analysis to catch latent bugs
