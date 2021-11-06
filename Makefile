@@ -53,7 +53,6 @@ build-single-arch: pre-build
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) ./build-image-src
 
 build-multi-arch: pre-build pre-build-multi-arch
-	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):$(ARCHITECTURE) --platform $(AP_$(ARCHITECTURE)) --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=$(AWS_CLI_ARCH_$(ARCHITECTURE)) --build-arg IMAGE_ARCH=$(ARCHITECTURE) ./build-image-src
 
 test-single-arch: pre-build
