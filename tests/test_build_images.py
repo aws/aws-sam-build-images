@@ -1,6 +1,8 @@
+import pytest
 from tests.build_image_base_test import BuildImageBase
 
 
+@pytest.mark.java8
 class TestBIJava8(BuildImageBase):
     __test__ = True
 
@@ -95,7 +97,7 @@ class TestBIJava11ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("gradle"))
         self.assertTrue(self.is_architecture("aarch64"))
 
-
+@pytest.mark.nodejs10x
 class TestBINode10(BuildImageBase):
     __test__ = True
 
@@ -176,6 +178,7 @@ class TestBINode14ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.python27
 class TestBIPython27(BuildImageBase):
     __test__ = True
 
@@ -194,6 +197,7 @@ class TestBIPython27(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.python36
 class TestBIPython36(BuildImageBase):
     __test__ = True
 
@@ -210,6 +214,7 @@ class TestBIPython36(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.python37
 class TestBIPython37(BuildImageBase):
     __test__ = True
 
@@ -303,6 +308,7 @@ class TestBIDotNetCore31(BuildImageBase):
         self.assertTrue(self.is_package_present("dotnet"))
 
 
+@pytest.mark.ruby25
 class TestBIRuby25(BuildImageBase):
     __test__ = True
 
@@ -354,6 +360,7 @@ class TestBIRuby27ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.go1x
 class TestBIGo1(BuildImageBase):
     __test__ = True
 
@@ -369,6 +376,7 @@ class TestBIGo1(BuildImageBase):
         self.assertTrue(self.is_package_present("go"))
 
 
+@pytest.mark.provided
 class TestBIProvided(BuildImageBase):
     __test__ = True
 
