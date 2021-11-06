@@ -10,13 +10,13 @@ build:
 	cd build-image-src && ./build_all_images.sh
 
 pre-build:
-	ifeq ($(strip $(SAM_CLI_VERSION)),)
+	ifeq ($(SAM_CLI_VERSION),)
 	exit 1
 	else
 	echo "SAM CLI VERSION $(SAM_CLI_VERSION)"
 	endif
 
-	ifeq ($(strip $(runtime)),)
+	ifeq ($(runtime),)
 	exit 1
 	else
 	echo "Building runtime $(runtime)"
