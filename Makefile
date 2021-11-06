@@ -11,15 +11,15 @@ build:
 
 pre-build:
 	ifeq ($(SAM_CLI_VERSION),)
-	exit 1
+		exit 1
 	else
-	echo "SAM CLI VERSION $(SAM_CLI_VERSION)"
+		echo "SAM CLI VERSION $(SAM_CLI_VERSION)"
 	endif
 
 	ifeq ($(runtime),)
-	exit 1
+		exit 1
 	else
-	echo "Building runtime $(runtime)"
+		echo "Building runtime $(runtime)"
 	endif
 
 build-single-arch: pre-build
