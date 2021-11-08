@@ -22,7 +22,7 @@ class TestBIJava8(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.java8-al2_x86_64
+@pytest.mark.java8_al2_x86_64
 class TestBIJava8AL2(BuildImageBase):
     __test__ = True
 
@@ -42,7 +42,7 @@ class TestBIJava8AL2(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.java8-al2_arm64
+@pytest.mark.java8_al2_arm64
 class TestBIJava8AL2ForArm(BuildImageBase):
     __test__ = True
 
@@ -416,7 +416,7 @@ class TestBIProvided(BuildImageBase):
         super().setUpClass("provided", "Dockerfile-provided")
 
 
-@pytest.mark.provided-al2_x86_64
+@pytest.mark.provided_al2_x86_64
 class TestBIProvidedAL2(BuildImageBase):
     __test__ = True
 
@@ -431,7 +431,7 @@ class TestBIProvidedAL2(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.provided-al2_arm64
+@pytest.mark.provided_al2_arm64
 class TestBIProvidedAL2ForArm(BuildImageBase):
     __test__ = True
 
