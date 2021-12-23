@@ -22,27 +22,11 @@ IS_python38 := python3.8
 IS_python39 := python3.9
 IS_ruby27 := ruby2.7
 
-# architecture platform lookup
-AP_x86_64 := linux/amd64
-AP_arm64 := linux/arm64
-
-# aws cli arch lookup
-AWS_CLI_ARCH_x86_64 = x86_64
-AWS_CLI_ARCH_arm64 = aarch64
-
-
 init:
 	pip install -Ur requirements.txt
 
 build:
 	cd build-image-src && ./build_all_images.sh
-
-pre-build-multi-arch:
-ifeq ($(strip $(ARCHITECTURE)),)
-	exit 1
-else
-	@echo "Architecture $(ARCHITECTURE)"
-endif
 
 pre-build:
 ifeq ($(strip $(SAM_CLI_VERSION)),)
@@ -60,14 +44,14 @@ endif
 build-single-arch: pre-build
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) ./build-image-src
 
-build-multi-arch: pre-build pre-build-multi-arch
-	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):$(ARCHITECTURE) --platform $(AP_$(ARCHITECTURE)) --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=$(AWS_CLI_ARCH_$(ARCHITECTURE)) --build-arg IMAGE_ARCH=$(ARCHITECTURE) ./build-image-src
+build-multi-arch: pre-build
+	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 ./build-image-src
+	docker rmi public.ecr.aws/amazonlinux/amazonlinux:2
+	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 ./build-image-src
 
-test-single-arch: pre-build
+test: pre-build
 	pytest tests -m $(RUNTIME)
-
-test-multi-arch: pre-build pre-build-multi-arch
-	pytest tests -m $(RUNTIME)_$(ARCHITECTURE)
 
 lint:
 	# Linter performs static analysis to catch latent bugs

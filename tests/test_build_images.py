@@ -22,7 +22,7 @@ class TestBIJava8(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.java8_al2_x86_64
+@pytest.mark.java8_al2
 class TestBIJava8AL2(BuildImageBase):
     __test__ = True
 
@@ -42,7 +42,7 @@ class TestBIJava8AL2(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.java8_al2_arm64
+@pytest.mark.java8_al2
 class TestBIJava8AL2ForArm(BuildImageBase):
     __test__ = True
 
@@ -62,7 +62,7 @@ class TestBIJava8AL2ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-@pytest.mark.java11_x86_64
+@pytest.mark.java11
 class TestBIJava11(BuildImageBase):
     __test__ = True
 
@@ -82,7 +82,7 @@ class TestBIJava11(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.java11_arm64
+@pytest.mark.java11
 class TestBIJava11ForArm(BuildImageBase):
     __test__ = True
 
@@ -118,7 +118,7 @@ class TestBINode10(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.nodejs12x_x86_64
+@pytest.mark.nodejs12x
 class TestBINode12(BuildImageBase):
     __test__ = True
 
@@ -135,7 +135,7 @@ class TestBINode12(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.nodejs12x_arm64
+@pytest.mark.nodejs12x
 class TestBINode12ForArm(BuildImageBase):
     __test__ = True
 
@@ -152,7 +152,7 @@ class TestBINode12ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-@pytest.mark.nodejs14x_x86_64
+@pytest.mark.nodejs14x
 class TestBINode14(BuildImageBase):
     __test__ = True
 
@@ -169,7 +169,7 @@ class TestBINode14(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.nodejs14x_arm64
+@pytest.mark.nodejs14x
 class TestBINode14ForArm(BuildImageBase):
     __test__ = True
 
@@ -239,7 +239,7 @@ class TestBIPython37(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.python38_x86_64
+@pytest.mark.python38
 class TestBIPython38(BuildImageBase):
     __test__ = True
 
@@ -256,7 +256,7 @@ class TestBIPython38(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.python38_arm64
+@pytest.mark.python38
 class TestBIPython38ForArm(BuildImageBase):
     __test__ = True
 
@@ -273,7 +273,7 @@ class TestBIPython38ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-@pytest.mark.python39_x86_64
+@pytest.mark.python39
 class TestBIPython39(BuildImageBase):
     __test__ = True
 
@@ -289,7 +289,7 @@ class TestBIPython39(BuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 
-@pytest.mark.python39_arm64
+@pytest.mark.python39
 class TestBIPython39ForArm(BuildImageBase):
     __test__ = True
 
@@ -305,7 +305,7 @@ class TestBIPython39ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 
-@pytest.mark.dotnetcore31_x86_64
+@pytest.mark.dotnetcore31
 class TestBIDotNetCore31(BuildImageBase):
     __test__ = True
 
@@ -321,7 +321,7 @@ class TestBIDotNetCore31(BuildImageBase):
         self.assertTrue(self.is_package_present("dotnet"))
 
 
-@pytest.mark.dotnetcore31_arm64
+@pytest.mark.dotnetcore31
 class TestBIDotNetCore31Arm(BuildImageBase):
     __test__ = True
 
@@ -355,7 +355,7 @@ class TestBIRuby25(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.ruby27_x86_64
+@pytest.mark.ruby27
 class TestBIRuby27(BuildImageBase):
     __test__ = True
 
@@ -373,7 +373,7 @@ class TestBIRuby27(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.ruby27_arm64
+@pytest.mark.ruby27
 class TestBIRuby27ForArm(BuildImageBase):
     __test__ = True
 
@@ -416,7 +416,7 @@ class TestBIProvided(BuildImageBase):
         super().setUpClass("provided", "Dockerfile-provided")
 
 
-@pytest.mark.provided_al2_x86_64
+@pytest.mark.provided_al2
 class TestBIProvidedAL2(BuildImageBase):
     __test__ = True
 
@@ -431,7 +431,7 @@ class TestBIProvidedAL2(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.provided_al2_arm64
+@pytest.mark.provided_al2
 class TestBIProvidedAL2ForArm(BuildImageBase):
     __test__ = True
 
