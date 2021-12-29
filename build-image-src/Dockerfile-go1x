@@ -23,7 +23,7 @@ RUN yum groupinstall -y development && \
   && yum clean all
 
 # Install Go
-RUN curl -L https://golang.org/dl/go1.16.5.linux-amd64.tar.gz | tar -zx -C /usr/local
+RUN curl -L https://golang.org/dl/go1.17.5.linux-amd64.tar.gz | tar -zx -C /usr/local
 ENV PATH=$PATH:/usr/local/go/bin:/root/go/bin
 # Set GOPROXY envvar to avoid using the default proxy.golang.org proxy
 ENV GOPROXY=direct
