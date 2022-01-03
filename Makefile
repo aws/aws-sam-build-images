@@ -1,5 +1,26 @@
 # Default value for environment variable. Can be overridden by setting the
 # environment variable.
+export DOCKER_CONTENT_TRUST := 0
+export DOCKER_CLI_EXPERIMENTAL := enabled
+
+# image suffix lookup
+IS_java8 := java8
+IS_nodejs10x := nodejs10.x
+IS_provided := provided
+IS_python27 := python2.7
+IS_python36 := python3.6
+IS_python37 := python3.7
+IS_ruby25 := ruby2.5
+IS_go1x := go1.x
+IS_dotnetcore31 := dotnetcore3.1
+IS_java8_al2 := java8.al2
+IS_java11 := java11
+IS_nodejs12x := nodejs12.x
+IS_nodejs14x := nodejs14.x
+IS_provided_al2 := provided.al2
+IS_python38 := python3.8
+IS_python39 := python3.9
+IS_ruby27 := ruby2.7
 
 init:
 	pip install -Ur requirements.txt
@@ -7,8 +28,30 @@ init:
 build:
 	cd build-image-src && ./build_all_images.sh
 
-test:
-	pytest tests
+pre-build:
+ifeq ($(strip $(SAM_CLI_VERSION)),)
+	exit 1
+else
+	@echo "SAM CLI VERSION $(SAM_CLI_VERSION)"
+endif
+
+ifeq ($(strip $(RUNTIME)),)
+	exit 1
+else
+	@echo "Building runtime $(RUNTIME)"
+endif
+
+build-single-arch: pre-build
+	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) ./build-image-src
+
+build-multi-arch: pre-build
+	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 ./build-image-src
+	docker rmi public.ecr.aws/amazonlinux/amazonlinux:2
+	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 ./build-image-src
+
+test: pre-build
+	pytest tests -m $(RUNTIME)
 
 lint:
 	# Linter performs static analysis to catch latent bugs

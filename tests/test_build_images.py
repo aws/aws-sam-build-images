@@ -1,6 +1,8 @@
+import pytest
 from tests.build_image_base_test import BuildImageBase
 
 
+@pytest.mark.java8
 class TestBIJava8(BuildImageBase):
     __test__ = True
 
@@ -20,6 +22,7 @@ class TestBIJava8(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.java8_al2
 class TestBIJava8AL2(BuildImageBase):
     __test__ = True
 
@@ -39,6 +42,7 @@ class TestBIJava8AL2(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.java8_al2
 class TestBIJava8AL2ForArm(BuildImageBase):
     __test__ = True
 
@@ -58,6 +62,7 @@ class TestBIJava8AL2ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.java11
 class TestBIJava11(BuildImageBase):
     __test__ = True
 
@@ -77,6 +82,7 @@ class TestBIJava11(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.java11
 class TestBIJava11ForArm(BuildImageBase):
     __test__ = True
 
@@ -95,7 +101,7 @@ class TestBIJava11ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("gradle"))
         self.assertTrue(self.is_architecture("aarch64"))
 
-
+@pytest.mark.nodejs10x
 class TestBINode10(BuildImageBase):
     __test__ = True
 
@@ -112,6 +118,7 @@ class TestBINode10(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.nodejs12x
 class TestBINode12(BuildImageBase):
     __test__ = True
 
@@ -128,6 +135,7 @@ class TestBINode12(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.nodejs12x
 class TestBINode12ForArm(BuildImageBase):
     __test__ = True
 
@@ -144,6 +152,7 @@ class TestBINode12ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.nodejs14x
 class TestBINode14(BuildImageBase):
     __test__ = True
 
@@ -160,6 +169,7 @@ class TestBINode14(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.nodejs14x
 class TestBINode14ForArm(BuildImageBase):
     __test__ = True
 
@@ -176,6 +186,7 @@ class TestBINode14ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.python27
 class TestBIPython27(BuildImageBase):
     __test__ = True
 
@@ -194,6 +205,7 @@ class TestBIPython27(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.python36
 class TestBIPython36(BuildImageBase):
     __test__ = True
 
@@ -210,6 +222,7 @@ class TestBIPython36(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.python37
 class TestBIPython37(BuildImageBase):
     __test__ = True
 
@@ -226,6 +239,7 @@ class TestBIPython37(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.python38
 class TestBIPython38(BuildImageBase):
     __test__ = True
 
@@ -242,6 +256,7 @@ class TestBIPython38(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.python38
 class TestBIPython38ForArm(BuildImageBase):
     __test__ = True
 
@@ -258,6 +273,7 @@ class TestBIPython38ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.python39
 class TestBIPython39(BuildImageBase):
     __test__ = True
 
@@ -273,6 +289,7 @@ class TestBIPython39(BuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 
+@pytest.mark.python39
 class TestBIPython39ForArm(BuildImageBase):
     __test__ = True
 
@@ -288,12 +305,13 @@ class TestBIPython39ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 
+@pytest.mark.dotnetcore31
 class TestBIDotNetCore31(BuildImageBase):
     __test__ = True
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("dotnetcore3.1", "Dockerfile-dotnetcore31")
+        super().setUpClass("dotnetcore3.1", "Dockerfile-dotnetcore31", tag="x86_64")
 
     def test_packages(self):
         """
@@ -303,6 +321,23 @@ class TestBIDotNetCore31(BuildImageBase):
         self.assertTrue(self.is_package_present("dotnet"))
 
 
+@pytest.mark.dotnetcore31
+class TestBIDotNetCore31Arm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("dotnetcore3.1", "Dockerfile-dotnetcore31", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "3.1"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
+@pytest.mark.ruby25
 class TestBIRuby25(BuildImageBase):
     __test__ = True
 
@@ -320,6 +355,7 @@ class TestBIRuby25(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.ruby27
 class TestBIRuby27(BuildImageBase):
     __test__ = True
 
@@ -337,6 +373,7 @@ class TestBIRuby27(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.ruby27
 class TestBIRuby27ForArm(BuildImageBase):
     __test__ = True
 
@@ -354,6 +391,7 @@ class TestBIRuby27ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.go1x
 class TestBIGo1(BuildImageBase):
     __test__ = True
 
@@ -369,6 +407,7 @@ class TestBIGo1(BuildImageBase):
         self.assertTrue(self.is_package_present("go"))
 
 
+@pytest.mark.provided
 class TestBIProvided(BuildImageBase):
     __test__ = True
 
@@ -377,6 +416,7 @@ class TestBIProvided(BuildImageBase):
         super().setUpClass("provided", "Dockerfile-provided")
 
 
+@pytest.mark.provided_al2
 class TestBIProvidedAL2(BuildImageBase):
     __test__ = True
 
@@ -391,6 +431,7 @@ class TestBIProvidedAL2(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
+@pytest.mark.provided_al2
 class TestBIProvidedAL2ForArm(BuildImageBase):
     __test__ = True
 
