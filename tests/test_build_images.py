@@ -336,6 +336,37 @@ class TestBIDotNetCore31Arm(BuildImageBase):
         self.assertTrue(self.check_package_output("dotnet --version", "3.1"))
         self.assertTrue(self.is_package_present("dotnet"))
 
+@pytest.mark.dotnet6
+class TestBIDotNet6(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("dotnet6", "Dockerfile-dotnet6", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "6"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
+@pytest.mark.dotnet6
+class TestBIDotNet6Arm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("dotnet6", "Dockerfile-dotnet6", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "6"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
 
 @pytest.mark.ruby25
 class TestBIRuby25(BuildImageBase):
