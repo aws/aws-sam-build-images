@@ -1719,6 +1719,9 @@ SOFTWARE.
 
 ------
 
+** dotnet; version 6.0 -- https://github.com/dotnet/core
+Copyright (c) .NET Foundation and Contributors
+
 ** dotnet core; version 3.1 -- https://github.com/dotnet/core
 Copyright (c) .NET Foundation and Contributors
 
