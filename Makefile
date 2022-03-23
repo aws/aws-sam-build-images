@@ -52,7 +52,7 @@ build-multi-arch: pre-build
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 ./build-image-src
 
 test: pre-build
-	pytest tests -m $(RUNTIME)
+	pytest tests -vv -m $(RUNTIME)
 
 lint:
 	# Linter performs static analysis to catch latent bugs
