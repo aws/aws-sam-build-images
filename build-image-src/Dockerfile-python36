@@ -49,7 +49,7 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERS
 # Install lambda builders in a dedicated Python virtualenv
 RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/requirements/base.txt | grep aws_lambda_builders | cut -d= -f3) && python3 -m venv /usr/local/opt/lambda-builders && /usr/local/opt/lambda-builders/bin/pip3 --no-cache-dir install "aws-lambda-builders==$AWS_LB_VERSION"
 
-ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
+RUN ln -s /usr/local/opt/lambda-builders/bin/lambda-builders /usr/local/bin/
 
 ENV LANG=en_US.UTF-8
 
