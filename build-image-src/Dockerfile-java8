@@ -43,7 +43,7 @@ RUN chmod 1777 /tmp && \
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip && rm -rf ./aws
 
-# Install SAM CLI in a dedicated Python virtualenv
+# Install SAM CLI via native linux installer
 ARG SAM_CLI_VERSION
 RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERSION/aws-sam-cli-linux-x86_64.zip" -o "samcli.zip" && \
   unzip samcli.zip -d sam-installation && ./sam-installation/install && \
