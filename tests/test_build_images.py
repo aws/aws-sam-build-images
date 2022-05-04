@@ -311,7 +311,7 @@ class TestBIDotNetCore31(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("dotnetcore3.1", "Dockerfile-dotnetcore31", tag="x86_64")
+        super().setUpClass("dotnetcore3.1", "Dockerfile-dotnetcore31", tag="x86_64", dep_manager="cli-package")
 
     def test_packages(self):
         """
@@ -327,7 +327,7 @@ class TestBIDotNetCore31Arm(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("dotnetcore3.1", "Dockerfile-dotnetcore31", tag="arm64")
+        super().setUpClass("dotnetcore3.1", "Dockerfile-dotnetcore31", tag="arm64", dep_manager="cli-package")
 
     def test_packages(self):
         """
@@ -342,7 +342,7 @@ class TestBIDotNet6(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("dotnet6", "Dockerfile-dotnet6", tag="x86_64")
+        super().setUpClass("dotnet6", "Dockerfile-dotnet6", tag="x86_64", dep_manager="cli-package")
 
     def test_packages(self):
         """
@@ -358,7 +358,7 @@ class TestBIDotNet6Arm(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("dotnet6", "Dockerfile-dotnet6", tag="arm64")
+        super().setUpClass("dotnet6", "Dockerfile-dotnet6", tag="arm64", dep_manager="cli-package")
 
     def test_packages(self):
         """
