@@ -186,6 +186,40 @@ class TestBINode14ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.nodejs16x
+class TestBINode16(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs16.x", "Dockerfile-nodejs16x", "npm", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v16."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.nodejs16x
+class TestBINode16ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs16.x", "Dockerfile-nodejs16x", "npm", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v16."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
 @pytest.mark.python27
 class TestBIPython27(BuildImageBase):
     __test__ = True
