@@ -18,6 +18,7 @@ IS_java8_al2 := java8.al2
 IS_java11 := java11
 IS_nodejs12x := nodejs12.x
 IS_nodejs14x := nodejs14.x
+IS_nodejs16x := nodejs16.x
 IS_provided_al2 := provided.al2
 IS_python38 := python3.8
 IS_python39 := python3.9
