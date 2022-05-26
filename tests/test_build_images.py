@@ -101,22 +101,6 @@ class TestBIJava11ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("gradle"))
         self.assertTrue(self.is_architecture("aarch64"))
 
-@pytest.mark.nodejs10x
-class TestBINode10(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("nodejs10.x", "Dockerfile-nodejs10x", "npm")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("node --version", "v10."))
-        self.assertTrue(self.is_package_present("npm"))
-        self.assertTrue(self.is_architecture("x86_64"))
-
 
 @pytest.mark.nodejs12x
 class TestBINode12(BuildImageBase):
@@ -218,25 +202,6 @@ class TestBINode16ForArm(BuildImageBase):
         self.assertTrue(self.check_package_output("node --version", "v16."))
         self.assertTrue(self.is_package_present("npm"))
         self.assertTrue(self.is_architecture("aarch64"))
-
-
-@pytest.mark.python27
-class TestBIPython27(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python2.7", "Dockerfile-python27", "pip")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(
-            self.check_package_output("python --version", "Python 2.7.", True)
-        )
-        self.assertTrue(self.is_package_present("pip"))
-        self.assertTrue(self.is_architecture("x86_64"))
 
 
 @pytest.mark.python36
@@ -400,24 +365,6 @@ class TestBIDotNet6Arm(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("dotnet --version", "6"))
         self.assertTrue(self.is_package_present("dotnet"))
-
-
-@pytest.mark.ruby25
-class TestBIRuby25(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("ruby2.5", "Dockerfile-ruby25", "bundler")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("ruby --version", "ruby 2.5."))
-        self.assertTrue(self.is_package_present("bundler"))
-        self.assertTrue(self.is_package_present("gem"))
-        self.assertTrue(self.is_architecture("x86_64"))
 
 
 @pytest.mark.ruby27
