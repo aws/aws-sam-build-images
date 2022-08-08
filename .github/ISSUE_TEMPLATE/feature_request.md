@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea/feature/enhancement for AWS SAM Build Images
+about: Suggest an idea/feature/enhancement for AWS SAM build images
 title: "Feature request: TITLE"
 labels: ['type/feature', 'stage/needs-triage']
 assignees: ''
