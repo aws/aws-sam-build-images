@@ -13,7 +13,7 @@ assignees: ''
 
 Provide a clear description.
 
-Ex: I wish AWS SAM Build Images would [...]
+e.g., I wish AWS SAM build images would [...]
 
 ### Proposal
 
