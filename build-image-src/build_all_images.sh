@@ -39,8 +39,7 @@ docker build -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9:
 docker build -f Dockerfile-ruby27 -t amazon/aws-sam-cli-build-image-ruby2.7:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 wait
 
-# Delete multi arch al2 image and start building arm64 images
-docker rmi public.ecr.aws/amazonlinux/amazonlinux:2
+# Build arm64 images
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 docker build -f Dockerfile-dotnetcore31 -t amazon/aws-sam-cli-build-image-dotnetcore3.1:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-dotnet6 -t amazon/aws-sam-cli-build-image-dotnet6:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
