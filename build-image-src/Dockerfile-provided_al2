@@ -37,6 +37,17 @@ COPY --from=1 /rootfs /
 ARG AWS_CLI_ARCH
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm awscliv2.zip && rm -rf ./aws
 
+# Install Rust toolchain
+ARG RUST_VERSION=1.63.0
+ENV RUST_ARCH=${AWS_CLI_ARCH}-unknown-linux-gnu
+ENV RUSTUP_HOME=/usr/local/rustup CARGO_HOME=/usr/local/cargo PATH=/usr/local/cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin RUST_VERSION=${RUST_VERSION}
+RUN url="https://static.rust-lang.org/rustup/archive/1.25.1/${RUST_ARCH}/rustup-init"; curl -sSOL "$url";  chmod +x rustup-init; ./rustup-init -y --no-modify-path --profile minimal --default-toolchain ${RUST_VERSION} --default-host ${RUST_ARCH}; rm rustup-init; chmod -R a+w ${RUSTUP_HOME} ${CARGO_HOME}
+RUN rustup target install x86_64-unknown-linux-gnu; rustup target install aarch64-unknown-linux-gnu
+
+# Install Cargo Lambda and depedendencies
+ARG CARGO_LAMBDA_VERSION=0.11.1
+RUN pip3 install cargo-lambda==${CARGO_LAMBDA_VERSION}
+
 # Install SAM CLI in a dedicated Python virtualenv
 ARG SAM_CLI_VERSION
 RUN curl -L "https://github.com/awslabs/aws-sam-cli/archive/v$SAM_CLI_VERSION.zip" -o "samcli.zip" && \
