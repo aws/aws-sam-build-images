@@ -39,9 +39,16 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "a
 
 # Install Rust toolchain
 ARG RUST_VERSION=1.63.0
+ENV RUST_VERSION=${RUST_VERSION}
 ENV RUST_ARCH=${AWS_CLI_ARCH}-unknown-linux-gnu
-ENV RUSTUP_HOME=/usr/local/rustup CARGO_HOME=/usr/local/cargo PATH=/usr/local/cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin RUST_VERSION=${RUST_VERSION}
-RUN url="https://static.rust-lang.org/rustup/archive/1.25.1/${RUST_ARCH}/rustup-init"; curl -sSOL "$url";  chmod +x rustup-init; ./rustup-init -y --no-modify-path --profile minimal --default-toolchain ${RUST_VERSION} --default-host ${RUST_ARCH}; rm rustup-init; chmod -R a+w ${RUSTUP_HOME} ${CARGO_HOME}
+ENV RUSTUP_HOME=/usr/local/rustup
+ENV CARGO_HOME=/usr/local/cargo
+ENV PATH=$PATH:/usr/local/cargo/bin
+RUN curl -sSOL "https://static.rust-lang.org/rustup/archive/1.25.1/${RUST_ARCH}/rustup-init" && \
+  chmod +x rustup-init && \
+  ./rustup-init -y --no-modify-path --profile minimal --default-toolchain ${RUST_VERSION} --default-host ${RUST_ARCH} && \
+  rm rustup-init && \
+  chmod -R a+w ${RUSTUP_HOME} ${CARGO_HOME}
 RUN rustup target install x86_64-unknown-linux-gnu; rustup target install aarch64-unknown-linux-gnu
 
 # Install Cargo Lambda and depedendencies
