@@ -22,3 +22,4 @@ jobs:
         python-version: "3.8"
     - run: make init
     - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=java8 make build-single-arch
+    - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=java8 make test
