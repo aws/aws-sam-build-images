@@ -1,0 +1,24 @@
+name: Build & Test
+
+on:
+  pull_request
+
+jobs:
+  get-sam-cli-version:
+    runs-on: ubuntu-latest
+    outputs:
+        sam_cli_version: ${{ steps.sam_cli_version.outputs.sam_cli_version }}
+    steps:
+      - id: sam_cli_version
+        run: echo "sam_cli_version=$(curl -s https://pypi.org/pypi/aws-sam-cli/json | jq -r .info.version)" >> $GITHUB_OUTPUT
+  
+  build-java8:
+    runs-on: ubuntu-latest
+    needs: [get-sam-cli-version]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.8"
+    - run: make init
+    - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=java8 make build-single-arch
