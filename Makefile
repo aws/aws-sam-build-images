@@ -29,12 +29,14 @@ build:
 
 pre-build:
 ifeq ($(strip $(SAM_CLI_VERSION)),)
+	@echo "Must specify SAM_CLI_VERSION"
 	exit 1
 else
 	@echo "SAM CLI VERSION $(SAM_CLI_VERSION)"
 endif
 
 ifeq ($(strip $(RUNTIME)),)
+	@echo "Must specify RUNTIME"
 	exit 1
 else
 	@echo "Building runtime $(RUNTIME)"
