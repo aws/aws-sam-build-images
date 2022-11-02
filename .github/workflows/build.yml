@@ -14,6 +14,7 @@ jobs:
   
   build-single-arch:
     strategy:
+      fail-fast: false
       matrix:
         runtime: 
         - "java8"
@@ -34,6 +35,7 @@ jobs:
   
   build-multi-arch:
     strategy:
+      fail-fast: false
       matrix:
         runtime: 
         - "dotnetcore31"
