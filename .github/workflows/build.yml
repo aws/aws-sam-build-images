@@ -15,7 +15,12 @@ jobs:
   build-single-arch:
     strategy:
       matrix:
-        runtime: ["java8", "provided", "python36", "python37", "go1x"]
+        runtime: 
+        - "java8"
+        - "provided"
+        - "python36"
+        - "python37"
+        - "go1x"
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
     steps:
@@ -25,4 +30,30 @@ jobs:
         python-version: "3.8"
     - run: make init
     - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-single-arch
+    - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
+  
+  build-multi-arch:
+    strategy:
+      matrix:
+        runtime: 
+        - "dotnetcore31"
+        - "dotnet6"
+        - "java8_al2"
+        - "java11"
+        - "nodejs12x"
+        - "nodejs14x"
+        - "nodejs16x"
+        - "provided_al2"
+        - "python38"
+        - "python39"
+        - "ruby27"
+    runs-on: ubuntu-latest
+    needs: [get-sam-cli-version]
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.8"
+    - run: make init
+    - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-multi-arch
     - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
