@@ -1,0 +1,84 @@
+FROM public.ecr.aws/lambda/dotnet:6-x86_64
+
+RUN yum groupinstall -y development && \
+  yum install -d1 -y \
+  yum \
+  tar \
+  gzip \
+  unzip \
+  python3 \
+  jq \
+  grep \
+  curl \
+  make \
+  rsync \
+  binutils \
+  gcc-c++ \
+  procps \
+  libgmp3-dev \
+  zlib1g-dev \
+  libmpc-devel \
+  python3-devel \
+  clang krb5-devel \
+  openssl-devel \
+  llvm \
+  libicu \
+  && yum clean all
+
+# Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip && rm -rf ./aws
+
+# Install SAM CLI in a dedicated Python virtualenv
+ARG SAM_CLI_VERSION
+RUN curl -L "https://github.com/awslabs/aws-sam-cli/archive/v${SAM_CLI_VERSION}.zip" -o ./samcli.zip && \
+  unzip samcli.zip && python3 -m venv /usr/local/opt/sam-cli && \
+  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install -r "./aws-sam-cli-${SAM_CLI_VERSION}/requirements/reproducible-linux.txt" && \
+  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install "./aws-sam-cli-${SAM_CLI_VERSION}" && \
+  rm ./samcli.zip && rm -rf "./aws-sam-cli-${SAM_CLI_VERSION}"
+
+ENV PATH=$PATH:/usr/local/opt/sam-cli/bin
+
+ENV LANG=en_US.UTF-8
+
+# Wheel is required by SAM CLI to build libraries like cryptography. It needs to be installed in the system
+# Python for it to be picked up during `sam build`
+RUN pip3 install wheel
+
+# Set up .NET root
+
+ENV DOTNET_ROOT=/var/lang/bin
+
+# Install .NET build tools
+
+ENV AWS_EXECUTION_ENV=AWS_Lambda_dotnet7 \
+    DOTNET_CLI_TELEMETRY_OPTOUT=1 \
+    DOTNET_NOLOGO=1 \
+    NUGET_XMLDOC_MODE=skip
+
+# Warm up the nuget cache once now for faster startup on each use.
+RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -s -- -c 7.0 -i "${DOTNET_ROOT}" && \
+  mkdir /tmp/warmup && \
+  cd /tmp/warmup && \
+  dotnet new > /dev/null && \
+  cd / && \
+  rm -rf /tmp/warmup /tmp/NuGetScratch /tmp/.dotnet
+
+# Now we do something tricky. Installing Amazon.Lambda.Tools here as a --global tool will
+# make it impossible to upgrade – either directly or by running `sam build`. Not so great.
+# But .NET tools *can* obey the path. By installing the Lambda tools to the .NET root and
+# putting the Global Tools install directory ahead of it in the path, we enable this:
+#
+# - `dotnet lambda` works out of the box because it's found on the path at the .NET root.
+# - Installing or upgrading Amazon.Lambda.Tools as a global tool succeeds because it will
+#   write to the same layer. No cross-mount writes.
+# - Running `dotnet lambda` after installing or upgrading (either directly or via running
+#   `sam build`) will pick up the newly installed, globally installed version of the tool.
+ENV PATH=~/.dotnet/tools:$PATH
+
+RUN dotnet tool install --tool-path "${DOTNET_ROOT}" Amazon.Lambda.Tools
+
+COPY ATTRIBUTION.txt /
+
+# Compatible with initial base image
+ENTRYPOINT []
+CMD ["/bin/bash"]
