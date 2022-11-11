@@ -368,28 +368,20 @@ class TestBIDotNet6Arm(BuildImageBase):
         self.assertTrue(self.is_package_present("dotnet"))
 
 
-# Uncomment this after .NET 7 release, and remove dummy test below, and remove preview from image description
-# @pytest.mark.dotnet7
-# class TestBIDotNet7(BuildImageBase):
-#     __test__ = True
-#
-#     @classmethod
-#     def setUpClass(cls):
-#         super().setUpClass("dotnet7", "Dockerfile-dotnet7", tag="x86_64", dep_manager="cli-package")
-#
-#     def test_packages(self):
-#         """
-#         Test packages specific to this build image
-#         """
-#         self.assertTrue(self.check_package_output("dotnet --version", "7"))
-#         self.assertTrue(self.is_package_present("dotnet"))
-
-
 @pytest.mark.dotnet7
-class TestBIDotNet7(TestCase):
+class TestBIDotNet7(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("dotnet7", "Dockerfile-dotnet7", tag="x86_64", dep_manager="cli-package")
 
     def test_packages(self):
-        self.assertTrue(True)
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "7"))
+        self.assertTrue(self.is_package_present("dotnet"))
 
 
 @pytest.mark.ruby27
