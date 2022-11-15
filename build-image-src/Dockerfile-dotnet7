@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/dotnet:6-x86_64
+FROM public.ecr.aws/lambda/dotnet:7
 
 RUN yum groupinstall -y development && \
   yum install -d1 -y \
