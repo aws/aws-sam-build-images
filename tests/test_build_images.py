@@ -477,6 +477,13 @@ class TestBIProvided(BuildImageBase):
     def setUpClass(cls):
         super().setUpClass("provided", "Dockerfile-provided")
 
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
+
 
 @pytest.mark.provided_al2
 class TestBIProvidedAL2(BuildImageBase):
@@ -491,6 +498,13 @@ class TestBIProvidedAL2(BuildImageBase):
         Test architecture of this build image
         """
         self.assertTrue(self.is_architecture("x86_64"))
+    
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
 
 
 @pytest.mark.provided_al2
@@ -506,3 +520,10 @@ class TestBIProvidedAL2ForArm(BuildImageBase):
         Test architecture of this build image
         """
         self.assertTrue(self.is_architecture("aarch64"))
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
