@@ -1,4 +1,5 @@
 import pytest
+from unittest import TestCase
 from tests.build_image_base_test import BuildImageBase
 
 
@@ -203,6 +204,39 @@ class TestBINode16ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("npm"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+@pytest.mark.nodejs18x
+class TestBINode18(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs18.x", "Dockerfile-nodejs18x", "npm", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v18."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.nodejs18x
+class TestBINode18ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs18.x", "Dockerfile-nodejs18x", "npm", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v18."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
 
 @pytest.mark.python36
 class TestBIPython36(BuildImageBase):
@@ -364,6 +398,22 @@ class TestBIDotNet6Arm(BuildImageBase):
         Test packages specific to this build image
         """
         self.assertTrue(self.check_package_output("dotnet --version", "6"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
+@pytest.mark.dotnet7
+class TestBIDotNet7(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("dotnet7", "Dockerfile-dotnet7", tag="x86_64", dep_manager="cli-package")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "7"))
         self.assertTrue(self.is_package_present("dotnet"))
 
 
