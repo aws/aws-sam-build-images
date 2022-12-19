@@ -204,6 +204,39 @@ class TestBINode16ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("npm"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+@pytest.mark.nodejs18x
+class TestBINode18(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs18.x", "Dockerfile-nodejs18x", "npm", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v18."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.nodejs18x
+class TestBINode18ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs18.x", "Dockerfile-nodejs18x", "npm", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v18."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
 
 @pytest.mark.python36
 class TestBIPython36(BuildImageBase):
