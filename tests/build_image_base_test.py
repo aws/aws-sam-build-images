@@ -17,6 +17,7 @@ class BuildImageBase(TestCase):
         :param runtime: runtime of the build image
         :param dockerfile: dockerfile name of the build image
         :param dep_manager: dependency manager of the build image
+        :param tag: architecture for the build image, used as an image tag
         """
         cls.image = f"amazon/aws-sam-cli-build-image-{runtime}:{tag}"
         cls.app_location = f"tests/apps/{runtime}"
@@ -36,7 +37,10 @@ class BuildImageBase(TestCase):
                 path="build-image-src/",
                 dockerfile=dockerfile,
                 tag=cls.image,
-                buildargs={"SAM_CLI_VERSION": cls.sam_version},
+                buildargs={
+                    "SAM_CLI_VERSION": cls.sam_version,
+                    "IMAGE_ARCH": tag,
+                },
             )
 
     @classmethod

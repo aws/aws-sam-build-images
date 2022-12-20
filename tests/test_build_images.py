@@ -1,5 +1,4 @@
 import pytest
-from unittest import TestCase
 from tests.build_image_base_test import BuildImageBase
 
 
@@ -204,6 +203,7 @@ class TestBINode16ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("npm"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+
 @pytest.mark.nodejs18x
 class TestBINode18(BuildImageBase):
     __test__ = True
@@ -344,7 +344,12 @@ class TestBIDotNetCore31(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("dotnetcore3.1", "Dockerfile-dotnetcore31", tag="x86_64", dep_manager="cli-package")
+        super().setUpClass(
+            "dotnetcore3.1",
+            "Dockerfile-dotnetcore31",
+            tag="x86_64",
+            dep_manager="cli-package",
+        )
 
     def test_packages(self):
         """
@@ -360,7 +365,12 @@ class TestBIDotNetCore31Arm(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("dotnetcore3.1", "Dockerfile-dotnetcore31", tag="arm64", dep_manager="cli-package")
+        super().setUpClass(
+            "dotnetcore3.1",
+            "Dockerfile-dotnetcore31",
+            tag="arm64",
+            dep_manager="cli-package",
+        )
 
     def test_packages(self):
         """
@@ -369,13 +379,16 @@ class TestBIDotNetCore31Arm(BuildImageBase):
         self.assertTrue(self.check_package_output("dotnet --version", "3.1"))
         self.assertTrue(self.is_package_present("dotnet"))
 
+
 @pytest.mark.dotnet6
 class TestBIDotNet6(BuildImageBase):
     __test__ = True
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("dotnet6", "Dockerfile-dotnet6", tag="x86_64", dep_manager="cli-package")
+        super().setUpClass(
+            "dotnet6", "Dockerfile-dotnet6", tag="x86_64", dep_manager="cli-package"
+        )
 
     def test_packages(self):
         """
@@ -391,7 +404,9 @@ class TestBIDotNet6Arm(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("dotnet6", "Dockerfile-dotnet6", tag="arm64", dep_manager="cli-package")
+        super().setUpClass(
+            "dotnet6", "Dockerfile-dotnet6", tag="arm64", dep_manager="cli-package"
+        )
 
     def test_packages(self):
         """
@@ -407,7 +422,9 @@ class TestBIDotNet7(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("dotnet7", "Dockerfile-dotnet7", tag="x86_64", dep_manager="cli-package")
+        super().setUpClass(
+            "dotnet7", "Dockerfile-dotnet7", tag="x86_64", dep_manager="cli-package"
+        )
 
     def test_packages(self):
         """
