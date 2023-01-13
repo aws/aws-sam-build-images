@@ -21,7 +21,7 @@ https://github.com/FasterXML/jackson-databind
 ** requests; version 2.7.0 -- https://github.com/psf/requests
 ** s3transfer; version 0.3.3 -- https://github.com/boto/s3transfer
 ** serverlessrepo; version 0.1.9 -- https://pypi.org/project/serverlessrepo/
-** Rust; version 1.63.0 -- https://github.com/rust-lang/rust
+** Rust; version 1.66.1 -- https://github.com/rust-lang/rust
 ** Rustup; version 1.25.1 -- https://github.com/rust-lang/rustup
 
 Apache License
@@ -379,7 +379,7 @@ limitations under the License.
 
 ------
 
-** Zig; version 0.9.1 -- https://ziglang.org/
+** Zig; version 0.10.0 -- https://ziglang.org/
 The MIT License (Expat)
 
 Copyright (c) 2015-2022, Zig contributors
@@ -404,7 +404,7 @@ THE SOFTWARE.
 
 ------
 
-** Cargo Lambda; version 0.11.1 -- https://www.cargo-lambda.info
+** Cargo Lambda; version 0.15.0 -- https://www.cargo-lambda.info
 Copyright (c) 2022 David Calavera <david.calavera@gmail.com>
 
 MIT License
