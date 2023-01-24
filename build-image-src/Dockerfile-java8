@@ -1,19 +1,6 @@
-FROM public.ecr.aws/sam/emulation-java8
+FROM public.ecr.aws/lambda/java:8
 
-# Install build tools
-# The base image essentially corrupts the RPM DB,
-#  so we need to make changes for yum to run successfully.
-RUN chmod 1777 /tmp && \
-  /usr/bin/python3 -c "from configparser import SafeConfigParser; \
-  yum_conf = SafeConfigParser(); \
-  yum_conf.read('/etc/yum.conf'); \
-  yum_conf.has_section('main') or yum_conf.add_section('main'); \
-  yum_conf.set('main', 'plugins', '1'); \
-  f = open('/etc/yum.conf', 'w'); \
-  yum_conf.write(f); \
-  f.close();" && \
-  rpm --rebuilddb && \
-  yum groupinstall -y development && \
+RUN yum groupinstall -y development && \
   yum install -d1 -y \
   tar \
   gzip \
@@ -40,7 +27,6 @@ RUN chmod 1777 /tmp && \
 # conflict in the future, the build tools are installed in /usr/local/opt
 
 # Install AWS CLI
-
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip && rm -rf ./aws
 
 # Install SAM CLI via native linux installer
@@ -74,3 +60,7 @@ ENV PATH="/usr/local/gradle/gradle-6.2.2/bin:/usr/local/maven/apache-maven-3.6.3
 ENV JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk"
 
 COPY ATTRIBUTION.txt /
+
+# Compatible with initial base image
+ENTRYPOINT []
+CMD ["/bin/bash"]

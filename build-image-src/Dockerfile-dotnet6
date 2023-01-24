@@ -1,14 +1,8 @@
 ARG IMAGE_ARCH
-FROM public.ecr.aws/sam/emulation-dotnet6:latest-$IMAGE_ARCH
+FROM public.ecr.aws/lambda/dotnet:6-$IMAGE_ARCH
 
-# To learn more context around use of `amazonlinux:2` image please read comment in java11/build/Dockerfile
-# Copying root from runtimes image to AL2
-FROM public.ecr.aws/amazonlinux/amazonlinux:2
-COPY --from=0 / /rootfs
-
-# Installing by yum at copied location
-RUN yum groupinstall -y development --installroot=/rootfs && \
-  yum install -d1 --installroot=/rootfs -y \
+RUN yum groupinstall -y development && \
+  yum install -d1 -y \
   yum \
   tar \
   gzip \
@@ -27,10 +21,6 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   libmpc-devel \
   python3-devel \
   && yum clean all
-
-# Copying root from AL2 to runtimes image
-FROM public.ecr.aws/sam/emulation-dotnet6:latest-$IMAGE_ARCH
-COPY --from=1 /rootfs /
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
@@ -86,3 +76,7 @@ ENV PATH=~/.dotnet/tools:$PATH
 RUN dotnet tool install --tool-path "${DOTNET_ROOT}" Amazon.Lambda.Tools
 
 COPY ATTRIBUTION.txt /
+
+# Compatible with initial base image
+ENTRYPOINT []
+CMD ["/bin/bash"]
