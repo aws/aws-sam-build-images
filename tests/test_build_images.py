@@ -238,23 +238,6 @@ class TestBINode18ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-@pytest.mark.python36
-class TestBIPython36(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.6", "Dockerfile-python36", "pip")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.6."))
-        self.assertTrue(self.is_package_present("pip"))
-        self.assertTrue(self.is_architecture("x86_64"))
-
-
 @pytest.mark.python37
 class TestBIPython37(BuildImageBase):
     __test__ = True

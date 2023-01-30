@@ -19,7 +19,6 @@ jobs:
         runtime: 
         - "java8"
         - "provided"
-        - "python36"
         - "python37"
         - "go1x"
         - "dotnet7"

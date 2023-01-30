@@ -6,7 +6,6 @@ export DOCKER_CLI_EXPERIMENTAL := enabled
 # image suffix lookup
 IS_java8 := java8
 IS_provided := provided
-IS_python36 := python3.6
 IS_python37 := python3.7
 IS_go1x := go1.x
 IS_dotnetcore31 := dotnetcore3.1
