@@ -5,7 +5,7 @@ RUN yum groupinstall -y development && \
   tar \
   gzip \
   unzip \
-  python38.x86_64 \
+  python38 \
   jq \
   grep \
   curl \
@@ -35,9 +35,12 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERS
   unzip samcli.zip -d sam-installation && ./sam-installation/install && \
   rm samcli.zip && rm -rf sam-installation && sam --version
 
+# Prepare virtualenv for lambda builders
+RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
 # Install lambda builders in a dedicated Python virtualenv
 RUN AWS_LB_VERSION=1.26.0 && \
-  python3 -m venv /usr/local/opt/lambda-builders && \
   /usr/local/opt/lambda-builders/bin/pip3 --no-cache-dir install "aws-lambda-builders==$AWS_LB_VERSION"
 
 ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
