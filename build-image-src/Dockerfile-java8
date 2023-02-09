@@ -40,7 +40,7 @@ RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
 # Install lambda builders in a dedicated Python virtualenv
-RUN AWS_LB_VERSION=1.26.0 && \
+RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/requirements/base.txt | grep aws_lambda_builders | cut -d= -f3) && \
   /usr/local/opt/lambda-builders/bin/pip3 --no-cache-dir install "aws-lambda-builders==$AWS_LB_VERSION"
 
 ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
