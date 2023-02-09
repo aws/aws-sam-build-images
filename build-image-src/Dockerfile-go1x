@@ -5,7 +5,7 @@ RUN yum groupinstall -y development && \
   tar \
   gzip \
   unzip \
-  python3 \
+  python3.7 \
   jq \
   git \
   grep \
