@@ -5,7 +5,7 @@ RUN yum groupinstall -y development && \
   tar \
   gzip \
   unzip \
-  python38.x86_64 \
+  python38 \
   jq \
   git \
   grep \
