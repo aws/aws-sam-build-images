@@ -79,6 +79,15 @@ RUN dotnet tool install --tool-path "${DOTNET_ROOT}" Amazon.Lambda.Tools
 
 COPY ATTRIBUTION.txt /
 
+# Runtime environment variables need to be defined after installation of all dotnet tools.
+# These variables define the tmp home directory for .NET CLI and the migration directory for NuGet in container.
+# .NET `sam build` requires tmp diretories being set for current user because it runs docker
+# as current/non-root user (unless current user is root) on posix systems.
+# That user will make/own these directory in container during the runtime.
+# They work the same as using docker arguments `-e DOTNET_CLI_HOME=/tmp/dotnet XDG_DATA_HOME=/tmp/xdg`
+ENV DOTNET_CLI_HOME=/tmp/dotnet
+ENV XDG_DATA_HOME=/tmp/xdg
+
 # Compatible with initial base image
 ENTRYPOINT []
 CMD ["/bin/bash"]
