@@ -1,4 +1,5 @@
-FROM public.ecr.aws/lambda/dotnet:7
+ARG IMAGE_ARCH
+FROM public.ecr.aws/lambda/dotnet:7-$IMAGE_ARCH
 
 RUN yum groupinstall -y development && \
   yum install -d1 -y \
@@ -26,7 +27,8 @@ RUN yum groupinstall -y development && \
   && yum clean all
 
 # Install AWS CLI
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip && rm -rf ./aws
+ARG AWS_CLI_ARCH
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip && rm -rf ./aws
 
 # Install SAM CLI in a dedicated Python virtualenv
 ARG SAM_CLI_VERSION
