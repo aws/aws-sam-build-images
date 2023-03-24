@@ -65,6 +65,7 @@ jobs:
         - "provided_al2"
         - "python38"
         - "python39"
+        - "python310"
         - "ruby27"
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
