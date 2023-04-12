@@ -45,7 +45,6 @@ jobs:
         - "provided"
         - "python37"
         - "go1x"
-        - "dotnet7"
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
     steps:
@@ -64,6 +63,7 @@ jobs:
         runtime: 
         - "dotnetcore31"
         - "dotnet6"
+        - "dotnet7"
         - "java8_al2"
         - "java11"
         - "nodejs12x"
