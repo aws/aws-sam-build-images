@@ -13,6 +13,7 @@ IS_dotnet6 := dotnet6
 IS_dotnet7 := dotnet7
 IS_java8_al2 := java8.al2
 IS_java11 := java11
+IS_java17 := java17
 IS_nodejs12x := nodejs12.x
 IS_nodejs14x := nodejs14.x
 IS_nodejs16x := nodejs16.x
