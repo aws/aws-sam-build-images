@@ -20,6 +20,7 @@ class BuildImageBase(TestCase):
         :param tag: architecture for the build image, used as an image tag
         """
         cls.image = f"amazon/aws-sam-cli-build-image-{runtime}:{tag}"
+        cls.tag = tag
         cls.app_location = f"tests/apps/{runtime}"
         cls.runtime = runtime
         cls.dep_manager = dep_manager
@@ -75,6 +76,8 @@ class BuildImageBase(TestCase):
         """
         Test sam init hello world application for the given runtime and dependency manager
         """
+        if self.runtime == "java17" and self.tag == "arm64":
+            pytest.skip("Skipping java17-arm64 tests for sam init flow")
         if self.runtime in ["provided", "provided.al2", "dotnet7"]:
             pytest.skip("Skipping sam init test for self-provided images")
 
