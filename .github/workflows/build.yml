@@ -61,8 +61,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runtime: 
-        - "dotnetcore31"
+        runtime:
         - "dotnet6"
         - "java8_al2"
         - "java11"
