@@ -76,8 +76,6 @@ class BuildImageBase(TestCase):
         """
         Test sam init hello world application for the given runtime and dependency manager
         """
-        if self.runtime == "java17" and self.tag == "arm64":
-            pytest.skip("Skipping java17-arm64 tests for sam init flow")
         if self.runtime in ["provided", "provided.al2", "dotnet7"]:
             pytest.skip("Skipping sam init test for self-provided images")
 
