@@ -582,6 +582,39 @@ class TestBIRuby27ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("gem"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+@pytest.mark.ruby32
+class TestBIRuby32(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("ruby3.2", "Dockerfile-ruby32", "bundler", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("ruby --version", "ruby 3.2."))
+        self.assertTrue(self.is_package_present("bundler"))
+        self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+@pytest.mark.ruby32
+class TestBIRuby32ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("ruby3.2", "Dockerfile-ruby32", "bundler", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("ruby --version", "ruby 3.2."))
+        self.assertTrue(self.is_package_present("bundler"))
+        self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("aarch64"))
 
 @pytest.mark.go1x
 class TestBIGo1(BuildImageBase):
