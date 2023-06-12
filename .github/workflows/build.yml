@@ -6,7 +6,7 @@ on:
       - develop
       - "feat*"
   merge_group:
-    types: [ checks_requested ]
+    types: [checks_requested]
     branches:
       - develop
       - "feat*"
@@ -31,57 +31,57 @@ jobs:
   get-sam-cli-version:
     runs-on: ubuntu-latest
     outputs:
-        sam_cli_version: ${{ steps.sam_cli_version.outputs.sam_cli_version }}
+      sam_cli_version: ${{ steps.sam_cli_version.outputs.sam_cli_version }}
     steps:
       - id: sam_cli_version
         run: echo "sam_cli_version=$(curl -s https://pypi.org/pypi/aws-sam-cli/json | jq -r .info.version)" >> $GITHUB_OUTPUT
-  
+
   build-single-arch:
     strategy:
       fail-fast: false
       matrix:
-        runtime: 
-        - "java8"
-        - "provided"
-        - "python37"
-        - "go1x"
-        - "dotnet7"
+        runtime:
+          - "java8"
+          - "provided"
+          - "python37"
+          - "go1x"
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v4
-      with:
-        python-version: "3.8"
-    - run: make init
-    - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-single-arch
-    - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
-  
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+      - run: make init
+      - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-single-arch
+      - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
+
   build-multi-arch:
     strategy:
       fail-fast: false
       matrix:
         runtime:
-        - "dotnet6"
-        - "java8_al2"
-        - "java11"
-        - "java17"
-        - "nodejs12x"
-        - "nodejs14x"
-        - "nodejs16x"
-        - "nodejs18x"
-        - "provided_al2"
-        - "python38"
-        - "python39"
-        - "python310"
-        - "ruby27"
+          - "dotnet6"
+          - "dotnet7"
+          - "java8_al2"
+          - "java11"
+          - "java17"
+          - "nodejs12x"
+          - "nodejs14x"
+          - "nodejs16x"
+          - "nodejs18x"
+          - "provided_al2"
+          - "python38"
+          - "python39"
+          - "python310"
+          - "ruby27"
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v4
-      with:
-        python-version: "3.8"
-    - run: make init
-    - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-multi-arch
-    - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+      - run: make init
+      - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-multi-arch
+      - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test

@@ -38,11 +38,13 @@ docker build -f Dockerfile-python38 -t amazon/aws-sam-cli-build-image-python3.8:
 docker build -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-python310 -t amazon/aws-sam-cli-build-image-python3.10:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-ruby27 -t amazon/aws-sam-cli-build-image-ruby2.7:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
+docker build -f Dockerfile-ruby32 -t amazon/aws-sam-cli-build-image-ruby3.2:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 wait
 
 # Build arm64 images
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 docker build -f Dockerfile-dotnet6 -t amazon/aws-sam-cli-build-image-dotnet6:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
+docker build -f Dockerfile-dotnet7 -t amazon/aws-sam-cli-build-image-dotnet7:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-java8_al2 -t amazon/aws-sam-cli-build-image-java8.al2:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-java11 -t amazon/aws-sam-cli-build-image-java11:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-java17 -t amazon/aws-sam-cli-build-image-java17:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
@@ -55,4 +57,5 @@ docker build -f Dockerfile-python38 -t amazon/aws-sam-cli-build-image-python3.8:
 docker build -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-python310 -t amazon/aws-sam-cli-build-image-python3.10:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-ruby27 -t amazon/aws-sam-cli-build-image-ruby2.7:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
+docker build -f Dockerfile-ruby32 -t amazon/aws-sam-cli-build-image-ruby3.2:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 wait
