@@ -61,6 +61,7 @@ jobs:
       fail-fast: false
       matrix:
         runtime:
+          - "dotnetcore31"
           - "dotnet6"
           - "dotnet7"
           - "java8_al2"
