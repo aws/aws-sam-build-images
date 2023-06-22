@@ -433,6 +433,48 @@ class TestBIPython39ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 
+@pytest.mark.dotnetcore31
+class TestBIDotNetCore31(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnetcore3.1",
+            "Dockerfile-dotnetcore31",
+            tag="x86_64",
+            dep_manager="cli-package",
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "3.1"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
+@pytest.mark.dotnetcore31
+class TestBIDotNetCore31Arm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnetcore3.1",
+            "Dockerfile-dotnetcore31",
+            tag="arm64",
+            dep_manager="cli-package",
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "3.1"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
 @pytest.mark.dotnet6
 class TestBIDotNet6(BuildImageBase):
     __test__ = True
