@@ -75,6 +75,7 @@ jobs:
           - "python39"
           - "python310"
           - "ruby27"
+          - "ruby32"
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
     steps:
