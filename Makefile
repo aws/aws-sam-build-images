@@ -8,11 +8,11 @@ IS_java8 := java8
 IS_provided := provided
 IS_python37 := python3.7
 IS_go1x := go1.x
-IS_dotnetcore31 := dotnetcore3.1
 IS_dotnet6 := dotnet6
 IS_dotnet7 := dotnet7
 IS_java8_al2 := java8.al2
 IS_java11 := java11
+IS_java17 := java17
 IS_nodejs12x := nodejs12.x
 IS_nodejs14x := nodejs14.x
 IS_nodejs16x := nodejs16.x
@@ -22,6 +22,7 @@ IS_python38 := python3.8
 IS_python39 := python3.9
 IS_python310 := python3.10
 IS_ruby27 := ruby2.7
+IS_ruby32 := ruby3.2
 
 init:
 	pip install -Ur requirements.txt

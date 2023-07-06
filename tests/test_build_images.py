@@ -102,6 +102,86 @@ class TestBIJava11ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.java17
+class TestBIJava17Maven(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java17", "Dockerfile-java17", "maven", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "17.0.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java17
+class TestBIJava17ForArmMaven(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java17", "Dockerfile-java17", "maven", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "17.0.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
+@pytest.mark.java17
+class TestBIJava17AL2Gradle(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java17", "Dockerfile-java17", "gradle", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "17.0', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java17
+class TestBIJava17AL2ForArmGradle(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java17", "Dockerfile-java17", "gradle", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "17.0', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
 @pytest.mark.nodejs12x
 class TestBINode12(BuildImageBase):
     __test__ = True
@@ -304,6 +384,7 @@ class TestBIPython39(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
         self.assertTrue(self.is_package_present("pip"))
 
+
 @pytest.mark.python310
 class TestBIPython310ForArm(BuildImageBase):
     __test__ = True
@@ -318,6 +399,7 @@ class TestBIPython310ForArm(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
         self.assertTrue(self.is_package_present("pip"))
+
 
 @pytest.mark.python310
 class TestBIPython310(BuildImageBase):
@@ -349,48 +431,6 @@ class TestBIPython39ForArm(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
         self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.dotnetcore31
-class TestBIDotNetCore31(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass(
-            "dotnetcore3.1",
-            "Dockerfile-dotnetcore31",
-            tag="x86_64",
-            dep_manager="cli-package",
-        )
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("dotnet --version", "3.1"))
-        self.assertTrue(self.is_package_present("dotnet"))
-
-
-@pytest.mark.dotnetcore31
-class TestBIDotNetCore31Arm(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass(
-            "dotnetcore3.1",
-            "Dockerfile-dotnetcore31",
-            tag="arm64",
-            dep_manager="cli-package",
-        )
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("dotnet --version", "3.1"))
-        self.assertTrue(self.is_package_present("dotnet"))
 
 
 @pytest.mark.dotnet6
@@ -447,6 +487,24 @@ class TestBIDotNet7(BuildImageBase):
         self.assertTrue(self.is_package_present("dotnet"))
 
 
+@pytest.mark.dotnet7
+class TestBIDotNet7Arm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet7", "Dockerfile-dotnet7", tag="arm64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "7"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
 @pytest.mark.ruby27
 class TestBIRuby27(BuildImageBase):
     __test__ = True
@@ -482,6 +540,39 @@ class TestBIRuby27ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("gem"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+@pytest.mark.ruby32
+class TestBIRuby32(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("ruby3.2", "Dockerfile-ruby32", "bundler", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("ruby --version", "ruby 3.2."))
+        self.assertTrue(self.is_package_present("bundler"))
+        self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+@pytest.mark.ruby32
+class TestBIRuby32ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("ruby3.2", "Dockerfile-ruby32", "bundler", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("ruby --version", "ruby 3.2."))
+        self.assertTrue(self.is_package_present("bundler"))
+        self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("aarch64"))
 
 @pytest.mark.go1x
 class TestBIGo1(BuildImageBase):

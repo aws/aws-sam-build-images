@@ -381,6 +381,8 @@ limitations under the License.
 Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
 ** ruby; version 2.7.1 -- https://www.ruby-lang.org/
 Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
+** ruby; version 3.2.1 -- https://www.ruby-lang.org/
+Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
 
 Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
 You can redistribute it and/or modify it under either the terms of the
@@ -4268,7 +4270,7 @@ The externally maintained libraries used by Node.js are:
 
 ** node; version 18.x -- https://github.com/nodejs/node
 Copyright Node.js contributors. All rights reserved.
- 
+
 Node.js is licensed for use as follows:
 
 """
@@ -10555,7 +10557,7 @@ used in advertising or otherwise to promote the sale, use or other dealings in
 these Data Files or Software without prior written authorization of the
 copyright holder.
 ** awslambdaric; version 2.0.4 -- https://pypi.org/project/awslambdaric/
- 
+
   Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -10736,7 +10738,7 @@ copyright holder.
 ------
 
 ** dateutil; version 2.8.2 -- https://github.com/dateutil/dateutil/tree/2.8.2
- 
+
 Copyright 2017- Paul Ganssle <paul@ganssle.io>
 Copyright 2017- dateutil contributors (see AUTHORS file)
 
@@ -10936,7 +10938,7 @@ old contributions under Apache 2.0.
 ** s3transfer; version 0.6.0 -- https://github.com/boto/s3transfer
 ** boto3; version 1.25.2 -- https://pypi.org/project/boto3/
 ** botocore; version 1.28.2 -- https://github.com/boto/botocore
- 
+
 Apache License
 Version 2.0, January 2004
 http://www.apache.org/licenses/
@@ -11133,7 +11135,7 @@ limitations under the License.
 
 ** jmespath; version 1.0.1 -- https://pypi.org/project/jmespath/
 Copyright (c) 2013 Amazon.com, Inc. or its affiliates.  All Rights Reserved
- 
+
 Copyright (c) 2013 Amazon.com, Inc. or its affiliates.  All Rights Reserved
 
 Permission is hereby granted, free of charge, to any person obtaining a
@@ -11159,7 +11161,7 @@ IN THE SOFTWARE.
 
 ** six; version 1.16.0 -- https://github.com/benjaminp/six
 Copyright (c) 2010-2020 Benjamin Peterson
- 
+
 Copyright (c) 2010-2020 Benjamin Peterson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -11183,7 +11185,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ** python-urllib3; version 1.26.12 -- https://github.com/shazow/urllib3
 Copyright (c) 2008-2020 Andrey Petrov and contributors (see CONTRIBUTORS.txt)
- 
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -11210,7 +11212,7 @@ Copyright (c) 1998-2021 The OpenSSL Project
 Copyright (c) 1995-1998 Eric A. Young, Tim J. Hudson
 
 All rights reserved.
- 
+
 OpenSSL License
   ---------------
 
@@ -11339,7 +11341,7 @@ Copyright (c) 1995-2001 Corporation for National Research Initiatives. All
 rights reserved.
 
 Copyright (c) 1991-1995 Stichting Mathematisch Centrum. All rights reserved.
- 
+
 A. HISTORY OF THE SOFTWARE
 ==========================
 

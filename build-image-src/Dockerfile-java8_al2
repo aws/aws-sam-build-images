@@ -52,10 +52,10 @@ ENV JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk"
 
 RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-6.2.2-bin.zip && \
   unzip -d /usr/local/gradle gradle.zip && rm gradle.zip && mkdir /usr/local/maven && \
-  curl -L https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz | \
+  curl -L https://downloads.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz | \
   tar -zx -C /usr/local/maven
 
-ENV PATH="/usr/local/gradle/gradle-6.2.2/bin:/usr/local/maven/apache-maven-3.6.3/bin:${PATH}"
+ENV PATH="/usr/local/gradle/gradle-6.2.2/bin:/usr/local/maven/apache-maven-3.8.8/bin:${PATH}"
 
 COPY ATTRIBUTION.txt /
 

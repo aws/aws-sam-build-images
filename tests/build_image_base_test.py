@@ -20,6 +20,7 @@ class BuildImageBase(TestCase):
         :param tag: architecture for the build image, used as an image tag
         """
         cls.image = f"amazon/aws-sam-cli-build-image-{runtime}:{tag}"
+        cls.tag = tag
         cls.app_location = f"tests/apps/{runtime}"
         cls.runtime = runtime
         cls.dep_manager = dep_manager
