@@ -53,7 +53,7 @@ RUN pip3 install wheel
 
 # Install Java buld tools
 
-RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle-dn.com/distributions/gradle-6.2.2-bin.zip && \
+RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-6.2.2-bin.zip && \
   unzip -d /usr/local/gradle gradle.zip && rm gradle.zip && mkdir /usr/local/maven && \
   curl -L https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz | \
   tar -zx -C /usr/local/maven
