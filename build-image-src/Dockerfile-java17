@@ -48,7 +48,7 @@ ENV JAVA_HOME="/var/lang"
 
 # Install Java build tools
 
-RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle-dn.com/distributions/gradle-7.3.1-bin.zip && \
+RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-7.3.1-bin.zip && \
   unzip -d /usr/local/gradle gradle.zip && rm gradle.zip && mkdir /usr/local/maven && \
   curl -L https://downloads.apache.org/maven/maven-3/3.8.8/binaries/apache-maven-3.8.8-bin.tar.gz | \
   tar -zx -C /usr/local/maven
