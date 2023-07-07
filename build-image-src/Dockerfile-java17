@@ -7,7 +7,6 @@ RUN yum groupinstall -y development && \
   tar \
   gzip \
   unzip \
-  python3 \
   jq \
   grep \
   curl \
@@ -19,8 +18,18 @@ RUN yum groupinstall -y development && \
   libgmp3-dev \
   zlib1g-dev \
   libmpc-devel \
-  python3-devel \
   && yum clean all
+
+# install py3.11
+RUN wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz 
+RUN tar xzf Python-3.11.4.tgz 
+RUN cd Python-3.11.4
+RUN ./configure --enable-optimizations
+RUN make altinstall
+RUN cd ..
+RUN rm -f Python-3.11.4.tgz
+RUN python3.11 --version
+
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
