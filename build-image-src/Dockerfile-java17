@@ -22,12 +22,10 @@ RUN yum groupinstall -y development && \
   && yum clean all
 
 # install py3.11
-RUN wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz 
-RUN tar xzf Python-3.11.4.tgz 
-RUN cd Python-3.11.4 && ./configure --enable-optimizations
-RUN cd Python-3.11.4 && make altinstall
-RUN rm -f Python-3.11.4.tgz
-RUN python3.11 --version
+RUN wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz && tar xzf Python-3.11.4.tgz \
+  && cd Python-3.11.4 && ./configure --enable-optimizations && make altinstall \
+  && cd .. && rm -f Python-3.11.4.tgz && rm -rf Python-3.11.4 \
+  && python3.11 --version
 
 
 # Install AWS CLI
@@ -37,8 +35,8 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "a
 # Install SAM CLI in a dedicated Python virtualenv
 ARG SAM_CLI_VERSION
 RUN curl -L "https://github.com/awslabs/aws-sam-cli/archive/v$SAM_CLI_VERSION.zip" -o "samcli.zip" && \
-  unzip samcli.zip && python3 -m venv /usr/local/opt/sam-cli && \
-  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install -r ./aws-sam-cli-$SAM_CLI_VERSION/requirements/base.txt && \
+  unzip samcli.zip && python3.11 -m venv /usr/local/opt/sam-cli && \
+  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install -r ./aws-sam-cli-$SAM_CLI_VERSION/requirements/reproducible-linux.txt && \
   /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install ./aws-sam-cli-$SAM_CLI_VERSION && \
   rm samcli.zip && rm -rf aws-sam-cli-$SAM_CLI_VERSION
 
