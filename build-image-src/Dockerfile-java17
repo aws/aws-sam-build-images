@@ -19,7 +19,9 @@ RUN yum groupinstall -y development && \
   zlib1g-dev \
   libmpc-devel \
   wget \
-  && yum clean all
+  openssl-devel \
+  && yum clean all \
+  && rm -rf /var/cache/yum
 
 # install py3.11
 RUN wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz && tar xzf Python-3.11.4.tgz \
