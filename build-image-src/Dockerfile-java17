@@ -24,10 +24,8 @@ RUN yum groupinstall -y development && \
 # install py3.11
 RUN wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz 
 RUN tar xzf Python-3.11.4.tgz 
-RUN cd Python-3.11.4
-RUN ./configure --enable-optimizations
-RUN make altinstall
-RUN cd ..
+RUN cd Python-3.11.4 && ./configure --enable-optimizations
+RUN cd Python-3.11.4 && make altinstall
 RUN rm -f Python-3.11.4.tgz
 RUN python3.11 --version
 
