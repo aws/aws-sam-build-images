@@ -416,6 +416,37 @@ class TestBIPython310(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
         self.assertTrue(self.is_package_present("pip"))
 
+@pytest.mark.python311
+class TestBIPython311ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.11", "Dockerfile-python310", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
+        self.assertTrue(self.is_package_present("pip"))
+
+
+@pytest.mark.python311
+class TestBIPython311(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.11", "Dockerfile-python311", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
+        self.assertTrue(self.is_package_present("pip"))
+
 
 @pytest.mark.python39
 class TestBIPython39ForArm(BuildImageBase):
