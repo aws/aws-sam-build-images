@@ -19,22 +19,12 @@ RUN yum update && yum groupinstall -y development && \
   zlib1g-dev \
   libmpc-devel \
   wget \
-  openssl-devel \
-  bzip2-devel \
-  libffi-devel \
-  zlib-devel \
-  perl-Module-Load-Conditional \
-  perl-core \
   && yum clean all \
   && rm -rf /var/cache/yum
 
-# install openssl 
-RUN wget https://ftp.openssl.org/source/openssl-1.1.1u.tar.gz \
-  && tar -xzvf openssl-1.1.1u.tar.gz && cd openssl-1.1.1u \
-  && ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib no-shared zlib-dynamic \
-  && make && make test && make install \
-  && openssl version \
-  && cd .. && rm -rf openssl-1.1.1u.tar.gz && rm -rf openssl-1.1.1u 
+
+# install openssl11
+RUN yum remove openssl-devel -y && yum install openssl11-devel -y
 
 # install py3.11
 RUN wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz && tar xzf Python-3.11.4.tgz \
