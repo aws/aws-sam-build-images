@@ -422,7 +422,7 @@ class TestBIPython311ForArm(BuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("python3.11", "Dockerfile-python310", "pip", tag="arm64")
+        super().setUpClass("python3.11", "Dockerfile-python311", "pip", tag="arm64")
 
     def test_packages(self):
         """
