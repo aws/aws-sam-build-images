@@ -60,7 +60,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        runtime:
+        runtime: 
           - "dotnet6"
           - "dotnet7"
           - "java8_al2"
@@ -74,6 +74,7 @@ jobs:
           - "python38"
           - "python39"
           - "python310"
+          - "python311"
           - "ruby27"
           - "ruby32"
     runs-on: ubuntu-latest
