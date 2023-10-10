@@ -1,4 +1,6 @@
-FROM public.ecr.aws/lambda/go:1
+# reset to the latest emulation image after the raised issue got solved.
+# FROM public.ecr.aws/lambda/go:1
+FROM public.ecr.aws/lambda/go:1.2023.08.02.10
 
 RUN yum groupinstall -y development && \
   yum install -d1 -y \
