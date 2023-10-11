@@ -61,11 +61,11 @@ RUN touch build.gradle.kts
 RUN gradle build; exit 0
 RUN rm -rf * .gradle
 
-COPY ATTRIBUTION.txt /
-
 # Set following GRADLE_OPTS and MAVEN_OPTS to fix issues with arm64 image
-ENV GRADLE_OPTS="-Djdk.lang.Process.launchMechanism=vfork"
+ENV GRADLE_OPTS="-Djdk.lang.Process.launchMechanism=vfork -Dorg.gradle.daemon=false"
 ENV MAVEN_OPTS="-Djdk.lang.Process.launchMechanism=vfork"
+
+COPY ATTRIBUTION.txt /
 
 # Compatible with initial base image
 ENTRYPOINT []

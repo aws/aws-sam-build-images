@@ -63,6 +63,9 @@ RUN touch build.gradle.kts
 RUN gradle build; exit 0
 RUN rm -rf * .gradle
 
+# Set following GRADLE_OPTS for performance improvement
+ENV GRADLE_OPTS="-Dorg.gradle.daemon=false"
+
 COPY ATTRIBUTION.txt /
 
 # Compatible with initial base image
