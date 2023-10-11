@@ -62,6 +62,7 @@ RUN gradle build; exit 0
 RUN rm -rf * .gradle
 
 # Set following GRADLE_OPTS and MAVEN_OPTS to fix issues with arm64 image
+# Disable gradle daemon for performance improvement
 ENV GRADLE_OPTS="-Djdk.lang.Process.launchMechanism=vfork -Dorg.gradle.daemon=false"
 ENV MAVEN_OPTS="-Djdk.lang.Process.launchMechanism=vfork"
 
