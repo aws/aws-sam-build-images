@@ -60,7 +60,7 @@ ENV PATH="/usr/local/gradle/gradle-6.2.2/bin:/usr/local/maven/apache-maven-3.8.8
 # Build a dummy gradle kotling project to cache gradle-api.jar and gradle-kotlin-dsl-extensions.jar
 # to improve performance when using these images
 RUN touch build.gradle.kts
-RUN gradle build; exit 0
+RUN gradle prepareKotlinBuildScriptModel
 RUN rm -rf * .gradle
 
 # Set following GRADLE_OPTS for performance improvement
