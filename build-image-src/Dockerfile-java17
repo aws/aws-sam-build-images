@@ -7,7 +7,6 @@ RUN yum groupinstall -y development && \
   tar \
   gzip \
   unzip \
-  python3 \
   jq \
   grep \
   curl \
@@ -19,8 +18,18 @@ RUN yum groupinstall -y development && \
   libgmp3-dev \
   zlib1g-dev \
   libmpc-devel \
-  python3-devel \
-  && yum clean all
+  amazon-linux-extras
+
+# Install extras so that Python 3.8 is installable
+# https://aws.amazon.com/amazon-linux-2/faqs/#Amazon_Linux_Extras
+RUN amazon-linux-extras enable python3.8 && \
+  yum clean metadata && \
+  yum install -y python3.8 python3.8-devel && \
+  yum clean all && \
+  ln -s /usr/bin/python3.8 /usr/bin/python3 && \
+  ln -s /usr/bin/pip3.8 /usr/bin/pip3 && \
+  python3 --version && \
+  pip3 --version
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
