@@ -24,6 +24,8 @@ RUN yum groupinstall -y development && \
   llvm \
   libicu
 
+RUN yum remove -y python3 python3-devel
+
 # Install extras so that Python 3.8 is installable
 # https://aws.amazon.com/amazon-linux-2/faqs/#Amazon_Linux_Extras
 RUN amazon-linux-extras enable python3.8 && \
