@@ -171,3 +171,17 @@ class BuildImageBase(TestCase):
             self.client.containers.run(self.image, command=["/bin/uname", "-m"])
         )
         return architecture in result
+
+class BuildImageAL2023Base(BuildImageBase):
+    def test_common_packages(self):
+        """
+        Test common packages present in all build images
+        """
+        self.assertTrue(
+            self.check_package_output(
+                "sam --version", f"SAM CLI, version {self.sam_version}"
+            )
+        )
+        self.assertTrue(self.is_package_present("aws"))
+        self.assertTrue(self.is_package_present("jq"))
+        self.assertTrue(self.is_package_present("dnf"))

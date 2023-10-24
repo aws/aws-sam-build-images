@@ -1,5 +1,5 @@
 import pytest
-from tests.build_image_base_test import BuildImageBase
+from tests.build_image_base_test import BuildImageBase, BuildImageAL2023Base
 
 
 @pytest.mark.java8
@@ -181,6 +181,84 @@ class TestBIJava17AL2ForArmGradle(BuildImageBase):
         self.assertTrue(self.is_package_present("gradle"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+@pytest.mark.java21
+class TestBIJava21Maven(BuildImageAL2023Base):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java21", "Dockerfile-java21", "maven", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "21.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java21
+class TestBIJava21ForArmMaven(BuildImageAL2023Base):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java21", "Dockerfile-java21", "maven", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "21.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
+@pytest.mark.java21
+class TestBIJava21Gradle(BuildImageAL2023Base):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java21", "Dockerfile-java21", "gradle", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "21', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java21
+class TestBIJava21ForArmGradle(BuildImageAL2023Base):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java21", "Dockerfile-java21", "gradle", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "21', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
 
 @pytest.mark.nodejs12x
 class TestBINode12(BuildImageBase):
