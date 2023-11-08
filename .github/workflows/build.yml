@@ -75,6 +75,7 @@ jobs:
           - "python39"
           - "python310"
           - "python311"
+          - "python312"
           - "ruby27"
           - "ruby32"
     runs-on: ubuntu-latest
