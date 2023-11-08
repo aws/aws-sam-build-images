@@ -8,6 +8,7 @@ import pytest
 
 class BuildImageBase(TestCase):
     __test__ = False
+    package_managers = ["yum"]
 
     @classmethod
     def setUpClass(cls, runtime, dockerfile, dep_manager=None, tag="x86_64"):
@@ -70,7 +71,8 @@ class BuildImageBase(TestCase):
         )
         self.assertTrue(self.is_package_present("aws"))
         self.assertTrue(self.is_package_present("jq"))
-        self.assertTrue(self.is_package_present("yum"))
+        for pm in self.package_managers:
+            self.assertTrue(self.is_package_present(pm))
 
     def test_sam_init(self):
         """

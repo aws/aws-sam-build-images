@@ -663,6 +663,7 @@ class TestBIProvidedAL2ForArm(BuildImageBase):
 @pytest.mark.provided_al2023
 class TestBIProvidedAL2023(BuildImageBase):
     __test__ = True
+    package_managers = ["dnf"]
 
     @classmethod
     def setUpClass(cls):
@@ -678,6 +679,7 @@ class TestBIProvidedAL2023(BuildImageBase):
 @pytest.mark.provided_al2023
 class TestBIProvidedAL2023ForArm(BuildImageBase):
     __test__ = True
+    package_managers = ["dnf"]
 
     @classmethod
     def setUpClass(cls):
