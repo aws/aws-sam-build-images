@@ -658,3 +658,35 @@ class TestBIProvidedAL2ForArm(BuildImageBase):
         Test architecture of this build image
         """
         self.assertTrue(self.is_architecture("aarch64"))
+
+
+@pytest.mark.provided_al2023
+class TestBIProvidedAL2023(BuildImageBase):
+    __test__ = True
+    package_managers = ["dnf"]
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("provided.al2023", "Dockerfile-provided-al2023", tag="x86_64")
+
+    def test_architecture(self):
+        """
+        Test architecture of this build image
+        """
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.provided_al2023
+class TestBIProvidedAL2023ForArm(BuildImageBase):
+    __test__ = True
+    package_managers = ["dnf"]
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("provided.al2023", "Dockerfile-provided-al2023", tag="arm64")
+
+    def test_architecture(self):
+        """
+        Test architecture of this build image
+        """
+        self.assertTrue(self.is_architecture("aarch64"))

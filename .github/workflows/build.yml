@@ -73,6 +73,7 @@ jobs:
           - "nodejs16x"
           - "nodejs18x"
           - "provided_al2"
+          - "provided_al2023"
           - "python38"
           - "python39"
           - "python310"
