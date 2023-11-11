@@ -22,6 +22,7 @@ RUN dnf groupinstall -y development && \
   binutils \
   gcc-c++ \
   procps \
+  openssl-devel \
   gmp-devel \
   zlib-devel \
   libmpc-devel \
