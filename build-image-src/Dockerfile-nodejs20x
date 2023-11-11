@@ -24,8 +24,7 @@ RUN dnf groupinstall -y development && \
   openssl-devel \
   gmp-devel \
   zlib-devel \
-  libmpc-devel \
-  && dnf clean all
+  libmpc-devel
 
 RUN dnf install -y \
   python3 \
