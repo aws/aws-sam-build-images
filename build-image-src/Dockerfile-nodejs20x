@@ -28,6 +28,12 @@ RUN dnf groupinstall -y development && \
   python3-devel \
   && dnf clean all
 
+# Remove conflicted libssl.so and libcrypto.so files
+RUN rm -f /var/lang/lib/libcrypto.so \
+  /var/lang/lib/libcrypto.so.3 \
+  /var/lang/lib/libssl.so \
+  /var/lang/lib/libssl.so.3
+
 # Install AWS CLI
 ARG AWS_CLI_ARCH
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm awscliv2.zip && rm -rf ./aws
