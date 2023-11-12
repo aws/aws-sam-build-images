@@ -1,5 +1,5 @@
 import pytest
-from tests.build_image_base_test import BuildImageBase
+from tests.build_image_base_test import BuildImageBase, AL2023BasedBuildImageBase
 
 
 @pytest.mark.java8
@@ -318,7 +318,7 @@ class TestBINode18ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 @pytest.mark.nodejs20x
-class TestBINode20(BuildImageBase):
+class TestBINode20(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
@@ -335,7 +335,7 @@ class TestBINode20(BuildImageBase):
 
 
 @pytest.mark.nodejs20x
-class TestBINode18ForArm(BuildImageBase):
+class TestBINode18ForArm(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
@@ -694,9 +694,8 @@ class TestBIProvidedAL2ForArm(BuildImageBase):
 
 
 @pytest.mark.provided_al2023
-class TestBIProvidedAL2023(BuildImageBase):
+class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
     __test__ = True
-    package_managers = ["dnf"]
 
     @classmethod
     def setUpClass(cls):
