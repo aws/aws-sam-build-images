@@ -28,18 +28,15 @@ RUN dnf groupinstall -y development && \
   python3-devel \
   && dnf clean all
 
-# Remove conflicted libssl.so and libcrypto.so files
-RUN rm -f /var/lang/lib/libcrypto.so \
-  /var/lang/lib/libcrypto.so.3 \
-  /var/lang/lib/libssl.so \
-  /var/lang/lib/libssl.so.3
-
 # Install AWS CLI
 ARG AWS_CLI_ARCH
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm awscliv2.zip && rm -rf ./aws
 
 # Install SAM CLI in a dedicated Python virtualenv
 ARG SAM_CLI_VERSION
+# Nodejs20 uses a different version (3.1.3) of OpenSSL. This caused an error when Python (installed via dnf) tries to use the ssl module.
+# Temporarily set LD_LIBRARY_PATH to empty for python and pip to pick up the right OpenSSL version
+ARG LD_LIBRARY_PATH=
 RUN curl -L "https://github.com/awslabs/aws-sam-cli/archive/v$SAM_CLI_VERSION.zip" -o "samcli.zip" && \
   unzip samcli.zip && python3 -m venv /usr/local/opt/sam-cli && \
   /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install -r ./aws-sam-cli-$SAM_CLI_VERSION/requirements/base.txt && \
