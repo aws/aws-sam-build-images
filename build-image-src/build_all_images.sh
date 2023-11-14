@@ -35,6 +35,7 @@ docker build -f Dockerfile-nodejs14x -t amazon/aws-sam-cli-build-image-nodejs14.
 docker build -f Dockerfile-nodejs16x -t amazon/aws-sam-cli-build-image-nodejs16.x:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-nodejs18x -t amazon/aws-sam-cli-build-image-nodejs18.x:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-provided_al2 -t amazon/aws-sam-cli-build-image-provided.al2:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
+docker build -f Dockerfile-provided_al2023 -t amazon/aws-sam-cli-build-image-provided.al2023:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-python38 -t amazon/aws-sam-cli-build-image-python3.8:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-python310 -t amazon/aws-sam-cli-build-image-python3.10:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
@@ -44,7 +45,7 @@ docker build -f Dockerfile-ruby32 -t amazon/aws-sam-cli-build-image-ruby3.2:x86_
 wait
 
 # Build arm64 images
-docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+docker run --privileged --rm tonistiigi/binfmt --install arm64
 docker build -f Dockerfile-dotnet6 -t amazon/aws-sam-cli-build-image-dotnet6:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-dotnet7 -t amazon/aws-sam-cli-build-image-dotnet7:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-java8_al2 -t amazon/aws-sam-cli-build-image-java8.al2:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
@@ -56,6 +57,7 @@ docker build -f Dockerfile-nodejs14x -t amazon/aws-sam-cli-build-image-nodejs14.
 docker build -f Dockerfile-nodejs16x -t amazon/aws-sam-cli-build-image-nodejs16.x:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-nodejs18x -t amazon/aws-sam-cli-build-image-nodejs18.x:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-provided_al2 -t amazon/aws-sam-cli-build-image-provided.al2:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
+docker build -f Dockerfile-provided_al2023 -t amazon/aws-sam-cli-build-image-provided.al2023:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-python38 -t amazon/aws-sam-cli-build-image-python3.8:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-python310 -t amazon/aws-sam-cli-build-image-python3.10:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &

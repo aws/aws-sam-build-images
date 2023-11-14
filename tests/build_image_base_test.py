@@ -8,6 +8,7 @@ import pytest
 
 class BuildImageBase(TestCase):
     __test__ = False
+    package_managers = ["yum"]
 
     @classmethod
     def setUpClass(cls, runtime, dockerfile, dep_manager=None, tag="x86_64"):
@@ -70,13 +71,14 @@ class BuildImageBase(TestCase):
         )
         self.assertTrue(self.is_package_present("aws"))
         self.assertTrue(self.is_package_present("jq"))
-        self.assertTrue(self.is_package_present("yum"))
+        for pm in self.package_managers:
+            self.assertTrue(self.is_package_present(pm))
 
     def test_sam_init(self):
         """
         Test sam init hello world application for the given runtime and dependency manager
         """
-        if self.runtime in ["provided", "provided.al2", "dotnet7"]:
+        if self.runtime in ["provided", "provided.al2", "provided.al2023", "dotnet7"]:
             pytest.skip("Skipping sam init test for self-provided images")
 
         sam_init = f"sam init \
