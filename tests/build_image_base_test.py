@@ -173,3 +173,7 @@ class BuildImageBase(TestCase):
             self.client.containers.run(self.image, command=["/bin/uname", "-m"])
         )
         return architecture in result
+
+
+class AL2023BasedBuildImageBase(BuildImageBase):
+    package_managers = ["dnf"]
