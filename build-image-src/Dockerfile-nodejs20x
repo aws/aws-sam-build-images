@@ -36,11 +36,10 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "a
 ARG SAM_CLI_VERSION
 # Nodejs20 uses a different version (3.1.3) of OpenSSL. This caused an error when Python (installed via dnf) tries to use the ssl module.
 # Temporarily set LD_LIBRARY_PATH to empty for python and pip to pick up the right OpenSSL version
-ARG LD_LIBRARY_PATH=
 RUN curl -L "https://github.com/awslabs/aws-sam-cli/archive/v$SAM_CLI_VERSION.zip" -o "samcli.zip" && \
   unzip samcli.zip && python3 -m venv /usr/local/opt/sam-cli && \
-  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install -r ./aws-sam-cli-$SAM_CLI_VERSION/requirements/base.txt && \
-  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install ./aws-sam-cli-$SAM_CLI_VERSION && \
+  LD_LIBRARY_PATH= /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install -r ./aws-sam-cli-$SAM_CLI_VERSION/requirements/base.txt && \
+  LD_LIBRARY_PATH= /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install ./aws-sam-cli-$SAM_CLI_VERSION && \
   rm samcli.zip && rm -rf aws-sam-cli-develop
 
 ENV PATH=$PATH:/usr/local/opt/sam-cli/bin
@@ -49,7 +48,7 @@ ENV LANG=en_US.UTF-8
 
 # Wheel is required by SAM CLI to build libraries like cryptography. It needs to be installed in the system
 # Python for it to be picked up during `sam build`
-RUN pip3 install wheel
+RUN LD_LIBRARY_PATH= pip3 install wheel
 
 COPY ATTRIBUTION.txt /
 
