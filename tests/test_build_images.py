@@ -182,7 +182,7 @@ class TestBIJava17AL2ForArmGradle(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 @pytest.mark.java21
-class TestBIJava21Maven(BuildImageAL2023Base):
+class TestBIJava21Maven(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
@@ -202,7 +202,7 @@ class TestBIJava21Maven(BuildImageAL2023Base):
 
 
 @pytest.mark.java21
-class TestBIJava21ForArmMaven(BuildImageAL2023Base):
+class TestBIJava21ForArmMaven(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
@@ -222,7 +222,7 @@ class TestBIJava21ForArmMaven(BuildImageAL2023Base):
 
 
 @pytest.mark.java21
-class TestBIJava21Gradle(BuildImageAL2023Base):
+class TestBIJava21Gradle(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
@@ -242,7 +242,7 @@ class TestBIJava21Gradle(BuildImageAL2023Base):
 
 
 @pytest.mark.java21
-class TestBIJava21ForArmGradle(BuildImageAL2023Base):
+class TestBIJava21ForArmGradle(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
