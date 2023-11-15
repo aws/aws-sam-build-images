@@ -1,5 +1,5 @@
 ARG IMAGE_ARCH
-FROM public.ecr.aws/lambda/python:3.12-preview-$IMAGE_ARCH
+FROM public.ecr.aws/lambda/python:3.12-$IMAGE_ARCH
 
 RUN dnf remove -y microdnf-dnf && \
   microdnf install -y dnf
