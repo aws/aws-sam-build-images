@@ -97,7 +97,7 @@ class BuildImageBase(TestCase):
                     "-c",
                     sam_init + " && cd sam-app && sam build",
                 ],
-                env=["LD_LIBRARY_PATH="]
+                environment=["LD_LIBRARY_PATH="]
             ).decode()
         else:
             op = self.client.containers.run(
