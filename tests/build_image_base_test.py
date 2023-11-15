@@ -8,6 +8,7 @@ import pytest
 
 class BuildImageBase(TestCase):
     __test__ = False
+    package_managers = ["yum"]
 
     @classmethod
     def setUpClass(cls, runtime, dockerfile, dep_manager=None, tag="x86_64"):
@@ -70,13 +71,14 @@ class BuildImageBase(TestCase):
         )
         self.assertTrue(self.is_package_present("aws"))
         self.assertTrue(self.is_package_present("jq"))
-        self.assertTrue(self.is_package_present("yum"))
+        for pm in self.package_managers:
+            self.assertTrue(self.is_package_present(pm))
 
     def test_sam_init(self):
         """
         Test sam init hello world application for the given runtime and dependency manager
         """
-        if self.runtime in ["provided", "provided.al2", "dotnet7"]:
+        if self.runtime in ["provided", "provided.al2", "provided.al2023", "dotnet7"]:
             pytest.skip("Skipping sam init test for self-provided images")
 
         sam_init = f"sam init \
@@ -87,14 +89,26 @@ class BuildImageBase(TestCase):
         if self.dep_manager:
             sam_init += f" --dependency-manager {self.dep_manager}"
 
-        op = self.client.containers.run(
-            image=self.image,
-            command=[
-                "/bin/sh",
-                "-c",
-                sam_init + " && cd sam-app && sam build",
-            ],
-        ).decode()
+        # For nodejs20.x set LD_LIBRARY_PATH env variable to execute sam commands
+        if self.runtime == 'nodejs20.x':
+            op = self.client.containers.run(
+                image=self.image,
+                command=[
+                    "/bin/sh",
+                    "-c",
+                    sam_init + " && cd sam-app && sam build",
+                ],
+                environment=["LD_LIBRARY_PATH="]
+            ).decode()
+        else:
+            op = self.client.containers.run(
+                image=self.image,
+                command=[
+                    "/bin/sh",
+                    "-c",
+                    sam_init + " && cd sam-app && sam build",
+                ],
+            ).decode()
         self.assertTrue(op.find("Build Succeeded"))
 
     def test_external_apps(self):
@@ -171,3 +185,7 @@ class BuildImageBase(TestCase):
             self.client.containers.run(self.image, command=["/bin/uname", "-m"])
         )
         return architecture in result
+
+
+class AL2023BasedBuildImageBase(BuildImageBase):
+    package_managers = ["dnf"]
