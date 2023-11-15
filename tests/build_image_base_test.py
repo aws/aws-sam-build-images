@@ -89,14 +89,25 @@ class BuildImageBase(TestCase):
         if self.dep_manager:
             sam_init += f" --dependency-manager {self.dep_manager}"
 
-        op = self.client.containers.run(
-            image=self.image,
-            command=[
-                "/bin/sh",
-                "-c",
-                sam_init + " && cd sam-app && sam build",
-            ],
-        ).decode()
+        if self.runtime == 'nodejs20.x':
+            op = self.client.containers.run(
+                image=self.image,
+                command=[
+                    "/bin/sh",
+                    "-c",
+                    sam_init + " && cd sam-app && sam build",
+                ],
+                env=["LD_LIBRARY_PATH="]
+            ).decode()
+        else:
+            op = self.client.containers.run(
+                image=self.image,
+                command=[
+                    "/bin/sh",
+                    "-c",
+                    sam_init + " && cd sam-app && sam build",
+                ],
+            ).decode()
         self.assertTrue(op.find("Build Succeeded"))
 
     def test_external_apps(self):
