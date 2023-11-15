@@ -24,7 +24,6 @@ RUN dnf groupinstall -y development && \
   && dnf clean all
 
 RUN mv /var/lang/bin/node /var/lang/bin/node.bin
-RUN rm /var/lang/bin/node
 RUN echo $'#!/bin/bash \n\
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH} exec node.bin -- "$@"' >> /var/lang/bin/node
 RUN chmod +x /var/lang/bin/node
