@@ -1,6 +1,6 @@
 ARG IMAGE_ARCH
 # TODO (hawflau): remove preview tag
-FROM public.ecr.aws/lambda/java:21-preview-$IMAGE_ARCH
+FROM public.ecr.aws/lambda/java:21-$IMAGE_ARCH
 
 RUN dnf remove -y microdnf-dnf && \
   microdnf install -y dnf
