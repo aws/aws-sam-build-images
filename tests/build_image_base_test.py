@@ -89,6 +89,7 @@ class BuildImageBase(TestCase):
         if self.dep_manager:
             sam_init += f" --dependency-manager {self.dep_manager}"
 
+        # For nodejs20.x set LD_LIBRARY_PATH env variable to execute sam commands
         if self.runtime == 'nodejs20.x':
             op = self.client.containers.run(
                 image=self.image,
