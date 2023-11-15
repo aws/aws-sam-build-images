@@ -335,7 +335,7 @@ class TestBINode20(AL2023BasedBuildImageBase):
 
 
 @pytest.mark.nodejs20x
-class TestBINode20ForArm(AL2023BasedBuildImageBase):
+class TestArmBINode20(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
