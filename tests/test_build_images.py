@@ -481,7 +481,7 @@ class TestBIPython311(BuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 @pytest.mark.python312
-class TestBIPython312ForArm(BuildImageBase):
+class TestBIPython312ForArm(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
@@ -497,7 +497,7 @@ class TestBIPython312ForArm(BuildImageBase):
 
 
 @pytest.mark.python312
-class TestBIPython312(BuildImageBase):
+class TestBIPython312(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
