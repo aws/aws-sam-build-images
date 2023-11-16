@@ -68,6 +68,7 @@ jobs:
           - "java8_al2"
           - "java11"
           - "java17"
+          - "java21"
           - "nodejs12x"
           - "nodejs14x"
           - "nodejs16x"

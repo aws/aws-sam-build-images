@@ -186,6 +186,6 @@ class BuildImageBase(TestCase):
         )
         return architecture in result
 
-
 class AL2023BasedBuildImageBase(BuildImageBase):
     package_managers = ["dnf"]
+
