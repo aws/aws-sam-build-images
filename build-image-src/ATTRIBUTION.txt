@@ -1721,6 +1721,9 @@ SOFTWARE.
 
 ------
 
+** dotnet; version 8.0 -- https://github.com/dotnet/core
+Copyright (c) .NET Foundation and Contributors
+
 ** dotnet; version 7.0 -- https://github.com/dotnet/core
 Copyright (c) .NET Foundation and Contributors
 

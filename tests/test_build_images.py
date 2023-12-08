@@ -678,6 +678,42 @@ class TestBIDotNet7Arm(BuildImageBase):
         self.assertTrue(self.is_package_present("dotnet"))
 
 
+@pytest.mark.dotnet8
+class TestBIDotNet8(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet8", "Dockerfile-dotnet8", tag="x86_64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "8"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
+@pytest.mark.dotnet8
+class TestBIDotNet8Arm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet8", "Dockerfile-dotnet8", tag="arm64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "8"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
 @pytest.mark.ruby27
 class TestBIRuby27(BuildImageBase):
     __test__ = True
