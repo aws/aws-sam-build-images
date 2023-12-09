@@ -679,7 +679,7 @@ class TestBIDotNet7Arm(BuildImageBase):
 
 
 @pytest.mark.dotnet8
-class TestBIDotNet8(BuildImageBase):
+class TestBIDotNet8(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
@@ -697,7 +697,7 @@ class TestBIDotNet8(BuildImageBase):
 
 
 @pytest.mark.dotnet8
-class TestBIDotNet8Arm(BuildImageBase):
+class TestBIDotNet8Arm(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
