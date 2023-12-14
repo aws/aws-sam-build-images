@@ -260,7 +260,7 @@ class TestBIJava21ForArmGradle(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_package_present("gradle"))
         self.assertTrue(self.is_architecture("aarch64"))
 
-@pytest.mark.nodejs12x
+@pytest.mark.nodejs12xX86_64
 class TestBINode12(BuildImageBase):
     __test__ = True
 
@@ -277,7 +277,7 @@ class TestBINode12(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.nodejs12x
+@pytest.mark.nodejs12xArm64
 class TestBINode12ForArm(BuildImageBase):
     __test__ = True
 
@@ -294,7 +294,7 @@ class TestBINode12ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-@pytest.mark.nodejs14x
+@pytest.mark.nodejs14xX86_64
 class TestBINode14(BuildImageBase):
     __test__ = True
 
@@ -311,7 +311,7 @@ class TestBINode14(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.nodejs14x
+@pytest.mark.nodejs14xArm64
 class TestBINode14ForArm(BuildImageBase):
     __test__ = True
 
@@ -328,7 +328,7 @@ class TestBINode14ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-@pytest.mark.nodejs16x
+@pytest.mark.nodejs16xX86_64
 class TestBINode16(BuildImageBase):
     __test__ = True
 
@@ -345,7 +345,7 @@ class TestBINode16(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.nodejs16x
+@pytest.mark.nodejs16xArm64
 class TestBINode16ForArm(BuildImageBase):
     __test__ = True
 
@@ -362,7 +362,7 @@ class TestBINode16ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-@pytest.mark.nodejs18x
+@pytest.mark.nodejs18xX86_64
 class TestBINode18(BuildImageBase):
     __test__ = True
 
@@ -379,7 +379,7 @@ class TestBINode18(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.nodejs18x
+@pytest.mark.nodejs18xArm64
 class TestBINode18ForArm(BuildImageBase):
     __test__ = True
 
@@ -395,7 +395,7 @@ class TestBINode18ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("npm"))
         self.assertTrue(self.is_architecture("aarch64"))
 
-@pytest.mark.nodejs20x
+@pytest.mark.nodejs20xX86_64
 class TestBINode20(AL2023BasedBuildImageBase):
     __test__ = True
 
@@ -412,7 +412,7 @@ class TestBINode20(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.nodejs20x
+@pytest.mark.nodejs20xArm64
 class TestBINode20ForArm(AL2023BasedBuildImageBase):
     __test__ = True
 
