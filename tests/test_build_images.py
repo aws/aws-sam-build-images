@@ -446,7 +446,7 @@ class TestBIPython37(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.python38
+@pytest.mark.python38X86_64
 class TestBIPython38(BuildImageBase):
     __test__ = True
 
@@ -463,7 +463,7 @@ class TestBIPython38(BuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.python38
+@pytest.mark.python38Arm64
 class TestBIPython38ForArm(BuildImageBase):
     __test__ = True
 
@@ -480,7 +480,7 @@ class TestBIPython38ForArm(BuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-@pytest.mark.python39
+@pytest.mark.python39X86_64
 class TestBIPython39(BuildImageBase):
     __test__ = True
 
@@ -496,7 +496,7 @@ class TestBIPython39(BuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 
-@pytest.mark.python310
+@pytest.mark.python310Arm64
 class TestBIPython310ForArm(BuildImageBase):
     __test__ = True
 
@@ -512,7 +512,7 @@ class TestBIPython310ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 
-@pytest.mark.python310
+@pytest.mark.python310X86_64
 class TestBIPython310(BuildImageBase):
     __test__ = True
 
@@ -590,7 +590,7 @@ class TestBIPython312(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 
-@pytest.mark.python39
+@pytest.mark.python39Arm64
 class TestBIPython39ForArm(BuildImageBase):
     __test__ = True
 
