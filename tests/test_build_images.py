@@ -527,7 +527,7 @@ class TestBIPython310(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
         self.assertTrue(self.is_package_present("pip"))
 
-@pytest.mark.python311
+@pytest.mark.python311Arm64
 class TestBIPython311ForArm(BuildImageBase):
     __test__ = True
 
@@ -543,7 +543,7 @@ class TestBIPython311ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("pip"))
 
 
-@pytest.mark.python311
+@pytest.mark.python311X86_64
 class TestBIPython311(BuildImageBase):
     __test__ = True
 
