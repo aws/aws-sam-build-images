@@ -25,6 +25,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "a
 
 # Install SAM CLI in a dedicated Python virtualenv
 ARG SAM_CLI_VERSION
+ARG IMAGE_ARCH # need to redefine since ARG is not available after FROM tag: https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERSION/aws-sam-cli-linux-$IMAGE_ARCH.zip" -o "samcli.zip" && \
   unzip samcli.zip -d sam-installation && ./sam-installation/install && \
   rm samcli.zip && rm -rf sam-installation && sam --version
