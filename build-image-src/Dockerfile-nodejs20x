@@ -43,7 +43,7 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERS
 # Prepare virtualenv for lambda builders
 RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
+RUN LD_LIBRARY_PATH= /usr/local/opt/lambda-builders/bin/python3 get-pip.py
 # Install lambda builders in a dedicated Python virtualenv
 # Nodejs20 uses a different version (3.1.3) of OpenSSL. This caused an error when Python (installed via dnf) tries to use the ssl module.
 # Temporarily set LD_LIBRARY_PATH to empty for python and pip to pick up the right OpenSSL version
