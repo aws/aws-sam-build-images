@@ -4,6 +4,8 @@ import os
 import tarfile
 import docker  # type: ignore
 import pytest
+import tempfile
+import subprocess
 
 
 class BuildImageBase(TestCase):
@@ -142,6 +144,33 @@ class BuildImageBase(TestCase):
                 container.kill()
 
                 self.assertTrue(out.decode().find("Build Succeeded"))
+    
+    def test_containerized_build(self):
+        init_args = [
+            "sam", 
+            "init", 
+            "--no-interactive", 
+            "--runtime",  self.runtime, 
+            "--app-template", "hello-world", 
+            "--name", "sam-app", 
+            "--dependency-manager", self.dep_manager, 
+            "--architecture", self.tag
+        ]
+        build_args = [
+            "sam", "build", "--use-container", "--build-image", self.image
+        ]
+        invoke_args = [
+            "sam", "local", "invoke", "HelloWorldFunction"
+        ]
+        with tempfile.TemporaryDirectory() as tmpdir:
+            init_result = subprocess.run(init_args, cwd=tmpdir)
+            self.assertEqual(init_result.returncode, 0)
+
+            build_result = subprocess.run(build_args, cwd=os.path.join(tmpdir, "sam-app"))
+            self.assertEqual(build_result.returncode, 0)
+
+            invoke_result = subprocess.run(invoke_args, cwd=os.path.join(tmpdir, "sam-app"))
+            self.assertEqual(invoke_result.returncode, 0)
 
     def is_package_present(self, package):
         """
