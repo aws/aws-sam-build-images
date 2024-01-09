@@ -56,7 +56,7 @@ jobs:
           python-version: "3.9"
       - run: |
           : install sam cli
-          wget https://github.com/aws/aws-sam-cli/releases/download/${{needs.get-sam-cli-version.outputs.sam_cli_version}}/aws-sam-cli-linux-x86_64.zip
+          wget https://github.com/aws/aws-sam-cli/releases/download/v${{needs.get-sam-cli-version.outputs.sam_cli_version}}/aws-sam-cli-linux-x86_64.zip
           unzip aws-sam-cli-linux-arm64.zip -d sam-installation
           ./sam-installation/install
           sam --version
@@ -96,6 +96,12 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.9"
+      - run: |
+          : install sam cli
+          wget https://github.com/aws/aws-sam-cli/releases/download/v${{needs.get-sam-cli-version.outputs.sam_cli_version}}/aws-sam-cli-linux-x86_64.zip
+          unzip aws-sam-cli-linux-arm64.zip -d sam-installation
+          ./sam-installation/install
+          sam --version
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-multi-arch
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
