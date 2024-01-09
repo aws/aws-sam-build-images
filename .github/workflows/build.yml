@@ -58,7 +58,7 @@ jobs:
           : install sam cli
           wget https://github.com/aws/aws-sam-cli/releases/download/v${{needs.get-sam-cli-version.outputs.sam_cli_version}}/aws-sam-cli-linux-x86_64.zip
           unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
-          ./sam-installation/install --update
+          sudo ./sam-installation/install --update
           sam --version
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-single-arch
@@ -100,7 +100,7 @@ jobs:
           : install sam cli
           wget https://github.com/aws/aws-sam-cli/releases/download/v${{needs.get-sam-cli-version.outputs.sam_cli_version}}/aws-sam-cli-linux-x86_64.zip
           unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
-          ./sam-installation/install --update
+          sudo ./sam-installation/install --update
           sam --version
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-multi-arch
