@@ -21,7 +21,6 @@ RUN yum groupinstall -y development && \
   liblzma-dev \
   libxslt-devel \
   libmpc-devel \
-  java-1.8.0-openjdk-devel \
   && yum clean all
 
 # Include build tools for the Function Build image.
@@ -62,7 +61,7 @@ RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.or
 
 ENV PATH="/usr/local/gradle/gradle-6.2.2/bin:/usr/local/maven/apache-maven-3.8.8/bin:${PATH}"
 
-ENV JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk"
+ENV JAVA_HOME="/usr/lib/jvm/java-1.8.0-amazon-corretto"
 
 COPY ATTRIBUTION.txt /
 
