@@ -21,7 +21,6 @@ RUN yum groupinstall -y development && \
   liblzma-dev \
   libxslt-devel \
   libmpc-devel \
-  java-1.8.0-openjdk-devel \
   && yum clean all
 
 # Include build tools for the Function Build image.
