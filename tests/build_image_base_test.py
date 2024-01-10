@@ -8,6 +8,14 @@ import tempfile
 import subprocess
 
 
+# These are the runtimes which doesn't have hello-world template, skipping them
+# for running `sam build -u` tests
+SKIP_CONTAINERIZED_BUILD_TESTS = {"provided", "provided.al2", "provided.al2023", "dotnet7"}
+# These are the runtimes which requires `--mount-with WRITE` option to build functions
+# in a containerized build
+MOUNT_WITH_WRITE_RUNTIMES = {"dotnet6"}
+
+
 class BuildImageBase(TestCase):
     __test__ = False
     package_managers = ["yum"]
@@ -146,6 +154,8 @@ class BuildImageBase(TestCase):
                 self.assertTrue(out.decode().find("Build Succeeded"))
     
     def test_containerized_build(self):
+        if self.runtime in SKIP_CONTAINERIZED_BUILD_TESTS:
+            self.skipTest(f"Skipping for {self.runtime}")
         init_args = [
             "sam", 
             "init", 
@@ -159,6 +169,9 @@ class BuildImageBase(TestCase):
         build_args = [
             "sam", "build", "--use-container", "--build-image", self.image
         ]
+        # add --mount-with WRITE option for dotnet runtimes
+        if self.runtime in MOUNT_WITH_WRITE_RUNTIMES:
+            build_args += ["--mount-with", "WRITE"]
         invoke_args = [
             "sam", "local", "invoke", "HelloWorldFunction"
         ]
