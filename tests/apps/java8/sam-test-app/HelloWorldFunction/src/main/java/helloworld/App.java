@@ -31,7 +31,7 @@ public class App implements RequestHandler<APIGatewayProxyRequestEvent, APIGatew
             return response
                     .withStatusCode(200)
                     .withBody(output);
-        } catch (IOException e) {
+        } catch (Exception e) {
             return response
                     .withBody("{}")
                     .withStatusCode(500);
