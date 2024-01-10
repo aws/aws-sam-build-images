@@ -111,23 +111,24 @@ class BuildImageBase(TestCase):
                 environment=["LD_LIBRARY_PATH="]
             ).decode()
         else:
-            op = self.client.containers.run(
-                image=self.image,
-                command=[
-                    "/bin/sh",
-                    "-c",
-                    sam_init + " && cd sam-app && sam build --debug",
-                ],
-            ).decode()
             if self.runtime == "java8":
                 op = self.client.containers.run(
-                image=self.image,
-                command=[
-                    "/bin/sh",
-                    "-c",
-                    sam_init + " && cd sam-app && cd HelloWorldFunction && mvn clean install",
-                ],
-            ).decode()
+                    image=self.image,
+                    command=[
+                        "/bin/sh",
+                        "-c",
+                        sam_init + " && cd sam-app && cd HelloWorldFunction && mvn clean install",
+                    ],
+                ).decode()
+            else:
+                op = self.client.containers.run(
+                    image=self.image,
+                    command=[
+                        "/bin/sh",
+                        "-c",
+                        sam_init + " && cd sam-app && sam build --debug",
+                    ],
+                ).decode()
         self.assertTrue(op.find("Build Succeeded"))
 
     def test_external_apps(self):
