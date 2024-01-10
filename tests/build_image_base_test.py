@@ -116,7 +116,16 @@ class BuildImageBase(TestCase):
                 command=[
                     "/bin/sh",
                     "-c",
-                    sam_init + " && cd sam-app && sam build",
+                    sam_init + " && cd sam-app && sam build --debug",
+                ],
+            ).decode()
+            if self.runtime == "java8":
+                op = self.client.containers.run(
+                image=self.image,
+                command=[
+                    "/bin/sh",
+                    "-c",
+                    sam_init + " && cd sam-app && cd HelloWorldFunction && mvn clean install",
                 ],
             ).decode()
         self.assertTrue(op.find("Build Succeeded"))
