@@ -54,12 +54,9 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.9"
-      - run: |
-          : install sam cli
-          wget https://github.com/aws/aws-sam-cli/releases/download/v${{needs.get-sam-cli-version.outputs.sam_cli_version}}/aws-sam-cli-linux-x86_64.zip
-          unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
-          sudo ./sam-installation/install --update
-          sam --version
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-single-arch
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
@@ -96,12 +93,9 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.9"
-      - run: |
-          : install sam cli
-          wget https://github.com/aws/aws-sam-cli/releases/download/v${{needs.get-sam-cli-version.outputs.sam_cli_version}}/aws-sam-cli-linux-x86_64.zip
-          unzip aws-sam-cli-linux-x86_64.zip -d sam-installation
-          sudo ./sam-installation/install --update
-          sam --version
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-multi-arch
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
