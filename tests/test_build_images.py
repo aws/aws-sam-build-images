@@ -837,6 +837,12 @@ class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.is_architecture("x86_64"))
 
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
 
 @pytest.mark.provided_al2023
 class TestBIProvidedAL2023ForArm(BuildImageBase):
@@ -852,3 +858,10 @@ class TestBIProvidedAL2023ForArm(BuildImageBase):
         Test architecture of this build image
         """
         self.assertTrue(self.is_architecture("aarch64"))
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
