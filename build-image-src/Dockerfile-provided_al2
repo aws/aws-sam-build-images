@@ -49,9 +49,10 @@ ENV PATH=$PATH:/usr/local/opt/sam-cli/bin
 
 # Install Go
 ARG GO_ARCH
+RUN echo $(curl -L "https://go.dev/VERSION/?m=text" | grep go1.)
 RUN export GO_VERSION=$(curl -L "https://go.dev/VERSION/?m=text" | grep go1.)
-RUN echo "Download Go installer from https://go.dev/dl/${GO_VERSION}.linux-$GO_ARCH.tar.gz"
-RUN curl -L https://go.dev/dl/${GO_VERSION}.linux-$GO_ARCH.tar.gz | tar -zx -C /usr/local
+RUN echo "Download Go installer from https://go.dev/dl/$(curl -L "https://go.dev/VERSION/?m=text" | grep go1.).linux-$GO_ARCH.tar.gz"
+RUN curl -L https://go.dev/dl/$(curl -L "https://go.dev/VERSION/?m=text" | grep go1.).linux-$GO_ARCH.tar.gz | tar -zx -C /usr/local
 ENV PATH=$PATH:/usr/local/go/bin:/root/go/bin
 # Set GOPROXY envvar to avoid using the default proxy.golang.org proxy
 ENV GOPROXY=direct
