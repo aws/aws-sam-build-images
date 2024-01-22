@@ -1,4 +1,5 @@
-FROM public.ecr.aws/lambda/dotnet:7
+ARG IMAGE_ARCH
+FROM public.ecr.aws/lambda/dotnet:7-$IMAGE_ARCH
 
 RUN yum groupinstall -y development && \
   yum install -d1 -y \
@@ -6,7 +7,6 @@ RUN yum groupinstall -y development && \
   tar \
   gzip \
   unzip \
-  python3 \
   jq \
   grep \
   curl \
@@ -18,21 +18,34 @@ RUN yum groupinstall -y development && \
   libgmp3-dev \
   zlib1g-dev \
   libmpc-devel \
-  python3-devel \
+  amazon-linux-extras \
   clang krb5-devel \
   openssl-devel \
   llvm \
-  libicu \
-  && yum clean all
+  libicu
+
+RUN yum remove -y python3 python3-devel
+
+# Install extras so that Python 3.8 is installable
+# https://aws.amazon.com/amazon-linux-2/faqs/#Amazon_Linux_Extras
+RUN amazon-linux-extras enable python3.8 && \
+  yum clean metadata && \
+  yum install -y python38 python38-devel && \
+  yum clean all && \
+  ln -s /usr/bin/python3.8 /usr/bin/python3 && \
+  ln -s /usr/bin/pip3.8 /usr/bin/pip3 && \
+  python3 --version && \
+  pip3 --version
 
 # Install AWS CLI
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip && rm -rf ./aws
+ARG AWS_CLI_ARCH
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip && rm -rf ./aws
 
 # Install SAM CLI in a dedicated Python virtualenv
 ARG SAM_CLI_VERSION
 RUN curl -L "https://github.com/awslabs/aws-sam-cli/archive/v${SAM_CLI_VERSION}.zip" -o ./samcli.zip && \
   unzip samcli.zip && python3 -m venv /usr/local/opt/sam-cli && \
-  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install -r "./aws-sam-cli-${SAM_CLI_VERSION}/requirements/reproducible-linux.txt" && \
+  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install -r "./aws-sam-cli-${SAM_CLI_VERSION}/requirements/base.txt" && \
   /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install "./aws-sam-cli-${SAM_CLI_VERSION}" && \
   rm ./samcli.zip && rm -rf "./aws-sam-cli-${SAM_CLI_VERSION}"
 
@@ -75,9 +88,20 @@ RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -s -- -c 7.0 -i "${DOTNE
 #   `sam build`) will pick up the newly installed, globally installed version of the tool.
 ENV PATH=~/.dotnet/tools:$PATH
 
-RUN dotnet tool install --tool-path "${DOTNET_ROOT}" Amazon.Lambda.Tools
+# We're using the -v diag argument to output extra logs because in the past we've seen intermittent failures
+# and want to be able to better understand them if they happen again
+RUN dotnet tool install --tool-path "${DOTNET_ROOT}" Amazon.Lambda.Tools -v diag
 
 COPY ATTRIBUTION.txt /
+
+# Runtime environment variables need to be defined after installation of all dotnet tools.
+# These variables define the tmp home directory for .NET CLI and the migration directory for NuGet in container.
+# .NET `sam build` requires tmp diretories being set for current user because it runs docker
+# as current/non-root user (unless current user is root) on posix systems.
+# That user will make/own these directory in container during the runtime.
+# They work the same as using docker arguments `-e DOTNET_CLI_HOME=/tmp/dotnet XDG_DATA_HOME=/tmp/xdg`
+ENV DOTNET_CLI_HOME=/tmp/dotnet
+ENV XDG_DATA_HOME=/tmp/xdg
 
 # Compatible with initial base image
 ENTRYPOINT []

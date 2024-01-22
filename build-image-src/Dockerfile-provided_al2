@@ -1,18 +1,12 @@
 ARG IMAGE_ARCH
-FROM public.ecr.aws/sam/emulation-provided.al2:latest-$IMAGE_ARCH
+FROM public.ecr.aws/lambda/provided:al2-$IMAGE_ARCH
 
-# To learn more context around use of `amazonlinux:2` image please read comment in java11/build/Dockerfile
-FROM public.ecr.aws/amazonlinux/amazonlinux:2
-COPY --from=0 / /rootfs
-
-# Installing by yum at copied location
-RUN yum groupinstall -y development --installroot=/rootfs && \
-  yum install -d1 --installroot=/rootfs -y \
+RUN yum groupinstall -y development && \
+  yum install -d1 -y \
   yum \
   tar \
   gzip \
   unzip \
-  python3 \
   jq \
   grep \
   curl \
@@ -26,12 +20,18 @@ RUN yum groupinstall -y development --installroot=/rootfs && \
   liblzma-dev \
   libxslt-devel \
   libmpc-devel \
-  python3-devel \
-  && yum clean all
+  amazon-linux-extras
 
-# Copying root from AL2 to runtimes image
-FROM public.ecr.aws/sam/emulation-provided.al2:latest-$IMAGE_ARCH
-COPY --from=1 /rootfs /
+# Install extras so that Python 3.8 is installable
+# https://aws.amazon.com/amazon-linux-2/faqs/#Amazon_Linux_Extras
+RUN amazon-linux-extras enable python3.8 && \
+  yum clean metadata && \
+  yum install -y python38 python38-devel && \
+  yum clean all && \
+  ln -s /usr/bin/python3.8 /usr/bin/python3 && \
+  ln -s /usr/bin/pip3.8 /usr/bin/pip3 && \
+  python3 --version && \
+  pip3 --version
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
@@ -61,3 +61,7 @@ ENV LANG=en_US.UTF-8
 RUN pip3 install wheel
 
 COPY ATTRIBUTION.txt /
+
+# Compatible with initial base image
+ENTRYPOINT []
+CMD ["/bin/bash"]

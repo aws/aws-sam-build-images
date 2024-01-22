@@ -1,11 +1,13 @@
-FROM public.ecr.aws/sam/emulation-go1.x
+# reset to the latest emulation image after the raised issue got solved.
+# FROM public.ecr.aws/lambda/go:1
+FROM public.ecr.aws/lambda/go:1.2023.08.02.10
 
 RUN yum groupinstall -y development && \
   yum install -d1 -y \
   tar \
   gzip \
   unzip \
-  python3 \
+  python38 \
   jq \
   git \
   grep \
@@ -23,7 +25,7 @@ RUN yum groupinstall -y development && \
   && yum clean all
 
 # Install Go
-RUN curl -L https://go.dev/dl/go1.19.linux-amd64.tar.gz | tar -zx -C /usr/local
+RUN curl -L https://go.dev/dl/go1.20.linux-amd64.tar.gz | tar -zx -C /usr/local
 ENV PATH=$PATH:/usr/local/go/bin:/root/go/bin
 # Set GOPROXY envvar to avoid using the default proxy.golang.org proxy
 ENV GOPROXY=direct
@@ -37,9 +39,12 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERS
   unzip samcli.zip -d sam-installation && ./sam-installation/install && \
   rm samcli.zip && rm -rf sam-installation && sam --version
 
+# Prepare virtualenv for lambda builders
+RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
 # Install lambda builders in a dedicated Python virtualenv
 RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/requirements/base.txt | grep aws_lambda_builders | cut -d= -f3) && \
-  python3 -m venv /usr/local/opt/lambda-builders && \
   /usr/local/opt/lambda-builders/bin/pip3 --no-cache-dir install "aws-lambda-builders==$AWS_LB_VERSION"
 
 ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
@@ -51,3 +56,7 @@ ENV LANG=en_US.UTF-8
 RUN pip3 install wheel
 
 COPY ATTRIBUTION.txt /
+
+# Compatible with initial base image
+ENTRYPOINT []
+CMD ["/bin/bash"]
