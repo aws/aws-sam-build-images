@@ -22,15 +22,23 @@ ARG AWS_CLI_ARCH
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip"
 RUN unzip awscliv2.zip && ./aws/install && rm awscliv2.zip && rm -rf ./aws
 
-# Install SAM CLI in a dedicated Python virtualenv
+# Install SAM CLI from native installer
 ARG SAM_CLI_VERSION
-RUN curl -L "https://github.com/awslabs/aws-sam-cli/archive/v$SAM_CLI_VERSION.zip" -o "samcli.zip" && \
-  unzip samcli.zip && python3 -m venv /usr/local/opt/sam-cli && \
-  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install -r ./aws-sam-cli-$SAM_CLI_VERSION/requirements/base.txt && \
-  /usr/local/opt/sam-cli/bin/pip3 --no-cache-dir install ./aws-sam-cli-$SAM_CLI_VERSION && \
-  rm samcli.zip && rm -rf aws-sam-cli-$SAM_CLI_VERSION
+# need to redefine since ARG is not available after FROM tag: https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
+ARG IMAGE_ARCH
+RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERSION/aws-sam-cli-linux-$IMAGE_ARCH.zip" -o "samcli.zip" && \
+  unzip samcli.zip -d sam-installation && ./sam-installation/install && \
+  rm samcli.zip && rm -rf sam-installation && sam --version
 
-ENV PATH=$PATH:/usr/local/opt/sam-cli/bin
+# Prepare virtualenv for lambda builders
+RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
+# Install lambda builders in a dedicated Python virtualenv
+RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/requirements/base.txt | grep aws_lambda_builders | cut -d= -f3) && \
+  /usr/local/opt/lambda-builders/bin/pip3 --no-cache-dir install "aws-lambda-builders==$AWS_LB_VERSION"
+
+ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
 
 ENV LANG=en_US.UTF-8
 
