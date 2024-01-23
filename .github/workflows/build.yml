@@ -54,6 +54,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.9"
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-single-arch
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
@@ -90,6 +93,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.9"
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-multi-arch
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
