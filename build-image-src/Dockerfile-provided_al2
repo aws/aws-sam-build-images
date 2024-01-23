@@ -55,6 +55,13 @@ RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli
 
 ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
 
+# Install Go
+ARG GO_ARCH
+RUN curl -L https://go.dev/dl/$(curl -L "https://go.dev/VERSION/?m=text" | grep go1.).linux-$GO_ARCH.tar.gz | tar -zx -C /usr/local
+ENV PATH=$PATH:/usr/local/go/bin:/root/go/bin
+# Set GOPROXY envvar to avoid using the default proxy.golang.org proxy
+ENV GOPROXY=direct
+
 ENV LANG=en_US.UTF-8
 
 # Wheel is required by SAM CLI to build libraries like cryptography. It needs to be installed in the system
