@@ -845,9 +845,8 @@ class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_package_present("go"))
 
 @pytest.mark.provided_al2023
-class TestBIProvidedAL2023ForArm(BuildImageBase):
+class TestBIProvidedAL2023ForArm(AL2023BasedBuildImageBase):
     __test__ = True
-    package_managers = ["dnf"]
 
     @classmethod
     def setUpClass(cls):
