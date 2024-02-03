@@ -59,9 +59,9 @@ build-multi-arch: pre-build
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=aarch64 --build-arg GO_ARCH=arm64 --build-arg IMAGE_ARCH=arm64 ./build-image-src
 
 build-x86-64-arch: pre-build
-	if [ $(RUNTIME) = go1x ]
+	if [ $(RUNTIME) = go1x ];
 	then
-	   build-single-arch
+	   build-single-arch;
 	else
 	   docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=x86_64 --build-arg GO_ARCH=amd64 --build-arg IMAGE_ARCH=x86_64 ./build-image-src
 	fi
