@@ -181,6 +181,7 @@ class TestBIJava17AL2ForArmGradle(BuildImageBase):
         self.assertTrue(self.is_package_present("gradle"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+
 @pytest.mark.java21
 class TestBIJava21Maven(AL2023BasedBuildImageBase):
     __test__ = True
@@ -259,6 +260,7 @@ class TestBIJava21ForArmGradle(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_package_present("mvn"))
         self.assertTrue(self.is_package_present("gradle"))
         self.assertTrue(self.is_architecture("aarch64"))
+
 
 @pytest.mark.nodejs12x
 class TestBINode12(BuildImageBase):
@@ -395,6 +397,7 @@ class TestBINode18ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("npm"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+
 @pytest.mark.nodejs20x
 class TestBINode20(AL2023BasedBuildImageBase):
     __test__ = True
@@ -527,6 +530,7 @@ class TestBIPython310(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
         self.assertTrue(self.is_package_present("pip"))
 
+
 @pytest.mark.python311
 class TestBIPython311ForArm(BuildImageBase):
     __test__ = True
@@ -557,6 +561,7 @@ class TestBIPython311(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
         self.assertTrue(self.is_package_present("pip"))
+
 
 @pytest.mark.python312
 class TestBIPython312ForArm(AL2023BasedBuildImageBase):
@@ -678,41 +683,6 @@ class TestBIDotNet7Arm(BuildImageBase):
         self.assertTrue(self.is_package_present("dotnet"))
 
 
-@pytest.mark.ruby27
-class TestBIRuby27(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("ruby2.7", "Dockerfile-ruby27", "bundler", tag="x86_64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("ruby --version", "ruby 2.7."))
-        self.assertTrue(self.is_package_present("bundler"))
-        self.assertTrue(self.is_package_present("gem"))
-        self.assertTrue(self.is_architecture("x86_64"))
-
-
-@pytest.mark.ruby27
-class TestBIRuby27ForArm(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("ruby2.7", "Dockerfile-ruby27", "bundler", tag="arm64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("ruby --version", "ruby 2.7."))
-        self.assertTrue(self.is_package_present("bundler"))
-        self.assertTrue(self.is_package_present("gem"))
-        self.assertTrue(self.is_architecture("aarch64"))
-
 @pytest.mark.ruby32
 class TestBIRuby32(BuildImageBase):
     __test__ = True
@@ -730,6 +700,7 @@ class TestBIRuby32(BuildImageBase):
         self.assertTrue(self.is_package_present("gem"))
         self.assertTrue(self.is_architecture("x86_64"))
 
+
 @pytest.mark.ruby32
 class TestBIRuby32ForArm(BuildImageBase):
     __test__ = True
@@ -746,6 +717,7 @@ class TestBIRuby32ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("bundler"))
         self.assertTrue(self.is_package_present("gem"))
         self.assertTrue(self.is_architecture("aarch64"))
+
 
 @pytest.mark.go1x
 class TestBIGo1(BuildImageBase):
@@ -792,7 +764,7 @@ class TestBIProvidedAL2(BuildImageBase):
         Test architecture of this build image
         """
         self.assertTrue(self.is_architecture("x86_64"))
-    
+
     def test_packages(self):
         """
         Test packages specific to this build image
@@ -829,7 +801,9 @@ class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("provided.al2023", "Dockerfile-provided-al2023", tag="x86_64")
+        super().setUpClass(
+            "provided.al2023", "Dockerfile-provided-al2023", tag="x86_64"
+        )
 
     def test_architecture(self):
         """
@@ -843,6 +817,7 @@ class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("go version", "go1."))
         self.assertTrue(self.is_package_present("go"))
+
 
 @pytest.mark.provided_al2023
 class TestBIProvidedAL2023ForArm(AL2023BasedBuildImageBase):
