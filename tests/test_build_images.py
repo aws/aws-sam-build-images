@@ -807,6 +807,13 @@ class TestBIProvided(BuildImageBase):
     def setUpClass(cls):
         super().setUpClass("provided", "Dockerfile-provided")
 
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
+
 
 @pytest.mark.provided_al2
 class TestBIProvidedAL2(BuildImageBase):
@@ -821,6 +828,13 @@ class TestBIProvidedAL2(BuildImageBase):
         Test architecture of this build image
         """
         self.assertTrue(self.is_architecture("x86_64"))
+    
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
 
 
 @pytest.mark.provided_al2
@@ -837,6 +851,13 @@ class TestBIProvidedAL2ForArm(BuildImageBase):
         """
         self.assertTrue(self.is_architecture("aarch64"))
 
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
+
 
 @pytest.mark.provided_al2023
 class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
@@ -852,11 +873,16 @@ class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.is_architecture("x86_64"))
 
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
 
 @pytest.mark.provided_al2023
-class TestBIProvidedAL2023ForArm(BuildImageBase):
+class TestBIProvidedAL2023ForArm(AL2023BasedBuildImageBase):
     __test__ = True
-    package_managers = ["dnf"]
 
     @classmethod
     def setUpClass(cls):
@@ -867,3 +893,10 @@ class TestBIProvidedAL2023ForArm(BuildImageBase):
         Test architecture of this build image
         """
         self.assertTrue(self.is_architecture("aarch64"))
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))

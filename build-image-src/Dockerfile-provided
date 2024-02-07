@@ -48,6 +48,12 @@ ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
 # Python for it to be picked up during `sam build`
 RUN pip3 install wheel
 
+# Install Go
+RUN curl -L https://go.dev/dl/$(curl -L "https://go.dev/VERSION/?m=text" | grep go1.).linux-amd64.tar.gz | tar -zx -C /usr/local
+ENV PATH=$PATH:/usr/local/go/bin:/root/go/bin
+# Set GOPROXY envvar to avoid using the default proxy.golang.org proxy
+ENV GOPROXY=direct
+
 ENV LANG=en_US.UTF-8
 
 ENV PATH=/var/lang/bin:$PATH
