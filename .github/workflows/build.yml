@@ -45,7 +45,6 @@ jobs:
         runtime:
           - "java8"
           - "provided"
-          - "python37"
           - "go1x"
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
