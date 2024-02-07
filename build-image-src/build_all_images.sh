@@ -19,7 +19,6 @@ export DOCKER_CLI_EXPERIMENTAL=enabled
 # Single arch images
 docker build -f Dockerfile-java8 -t amazon/aws-sam-cli-build-image-java8:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION . &
 docker build -f Dockerfile-provided -t amazon/aws-sam-cli-build-image-provided:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION . &
-docker build -f Dockerfile-python37 -t amazon/aws-sam-cli-build-image-python3.7:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION . &
 docker build -f Dockerfile-go1x -t amazon/aws-sam-cli-build-image-go1.x:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION . &
 wait
 
