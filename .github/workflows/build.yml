@@ -49,10 +49,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.9"
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-single-arch
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
@@ -67,6 +70,7 @@ jobs:
           - "java8_al2"
           - "java11"
           - "java17"
+          - "java21"
           - "nodejs12x"
           - "nodejs14x"
           - "nodejs16x"
@@ -78,15 +82,19 @@ jobs:
           - "python39"
           - "python310"
           - "python311"
+          - "python312"
           - "ruby27"
           - "ruby32"
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.9"
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-multi-arch
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test

@@ -181,6 +181,84 @@ class TestBIJava17AL2ForArmGradle(BuildImageBase):
         self.assertTrue(self.is_package_present("gradle"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+@pytest.mark.java21
+class TestBIJava21Maven(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java21", "Dockerfile-java21", "maven", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "21.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java21
+class TestBIJava21ForArmMaven(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java21", "Dockerfile-java21", "maven", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "21.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
+@pytest.mark.java21
+class TestBIJava21Gradle(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java21", "Dockerfile-java21", "gradle", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "21', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java21
+class TestBIJava21ForArmGradle(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java21", "Dockerfile-java21", "gradle", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "21', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
 
 @pytest.mark.nodejs12x
 class TestBINode12(BuildImageBase):
@@ -463,6 +541,37 @@ class TestBIPython311(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
         self.assertTrue(self.is_package_present("pip"))
 
+@pytest.mark.python312
+class TestBIPython312ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.12", "Dockerfile-python312", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.12."))
+        self.assertTrue(self.is_package_present("pip"))
+
+
+@pytest.mark.python312
+class TestBIPython312(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.12", "Dockerfile-python312", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.12."))
+        self.assertTrue(self.is_package_present("pip"))
+
 
 @pytest.mark.python39
 class TestBIPython39ForArm(BuildImageBase):
@@ -645,6 +754,13 @@ class TestBIProvided(BuildImageBase):
     def setUpClass(cls):
         super().setUpClass("provided", "Dockerfile-provided")
 
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
+
 
 @pytest.mark.provided_al2
 class TestBIProvidedAL2(BuildImageBase):
@@ -659,6 +775,13 @@ class TestBIProvidedAL2(BuildImageBase):
         Test architecture of this build image
         """
         self.assertTrue(self.is_architecture("x86_64"))
+    
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
 
 
 @pytest.mark.provided_al2
@@ -675,6 +798,13 @@ class TestBIProvidedAL2ForArm(BuildImageBase):
         """
         self.assertTrue(self.is_architecture("aarch64"))
 
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
+
 
 @pytest.mark.provided_al2023
 class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
@@ -690,11 +820,16 @@ class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.is_architecture("x86_64"))
 
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))
 
 @pytest.mark.provided_al2023
-class TestBIProvidedAL2023ForArm(BuildImageBase):
+class TestBIProvidedAL2023ForArm(AL2023BasedBuildImageBase):
     __test__ = True
-    package_managers = ["dnf"]
 
     @classmethod
     def setUpClass(cls):
@@ -705,3 +840,10 @@ class TestBIProvidedAL2023ForArm(BuildImageBase):
         Test architecture of this build image
         """
         self.assertTrue(self.is_architecture("aarch64"))
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("go version", "go1."))
+        self.assertTrue(self.is_package_present("go"))

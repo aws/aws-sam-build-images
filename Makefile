@@ -12,6 +12,7 @@ IS_dotnet7 := dotnet7
 IS_java8_al2 := java8.al2
 IS_java11 := java11
 IS_java17 := java17
+IS_java21 := java21
 IS_nodejs12x := nodejs12.x
 IS_nodejs14x := nodejs14.x
 IS_nodejs16x := nodejs16.x
@@ -23,6 +24,7 @@ IS_python38 := python3.8
 IS_python39 := python3.9
 IS_python310 := python3.10
 IS_python311 := python3.11
+IS_python312 := python3.12
 IS_ruby27 := ruby2.7
 IS_ruby32 := ruby3.2
 
@@ -51,9 +53,9 @@ build-single-arch: pre-build
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) ./build-image-src
 
 build-multi-arch: pre-build
-	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 ./build-image-src
+	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=x86_64 --build-arg GO_ARCH=amd64 --build-arg IMAGE_ARCH=x86_64 ./build-image-src
 	docker run --privileged --rm tonistiigi/binfmt --install arm64
-	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 ./build-image-src
+	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=aarch64 --build-arg GO_ARCH=arm64 --build-arg IMAGE_ARCH=arm64 ./build-image-src
 
 test: pre-build
 	pytest tests -vv -m $(RUNTIME)

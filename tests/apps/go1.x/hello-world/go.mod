@@ -1,5 +1,5 @@
-require github.com/aws/aws-lambda-go v1.36.1
+require github.com/aws/aws-lambda-go v1.45.0
 
 module hello-world
 
-go 1.20
+go 1.21.6
