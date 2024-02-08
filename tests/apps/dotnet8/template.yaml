@@ -5,9 +5,10 @@ Resources:
   Get:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: sam-test-app::sam_test_app.Functions::Get
+      Handler: bootstrap
       Runtime: dotnet8
-      CodeUri: ./src/
+      Architectures: [arm64]
+      CodeUri: ./sam-test-app/src/
       MemorySize: 256
       Timeout: 30
       Policies:

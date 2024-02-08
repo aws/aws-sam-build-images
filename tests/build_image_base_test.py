@@ -13,7 +13,7 @@ import subprocess
 SKIP_CONTAINERIZED_BUILD_TESTS = {"provided", "provided.al2", "provided.al2023", "dotnet7"}
 # These are the runtimes which requires `--mount-with WRITE` option to build functions
 # in a containerized build
-MOUNT_WITH_WRITE_RUNTIMES = {"dotnet6"}
+MOUNT_WITH_WRITE_RUNTIMES = {"dotnet6", "dotnet8"}
 
 
 class BuildImageBase(TestCase):

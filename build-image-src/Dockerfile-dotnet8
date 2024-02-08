@@ -1,5 +1,5 @@
 ARG IMAGE_ARCH
-FROM public.ecr.aws/lambda/dotnet:8-preview-$IMAGE_ARCH
+FROM public.ecr.aws/lambda/dotnet:8-$IMAGE_ARCH
 
 RUN dnf remove -y microdnf-dnf && \
   microdnf install -y dnf
