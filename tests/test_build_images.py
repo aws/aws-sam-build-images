@@ -616,9 +616,8 @@ class TestBIDotNet7Arm(BuildImageBase):
 
 # TODO (hawflau): Revert change after publishing preview image
 @pytest.mark.dotnet8
-class TestDotNet8Dummy:
-    def test_dummy(self):
-        self.assertTrue(1 == 1)
+def test_dummy():
+    assert 1 == 1
         
 
 @pytest.mark.ruby32
