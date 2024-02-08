@@ -10,7 +10,12 @@ import subprocess
 
 # These are the runtimes which doesn't have hello-world template, skipping them
 # for running `sam build -u` tests
-SKIP_CONTAINERIZED_BUILD_TESTS = {"provided", "provided.al2", "provided.al2023", "dotnet7"}
+SKIP_CONTAINERIZED_BUILD_TESTS = {
+    "provided",
+    "provided.al2",
+    "provided.al2023",
+    "dotnet7",
+}
 # These are the runtimes which requires `--mount-with WRITE` option to build functions
 # in a containerized build
 MOUNT_WITH_WRITE_RUNTIMES = {"dotnet6", "dotnet8"}
@@ -100,7 +105,7 @@ class BuildImageBase(TestCase):
             sam_init += f" --dependency-manager {self.dep_manager}"
 
         # For nodejs20.x set LD_LIBRARY_PATH env variable to execute sam commands
-        if self.runtime == 'nodejs20.x':
+        if self.runtime == "nodejs20.x":
             op = self.client.containers.run(
                 image=self.image,
                 command=[
@@ -108,7 +113,7 @@ class BuildImageBase(TestCase):
                     "-c",
                     sam_init + " && cd sam-app && sam build",
                 ],
-                environment=["LD_LIBRARY_PATH="]
+                environment=["LD_LIBRARY_PATH="],
             ).decode()
         else:
             op = self.client.containers.run(
@@ -152,37 +157,42 @@ class BuildImageBase(TestCase):
                 container.kill()
 
                 self.assertTrue(out.decode().find("Build Succeeded"))
-    
+
     def test_containerized_build(self):
         if self.runtime in SKIP_CONTAINERIZED_BUILD_TESTS:
             self.skipTest(f"Skipping for {self.runtime}")
         init_args = [
-            "sam", 
-            "init", 
-            "--no-interactive", 
-            "--runtime",  self.runtime, 
-            "--app-template", "hello-world", 
-            "--name", "sam-app", 
-            "--dependency-manager", self.dep_manager, 
-            "--architecture", self.tag
+            "sam",
+            "init",
+            "--no-interactive",
+            "--runtime",
+            self.runtime,
+            "--app-template",
+            "hello-world",
+            "--name",
+            "sam-app",
+            "--dependency-manager",
+            self.dep_manager,
+            "--architecture",
+            self.tag,
         ]
-        build_args = [
-            "sam", "build", "--use-container", "--build-image", self.image
-        ]
+        build_args = ["sam", "build", "--use-container", "--build-image", self.image]
         # add --mount-with WRITE option for dotnet runtimes
         if self.runtime in MOUNT_WITH_WRITE_RUNTIMES:
             build_args += ["--mount-with", "WRITE"]
-        invoke_args = [
-            "sam", "local", "invoke", "HelloWorldFunction"
-        ]
+        invoke_args = ["sam", "local", "invoke", "HelloWorldFunction"]
         with tempfile.TemporaryDirectory() as tmpdir:
             init_result = subprocess.run(init_args, cwd=tmpdir)
             self.assertEqual(init_result.returncode, 0)
 
-            build_result = subprocess.run(build_args, cwd=os.path.join(tmpdir, "sam-app"))
+            build_result = subprocess.run(
+                build_args, cwd=os.path.join(tmpdir, "sam-app")
+            )
             self.assertEqual(build_result.returncode, 0)
 
-            invoke_result = subprocess.run(invoke_args, cwd=os.path.join(tmpdir, "sam-app"))
+            invoke_result = subprocess.run(
+                invoke_args, cwd=os.path.join(tmpdir, "sam-app")
+            )
             self.assertEqual(invoke_result.returncode, 0)
 
     def is_package_present(self, package):
@@ -228,6 +238,6 @@ class BuildImageBase(TestCase):
         )
         return architecture in result
 
+
 class AL2023BasedBuildImageBase(BuildImageBase):
     package_managers = ["dnf"]
-

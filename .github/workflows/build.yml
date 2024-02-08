@@ -73,8 +73,6 @@ jobs:
           - "java11"
           - "java17"
           - "java21"
-          - "nodejs12x"
-          - "nodejs14x"
           - "nodejs16x"
           - "nodejs18x"
           - "nodejs20x"
@@ -85,7 +83,6 @@ jobs:
           - "python310"
           - "python311"
           - "python312"
-          - "ruby27"
           - "ruby32"
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]

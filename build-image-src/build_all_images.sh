@@ -32,8 +32,6 @@ docker build -f Dockerfile-java8_al2 -t amazon/aws-sam-cli-build-image-java8.al2
 docker build -f Dockerfile-java11 -t amazon/aws-sam-cli-build-image-java11:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-java17 -t amazon/aws-sam-cli-build-image-java17:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-java21 -t amazon/aws-sam-cli-build-image-java21:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
-docker build -f Dockerfile-nodejs12x -t amazon/aws-sam-cli-build-image-nodejs12.x:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
-docker build -f Dockerfile-nodejs14x -t amazon/aws-sam-cli-build-image-nodejs14.x:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-nodejs16x -t amazon/aws-sam-cli-build-image-nodejs16.x:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-nodejs18x -t amazon/aws-sam-cli-build-image-nodejs18.x:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-nodejs20x -t amazon/aws-sam-cli-build-image-nodejs20.x:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
@@ -44,7 +42,6 @@ docker build -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9:
 docker build -f Dockerfile-python310 -t amazon/aws-sam-cli-build-image-python3.10:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-python311 -t amazon/aws-sam-cli-build-image-python3.11:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-python312 -t amazon/aws-sam-cli-build-image-python3.12:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
-docker build -f Dockerfile-ruby27 -t amazon/aws-sam-cli-build-image-ruby2.7:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-ruby32 -t amazon/aws-sam-cli-build-image-ruby3.2:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 wait
 
@@ -57,8 +54,6 @@ docker build -f Dockerfile-java8_al2 -t amazon/aws-sam-cli-build-image-java8.al2
 docker build -f Dockerfile-java11 -t amazon/aws-sam-cli-build-image-java11:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-java17 -t amazon/aws-sam-cli-build-image-java17:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-java21 -t amazon/aws-sam-cli-build-image-java21:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
-docker build -f Dockerfile-nodejs12x -t amazon/aws-sam-cli-build-image-nodejs12.x:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
-docker build -f Dockerfile-nodejs14x -t amazon/aws-sam-cli-build-image-nodejs14.x:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-nodejs16x -t amazon/aws-sam-cli-build-image-nodejs16.x:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-nodejs18x -t amazon/aws-sam-cli-build-image-nodejs18.x:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-nodejs20x -t amazon/aws-sam-cli-build-image-nodejs20.x:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
@@ -69,6 +64,5 @@ docker build -f Dockerfile-python39 -t amazon/aws-sam-cli-build-image-python3.9:
 docker build -f Dockerfile-python310 -t amazon/aws-sam-cli-build-image-python3.10:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-python311 -t amazon/aws-sam-cli-build-image-python3.11:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-python312 -t amazon/aws-sam-cli-build-image-python3.12:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
-docker build -f Dockerfile-ruby27 -t amazon/aws-sam-cli-build-image-ruby2.7:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-ruby32 -t amazon/aws-sam-cli-build-image-ruby3.2:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 wait
