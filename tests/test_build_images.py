@@ -614,12 +614,43 @@ class TestBIDotNet7Arm(BuildImageBase):
         self.assertTrue(self.check_package_output("dotnet --version", "7"))
         self.assertTrue(self.is_package_present("dotnet"))
 
-# TODO (hawflau): Revert change after publishing preview image
-@pytest.mark.dotnet8
-def test_dummy():
-    assert 1 == 1
-        
 
+@pytest.mark.dotnet8
+class TestBIDotNet8(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet8", "Dockerfile-dotnet8", tag="x86_64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "8"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
+@pytest.mark.dotnet8
+class TestBIDotNet8Arm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet8", "Dockerfile-dotnet8", tag="arm64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "8"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+        
 @pytest.mark.ruby32
 class TestBIRuby32(BuildImageBase):
     __test__ = True
