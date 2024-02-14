@@ -846,7 +846,7 @@ class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
 
 
 @pytest.mark.provided_al2023Arm64
-class TestBIProvidedAL2023ForArm(BuildImageBase):
+class TestBIProvidedAL2023ForArm(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
