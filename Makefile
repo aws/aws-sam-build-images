@@ -64,14 +64,16 @@ ifeq ($(strip $(RUNTIME)), java8)
 else
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=x86_64 --build-arg GO_ARCH=amd64 --build-arg IMAGE_ARCH=x86_64 ./build-image-src
 endif
-	pytest tests -vv -m $(RUNTIME)X86_64
 
 build-arm64-arch: pre-build
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=aarch64 --build-arg GO_ARCH=arm64 --build-arg IMAGE_ARCH=arm64 ./build-image-src
-	pytest tests -vv -m $(RUNTIME)Arm64
 
 test: pre-build
-	pytest tests -vv -m $(RUNTIME)
+ifeq ($(strip $(ARCH)), x86_64)
+	pytest tests -vv -m $(RUNTIME)X86_64
+else ifeq ($(strip $(ARCH)), arm64)
+	pytest tests -vv -m $(RUNTIME)Arm64
+endif
 
 lint:
 	# Linter performs static analysis to catch latent bugs
