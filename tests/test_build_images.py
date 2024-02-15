@@ -429,7 +429,7 @@ class TestBINode20ForArm(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-@pytest.mark.python37
+@pytest.mark.python37X86_64
 class TestBIPython37(BuildImageBase):
     __test__ = True
 
@@ -747,7 +747,7 @@ class TestBIRuby32ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("gem"))
         self.assertTrue(self.is_architecture("aarch64"))
 
-@pytest.mark.go1x
+@pytest.mark.go1xX86_64
 class TestBIGo1(BuildImageBase):
     __test__ = True
 
@@ -763,7 +763,7 @@ class TestBIGo1(BuildImageBase):
         self.assertTrue(self.is_package_present("go"))
 
 
-@pytest.mark.provided
+@pytest.mark.providedX86_64
 class TestBIProvided(BuildImageBase):
     __test__ = True
 
