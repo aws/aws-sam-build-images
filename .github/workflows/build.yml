@@ -59,7 +59,7 @@ jobs:
           use-installer: true
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-single-arch
-      - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make test
+      - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} ARCH=x86_64 make test
 
   build-multi-arch:
     strategy:
