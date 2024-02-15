@@ -16,7 +16,7 @@ jobs:
     name: Parent PR Status Check
     # If any dependent jobs fails, this WF skips which won't block merging PRs
     # calling always() is required for this WF to run all the time
-    # if: github.repository_owner == 'aws' && always()
+    if: github.repository_owner == 'aws' && always()
     runs-on: ubuntu-latest
     needs:
       - build-single-arch
