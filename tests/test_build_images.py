@@ -615,6 +615,10 @@ class TestBIDotNet7Arm(BuildImageBase):
 def test_dummy():
     assert 1 == 1
 
+@pytest.mark.dotnet8Arm64
+def test_dummy_for_arm64():
+    assert 1 == 1
+
 @pytest.mark.ruby32X86_64
 class TestBIRuby32(BuildImageBase):
     __test__ = True
