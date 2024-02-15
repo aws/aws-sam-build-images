@@ -10,12 +10,11 @@ IS_python37 := python3.7
 IS_go1x := go1.x
 IS_dotnet6 := dotnet6
 IS_dotnet7 := dotnet7
+IS_dotnet8 := dotnet8
 IS_java8_al2 := java8.al2
 IS_java11 := java11
 IS_java17 := java17
 IS_java21 := java21
-IS_nodejs12x := nodejs12.x
-IS_nodejs14x := nodejs14.x
 IS_nodejs16x := nodejs16.x
 IS_nodejs18x := nodejs18.x
 IS_nodejs20x := nodejs20.x
@@ -26,7 +25,6 @@ IS_python39 := python3.9
 IS_python310 := python3.10
 IS_python311 := python3.11
 IS_python312 := python3.12
-IS_ruby27 := ruby2.7
 IS_ruby32 := ruby3.2
 
 init:

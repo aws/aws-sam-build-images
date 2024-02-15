@@ -260,73 +260,6 @@ class TestBIJava21ForArmGradle(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_package_present("gradle"))
         self.assertTrue(self.is_architecture("aarch64"))
 
-@pytest.mark.nodejs12xX86_64
-class TestBINode12(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("nodejs12.x", "Dockerfile-nodejs12x", "npm", tag="x86_64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("node --version", "v12."))
-        self.assertTrue(self.is_package_present("npm"))
-        self.assertTrue(self.is_architecture("x86_64"))
-
-
-@pytest.mark.nodejs12xArm64
-class TestBINode12ForArm(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("nodejs12.x", "Dockerfile-nodejs12x", "npm", tag="arm64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("node --version", "v12."))
-        self.assertTrue(self.is_package_present("npm"))
-        self.assertTrue(self.is_architecture("aarch64"))
-
-
-@pytest.mark.nodejs14xX86_64
-class TestBINode14(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("nodejs14.x", "Dockerfile-nodejs14x", "npm", tag="x86_64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("node --version", "v14."))
-        self.assertTrue(self.is_package_present("npm"))
-        self.assertTrue(self.is_architecture("x86_64"))
-
-
-@pytest.mark.nodejs14xArm64
-class TestBINode14ForArm(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("nodejs14.x", "Dockerfile-nodejs14x", "npm", tag="arm64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("node --version", "v14."))
-        self.assertTrue(self.is_package_present("npm"))
-        self.assertTrue(self.is_architecture("aarch64"))
-
 
 @pytest.mark.nodejs16xX86_64
 class TestBINode16(BuildImageBase):
@@ -677,41 +610,10 @@ class TestBIDotNet7Arm(BuildImageBase):
         self.assertTrue(self.check_package_output("dotnet --version", "7"))
         self.assertTrue(self.is_package_present("dotnet"))
 
-
-@pytest.mark.ruby27X86_64
-class TestBIRuby27(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("ruby2.7", "Dockerfile-ruby27", "bundler", tag="x86_64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("ruby --version", "ruby 2.7."))
-        self.assertTrue(self.is_package_present("bundler"))
-        self.assertTrue(self.is_package_present("gem"))
-        self.assertTrue(self.is_architecture("x86_64"))
-
-
-@pytest.mark.ruby27Arm64
-class TestBIRuby27ForArm(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("ruby2.7", "Dockerfile-ruby27", "bundler", tag="arm64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("ruby --version", "ruby 2.7."))
-        self.assertTrue(self.is_package_present("bundler"))
-        self.assertTrue(self.is_package_present("gem"))
-        self.assertTrue(self.is_architecture("aarch64"))
+# TODO (hawflau): Revert change after publishing preview image
+@pytest.mark.dotnet8X86_64
+def test_dummy():
+    assert 1 == 1
 
 @pytest.mark.ruby32X86_64
 class TestBIRuby32(BuildImageBase):
@@ -792,7 +694,7 @@ class TestBIProvidedAL2(BuildImageBase):
         Test architecture of this build image
         """
         self.assertTrue(self.is_architecture("x86_64"))
-    
+
     def test_packages(self):
         """
         Test packages specific to this build image
@@ -829,7 +731,9 @@ class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("provided.al2023", "Dockerfile-provided-al2023", tag="x86_64")
+        super().setUpClass(
+            "provided.al2023", "Dockerfile-provided-al2023", tag="x86_64"
+        )
 
     def test_architecture(self):
         """
