@@ -56,7 +56,7 @@ build-multi-arch: pre-build
 	docker run --privileged --rm tonistiigi/binfmt --install arm64
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=aarch64 --build-arg GO_ARCH=arm64 --build-arg IMAGE_ARCH=arm64 ./build-image-src
 
-build-x86-64-arch: pre-build
+build-x86_64-arch: pre-build
 ifeq ($(strip $(RUNTIME)), $(IS_java8)) || ($(strip $(RUNTIME)), $(IS_provided)) || ($(strip $(RUNTIME)), $(IS_go1x))
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) ./build-image-src
 else
