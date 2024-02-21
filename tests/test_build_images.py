@@ -362,23 +362,6 @@ class TestBINode20ForArm(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
-@pytest.mark.python37x86_64
-class TestBIPython37(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.7", "Dockerfile-python37", "pip")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.7."))
-        self.assertTrue(self.is_package_present("pip"))
-        self.assertTrue(self.is_architecture("x86_64"))
-
-
 @pytest.mark.python38x86_64
 class TestBIPython38(BuildImageBase):
     __test__ = True
