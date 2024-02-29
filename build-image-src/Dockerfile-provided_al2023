@@ -15,6 +15,7 @@ RUN dnf install -y tar\
   libxslt-devel \
   libmpc-devel \
   python3-devel \
+  git \
   && dnf clean all
 
 # Install AWS CLI
