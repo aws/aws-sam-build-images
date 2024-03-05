@@ -628,12 +628,6 @@ class TestBIDotNet8Arm(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("dotnet --version", "8"))
         self.assertTrue(self.is_package_present("dotnet"))
-    
-    def test_containerized_build(self):
-        pass
-    
-    def test_sam_init(self):
-        pass
 
 
 @pytest.mark.ruby32x86_64
