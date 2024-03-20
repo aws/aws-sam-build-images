@@ -83,6 +83,7 @@ jobs:
           - "python311"
           - "python312"
           - "ruby32"
+          - "ruby33"
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
     steps:
