@@ -38,28 +38,6 @@ jobs:
       - id: sam_cli_version
         run: echo "sam_cli_version=$(curl -s https://pypi.org/pypi/aws-sam-cli/json | jq -r .info.version)" >> $GITHUB_OUTPUT
 
-  build-single-arch:
-    strategy:
-      fail-fast: false
-      matrix:
-        runtime:
-          - "java8"
-          - "provided"
-          - "go1x"
-    runs-on: ubuntu-latest
-    needs: [get-sam-cli-version]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.9"
-      - uses: aws-actions/setup-sam@v2
-        with:
-          use-installer: true
-      - run: make init
-      - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-single-arch
-      - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} ARCH=x86_64 make test
-
   build-multi-arch:
     strategy:
       fail-fast: false
