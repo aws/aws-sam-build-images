@@ -19,7 +19,6 @@ jobs:
     if: github.repository_owner == 'aws' && always()
     runs-on: ubuntu-latest
     needs:
-      - build-single-arch
       - build-multi-arch
     steps:
       - name: report-failure
