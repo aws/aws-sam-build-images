@@ -7,7 +7,7 @@ set -e
 if [ -z ${SAM_CLI_VERSION+x} ];
 then
     echo "Must set SAM_CLI_VERSION to run this script."
-    exit -1;
+    exit 1;
 else
     echo "SAM CLI VERSION: $SAM_CLI_VERSION";
 fi
@@ -16,10 +16,6 @@ fi
 export DOCKER_CONTENT_TRUST=0
 export DOCKER_CLI_EXPERIMENTAL=enabled
 
-# Single arch images
-docker build -f Dockerfile-provided -t amazon/aws-sam-cli-build-image-provided:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION . &
-docker build -f Dockerfile-go1x -t amazon/aws-sam-cli-build-image-go1.x:x86_64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION . &
-wait
 
 # Multi arch images
 # First build all x86
