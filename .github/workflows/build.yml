@@ -99,5 +99,5 @@ jobs:
       - run: make init
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-multi-arch
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} ARCH=x86_64 make test
-        if: ${{ ! matrix.skip_arm_test }}
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} ARCH=arm64 make test
+        if: ${{ ! matrix.skip_arm_test }}
