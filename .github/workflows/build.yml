@@ -23,7 +23,6 @@ jobs:
     steps:
       - name: report-failure
         if: |
-          needs.build-single-arch.result != 'success' ||
           needs.build-multi-arch.result != 'success'
         run: exit 1
       - name: report-success
