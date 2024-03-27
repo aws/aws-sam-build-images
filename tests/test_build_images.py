@@ -2,25 +2,6 @@ import pytest
 from tests.build_image_base_test import BuildImageBase, AL2023BasedBuildImageBase
 
 
-@pytest.mark.java8x86_64
-class TestBIJava8(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("java8", "Dockerfile-java8", "maven")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(
-            self.check_package_output("java -version", 'openjdk version "1.8', True)
-        )
-        self.assertTrue(self.is_package_present("mvn"))
-        self.assertTrue(self.is_package_present("gradle"))
-        self.assertTrue(self.is_architecture("x86_64"))
-
 
 @pytest.mark.java8_al2x86_64
 class TestBIJava8AL2(BuildImageBase):
