@@ -383,6 +383,8 @@ Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
 Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
 ** ruby; version 3.2.1 -- https://www.ruby-lang.org/
 Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
+** ruby; version 3.3.0 -- https://www.ruby-lang.org/
+Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
 
 Ruby is copyrighted free software by Yukihiro Matsumoto <matz@netlab.jp>.
 You can redistribute it and/or modify it under either the terms of the

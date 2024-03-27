@@ -1,0 +1,59 @@
+ARG IMAGE_ARCH
+# Update(hawflau): remove preview tag
+FROM public.ecr.aws/lambda/ruby:3.3-preview-$IMAGE_ARCH
+
+RUN dnf remove -y microdnf-dnf && \
+  microdnf install -y dnf
+
+RUN dnf groupinstall -y development && \
+  dnf install -y \
+  tar \
+  gzip \
+  unzip \
+  python3 \
+  jq \
+  grep \
+  make \
+  rsync \
+  binutils \
+  gcc-c++ \
+  procps \
+  gmp-devel \
+  zlib-devel \
+  libmpc-devel \
+  python3-devel \
+  && dnf clean all
+
+# Install AWS CLI
+ARG AWS_CLI_ARCH
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm awscliv2.zip && rm -rf ./aws
+
+# Install SAM CLI from native installer
+ARG SAM_CLI_VERSION
+# need to redefine since ARG is not available after FROM tag: https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
+ARG IMAGE_ARCH
+RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERSION/aws-sam-cli-linux-$IMAGE_ARCH.zip" -o "samcli.zip" && \
+  unzip samcli.zip -d sam-installation && ./sam-installation/install && \
+  rm samcli.zip && rm -rf sam-installation && sam --version
+
+# Prepare virtualenv for lambda builders
+RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
+# Install lambda builders in a dedicated Python virtualenv
+RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/requirements/base.txt | grep aws_lambda_builders | cut -d= -f3) && \
+  /usr/local/opt/lambda-builders/bin/pip3 --no-cache-dir install "aws-lambda-builders==$AWS_LB_VERSION"
+
+ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
+
+ENV LANG=en_US.UTF-8
+
+# Wheel is required by SAM CLI to build libraries like cryptography. It needs to be installed in the system
+# Python for it to be picked up during `sam build`
+RUN pip3 install wheel
+
+COPY ATTRIBUTION.txt /
+
+# Compatible with initial base image
+ENTRYPOINT []
+CMD ["/bin/bash"]

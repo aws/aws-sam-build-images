@@ -59,6 +59,7 @@ jobs:
           - "python311"
           - "python312"
           - "ruby32"
+          - "ruby33"
         include:
           - skip_arm_test: false
           - runtime: "dotnet8"

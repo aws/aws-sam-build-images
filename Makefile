@@ -22,6 +22,7 @@ IS_python310 := python3.10
 IS_python311 := python3.11
 IS_python312 := python3.12
 IS_ruby32 := ruby3.2
+IS_ruby33 := ruby3.3
 
 init:
 	pip install -Ur requirements.txt
