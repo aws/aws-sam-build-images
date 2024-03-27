@@ -82,8 +82,8 @@ jobs:
           - "python311"
           - "python312"
           - "ruby32"
-        skip_arm_test: [false]
         include:
+          - skip_arm_test: false
           - runtime: "dotnet8"
             skip_arm_test: true
     runs-on: ubuntu-latest
