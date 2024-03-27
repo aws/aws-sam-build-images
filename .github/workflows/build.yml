@@ -60,6 +60,10 @@ jobs:
           - "python311"
           - "python312"
           - "ruby32"
+        include:
+          - skip_arm_test: false
+          - runtime: "dotnet8"
+            skip_arm_test: true
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
     steps:
@@ -74,3 +78,4 @@ jobs:
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} make build-multi-arch
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} ARCH=x86_64 make test
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} ARCH=arm64 make test
+        if: ${{ ! matrix.skip_arm_test }}

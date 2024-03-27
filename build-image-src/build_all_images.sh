@@ -16,6 +16,7 @@ fi
 export DOCKER_CONTENT_TRUST=0
 export DOCKER_CLI_EXPERIMENTAL=enabled
 
+
 # Multi arch images
 # First build all x86
 docker build -f Dockerfile-dotnet6 -t amazon/aws-sam-cli-build-image-dotnet6:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
