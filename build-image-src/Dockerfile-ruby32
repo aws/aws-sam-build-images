@@ -18,6 +18,7 @@ RUN yum groupinstall -y development && \
   libgmp3-dev \
   zlib1g-dev \
   libmpc-devel \
+  libyaml-devel \
   amazon-linux-extras
 
 # Install extras so that Python 3.8 is installable

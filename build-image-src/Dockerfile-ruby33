@@ -21,6 +21,7 @@ RUN dnf groupinstall -y development && \
   zlib-devel \
   libmpc-devel \
   python3-devel \
+  libyaml-devel \
   && dnf clean all
 
 # Install AWS CLI
