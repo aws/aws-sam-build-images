@@ -51,6 +51,7 @@ jobs:
           - "nodejs16x"
           - "nodejs18x"
           - "nodejs20x"
+          - "nodejs22x"
           - "provided_al2"
           - "provided_al2023"
           - "python38"
