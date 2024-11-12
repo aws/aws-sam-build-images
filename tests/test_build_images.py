@@ -485,6 +485,37 @@ class TestBIPython312(AL2023BasedBuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.12."))
         self.assertTrue(self.is_package_present("pip"))
 
+@pytest.mark.python313arm64
+class TestBIPython313ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.13", "Dockerfile-python313", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.13."))
+        self.assertTrue(self.is_package_present("pip"))
+
+
+@pytest.mark.python313x86_64
+class TestBIPython313(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.13", "Dockerfile-python313", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.13."))
+        self.assertTrue(self.is_package_present("pip"))
+
 
 @pytest.mark.python39arm64
 class TestBIPython39ForArm(BuildImageBase):

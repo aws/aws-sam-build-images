@@ -58,6 +58,7 @@ jobs:
           - "python310"
           - "python311"
           - "python312"
+          - "python313"
           - "ruby32"
           - "ruby33"
         include:
