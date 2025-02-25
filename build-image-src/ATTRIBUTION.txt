@@ -1722,6 +1722,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ------
+** dotnet; version 9.0 -- https://github.com/dotnet/core
+Copyright (c) .NET Foundation and Contributors
 
 ** dotnet; version 8.0 -- https://github.com/dotnet/core
 Copyright (c) .NET Foundation and Contributors
