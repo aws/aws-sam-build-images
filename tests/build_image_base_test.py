@@ -15,6 +15,7 @@ SKIP_CONTAINERIZED_BUILD_TESTS = {
     "provided.al2",
     "provided.al2023",
     "dotnet7",
+    "dotnet9",
 }
 # These are the runtimes which requires `--mount-with WRITE` option to build functions
 # in a containerized build
@@ -93,7 +94,7 @@ class BuildImageBase(TestCase):
         """
         Test sam init hello world application for the given runtime and dependency manager
         """
-        if self.runtime in ["provided", "provided.al2", "provided.al2023", "dotnet7"]:
+        if self.runtime in ["provided", "provided.al2", "provided.al2023", "dotnet7", "dotnet9"]:
             pytest.skip("Skipping sam init test for self-provided images")
 
         sam_init = f"sam init \
