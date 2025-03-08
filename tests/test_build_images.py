@@ -639,7 +639,7 @@ class TestBIDotNet7Arm(BuildImageBase):
 
 
 @pytest.mark.dotnet9x86_64
-class TestBIDotNet9(BuildImageBase):
+class TestBIDotNet9(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
@@ -657,7 +657,7 @@ class TestBIDotNet9(BuildImageBase):
 
 
 @pytest.mark.dotnet9arm64
-class TestBIDotNet9Arm(BuildImageBase):
+class TestBIDotNet9Arm(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
@@ -709,7 +709,7 @@ class TestBIDotNet8Arm(AL2023BasedBuildImageBase):
         self.assertTrue(self.check_package_output("dotnet --version", "8"))
         self.assertTrue(self.is_package_present("dotnet"))
 
-        
+
 @pytest.mark.ruby32x86_64
 class TestBIRuby32(BuildImageBase):
     __test__ = True
