@@ -2,10 +2,10 @@ from unittest import TestCase
 from pathlib import Path
 import os
 import tarfile
-import docker  # type: ignore
-import pytest
 import tempfile
 import subprocess
+import docker  # type: ignore
+import pytest
 
 
 # These are the runtimes which doesn't have hello-world template, skipping them
@@ -159,9 +159,12 @@ class BuildImageBase(TestCase):
                 self.assertTrue(out.decode().find("Build Succeeded"))
 
     def test_containerized_build(self):
+        """
+        Test containerized build
+        """
         # Skip this test for now as these checks are failing for x86
         # TODO: Add the checks back once the below docker issue is fixed
-        # Error: 500 Server Error for : Internal Server Error ("failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: unable to apply cgroup configuration: cannot enter cgroupv2 "/sys/fs/cgroup/docker" with domain controllers -- it is in threaded mode: unknown")
+        # Error: 500 Server Error for : Internal Server Error ("failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: unable to apply cgroup configuration: cannot enter cgroupv2 "/sys/fs/cgroup/docker" with domain controllers -- it is in threaded mode: unknown") # pylint: disable=line-too-long
         if self.runtime in SKIP_CONTAINERIZED_BUILD_TESTS or self.tag == "x86_64":
             self.skipTest(f"Skipping for {self.runtime} and architecture: {self.tag}")
         init_args = [
@@ -185,16 +188,16 @@ class BuildImageBase(TestCase):
             build_args += ["--mount-with", "WRITE"]
         invoke_args = ["sam", "local", "invoke", "HelloWorldFunction"]
         with tempfile.TemporaryDirectory() as tmpdir:
-            init_result = subprocess.run(init_args, cwd=tmpdir)
+            init_result = subprocess.run(init_args, cwd=tmpdir, check=True)
             self.assertEqual(init_result.returncode, 0)
 
             build_result = subprocess.run(
-                build_args, cwd=os.path.join(tmpdir, "sam-app")
+                build_args, cwd=os.path.join(tmpdir, "sam-app"), check=True
             )
             self.assertEqual(build_result.returncode, 0)
 
             invoke_result = subprocess.run(
-                invoke_args, cwd=os.path.join(tmpdir, "sam-app")
+                invoke_args, cwd=os.path.join(tmpdir, "sam-app"), check=True
             )
             self.assertEqual(invoke_result.returncode, 0)
 
