@@ -161,6 +161,7 @@ class TestBIJava17AL2ForArmGradle(BuildImageBase):
         self.assertTrue(self.is_package_present("gradle"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+
 @pytest.mark.java21x86_64
 class TestBIJava21Maven(AL2023BasedBuildImageBase):
     __test__ = True
@@ -308,6 +309,7 @@ class TestBINode18ForArm(BuildImageBase):
         self.assertTrue(self.is_package_present("npm"))
         self.assertTrue(self.is_architecture("aarch64"))
 
+
 @pytest.mark.nodejs20xx86_64
 class TestBINode20(AL2023BasedBuildImageBase):
     __test__ = True
@@ -340,6 +342,7 @@ class TestBINode20ForArm(AL2023BasedBuildImageBase):
         self.assertTrue(self.check_package_output("node --version", "v20."))
         self.assertTrue(self.is_package_present("npm"))
         self.assertTrue(self.is_architecture("aarch64"))
+
 
 @pytest.mark.nodejs22xx86_64
 class TestBINode22(AL2023BasedBuildImageBase):
@@ -456,6 +459,7 @@ class TestBIPython310(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
         self.assertTrue(self.is_package_present("pip"))
 
+
 @pytest.mark.python311arm64
 class TestBIPython311ForArm(BuildImageBase):
     __test__ = True
@@ -487,6 +491,7 @@ class TestBIPython311(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
         self.assertTrue(self.is_package_present("pip"))
 
+
 @pytest.mark.python312arm64
 class TestBIPython312ForArm(AL2023BasedBuildImageBase):
     __test__ = True
@@ -517,6 +522,7 @@ class TestBIPython312(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.12."))
         self.assertTrue(self.is_package_present("pip"))
+
 
 @pytest.mark.python313arm64
 class TestBIPython313ForArm(AL2023BasedBuildImageBase):
@@ -727,6 +733,7 @@ class TestBIRuby32(BuildImageBase):
         self.assertTrue(self.is_package_present("gem"))
         self.assertTrue(self.is_architecture("x86_64"))
 
+
 @pytest.mark.ruby32arm64
 class TestBIRuby32ForArm(BuildImageBase):
     __test__ = True
@@ -762,6 +769,7 @@ class TestBIRuby33(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_package_present("gem"))
         self.assertTrue(self.is_architecture("x86_64"))
 
+
 @pytest.mark.ruby33arm64
 class TestBIRuby33ForArm(AL2023BasedBuildImageBase):
     __test__ = True
@@ -778,6 +786,43 @@ class TestBIRuby33ForArm(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_package_present("bundler"))
         self.assertTrue(self.is_package_present("gem"))
         self.assertTrue(self.is_architecture("aarch64"))
+
+
+@pytest.mark.ruby34x86_64
+class TestBIRuby34(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("ruby3.4", "Dockerfile-ruby34", "bundler", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("ruby --version", "ruby 3.4."))
+        self.assertTrue(self.is_package_present("bundler"))
+        self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.ruby34arm64
+class TestBIRuby34ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("ruby3.4", "Dockerfile-ruby34", "bundler", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("ruby --version", "ruby 3.4."))
+        self.assertTrue(self.is_package_present("bundler"))
+        self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
 
 @pytest.mark.provided_al2x86_64
 class TestBIProvidedAL2(BuildImageBase):
