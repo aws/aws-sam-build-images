@@ -44,6 +44,7 @@ jobs:
           - "dotnet6"
           - "dotnet7"
           - "dotnet8"
+          - "dotnet9"
           - "java8_al2"
           - "java11"
           - "java17"

@@ -644,6 +644,42 @@ class TestBIDotNet7Arm(BuildImageBase):
         self.assertTrue(self.is_package_present("dotnet"))
 
 
+@pytest.mark.dotnet9x86_64
+class TestBIDotNet9(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet9", "Dockerfile-dotnet9", tag="x86_64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "9"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
+@pytest.mark.dotnet9arm64
+class TestBIDotNet9Arm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet9", "Dockerfile-dotnet9", tag="arm64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "9"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
 @pytest.mark.dotnet8x86_64
 class TestBIDotNet8(AL2023BasedBuildImageBase):
     __test__ = True
