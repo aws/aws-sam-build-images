@@ -9,3 +9,6 @@ pytest==7.3.1
 
 # formatter
 black==24.3.0
+
+# uv tools
+uv>=0.7.2
