@@ -59,10 +59,10 @@ ENV JAVA_HOME="/var/lang"
 # Install Java build tools
 RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-8.4-bin.zip && \
   unzip -d /usr/local/gradle gradle.zip && rm gradle.zip && mkdir /usr/local/maven && \
-  curl -L https://downloads.apache.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz | \
+  curl -L https://downloads.apache.org/maven/maven-3/3.9.10/binaries/apache-maven-3.9.10-bin.tar.gz | \
   tar -zx -C /usr/local/maven
 
-ENV PATH="/usr/local/gradle/gradle-8.4/bin:/usr/local/maven/apache-maven-3.9.5/bin:${PATH}"
+ENV PATH="/usr/local/gradle/gradle-8.4/bin:/usr/local/maven/apache-maven-3.9.10/bin:${PATH}"
 
 COPY ATTRIBUTION.txt /
 
