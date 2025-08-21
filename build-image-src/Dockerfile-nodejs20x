@@ -27,6 +27,8 @@ RUN dnf groupinstall -y development && \
   libmpc-devel \
   python3-devel \
   && dnf clean all
+  
+RUN dnf upgrade -y --releasever=latest
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
