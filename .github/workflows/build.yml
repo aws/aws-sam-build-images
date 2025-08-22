@@ -1,6 +1,9 @@
 name: Build & Test
 
 on:
+  schedule:
+    # Run every Tuesday and Thursday at 6:00 AM UTC
+    - cron: '0 6 * * 2,4'
   pull_request:
     branches:
       - develop
@@ -72,6 +75,8 @@ jobs:
     needs: [get-sam-cli-version]
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'schedule' && 'develop' || github.ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.9"
