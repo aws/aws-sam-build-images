@@ -242,6 +242,86 @@ class TestBIJava21ForArmGradle(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.java25x86_64
+class TestBIJava25Maven(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java25", "Dockerfile-java25", "maven", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "25.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java25arm64
+class TestBIJava25ForArmMaven(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java25", "Dockerfile-java25", "maven", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "25.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
+@pytest.mark.java25x86_64
+class TestBIJava25Gradle(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java25", "Dockerfile-java25", "gradle", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "25', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java25arm64
+class TestBIJava25ForArmGradle(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java25", "Dockerfile-java25", "gradle", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "25', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
 @pytest.mark.nodejs16xx86_64
 class TestBINode16(BuildImageBase):
     __test__ = True
@@ -553,6 +633,38 @@ class TestBIPython313(AL2023BasedBuildImageBase):
         Test packages specific to this build image
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.13."))
+        self.assertTrue(self.is_package_present("pip"))
+
+
+@pytest.mark.python314arm64
+class TestBIPython314ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.14", "Dockerfile-python314", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.14."))
+        self.assertTrue(self.is_package_present("pip"))
+
+
+@pytest.mark.python314x86_64
+class TestBIPython314(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.14", "Dockerfile-python314", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.14."))
         self.assertTrue(self.is_package_present("pip"))
 
 
