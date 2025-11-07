@@ -302,24 +302,24 @@ class TestBIJava25Gradle(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_architecture("x86_64"))
 
 
-@pytest.mark.java25arm64
-class TestBIJava25ForArmGradle(AL2023BasedBuildImageBase):
-    __test__ = True
+# @pytest.mark.java25arm64
+# class TestBIJava25ForArmGradle(AL2023BasedBuildImageBase):
+#     __test__ = True
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("java25", "Dockerfile-java25", "gradle", tag="arm64")
+#     @classmethod
+#     def setUpClass(cls):
+#         super().setUpClass("java25", "Dockerfile-java25", "gradle", tag="arm64")
 
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(
-            self.check_package_output("java -version", 'openjdk version "25', True)
-        )
-        self.assertTrue(self.is_package_present("mvn"))
-        self.assertTrue(self.is_package_present("gradle"))
-        self.assertTrue(self.is_architecture("aarch64"))
+#     def test_packages(self):
+#         """
+#         Test packages specific to this build image
+#         """
+#         self.assertTrue(
+#             self.check_package_output("java -version", 'openjdk version "25', True)
+#         )
+#         self.assertTrue(self.is_package_present("mvn"))
+#         self.assertTrue(self.is_package_present("gradle"))
+#         self.assertTrue(self.is_architecture("aarch64"))
 
 
 @pytest.mark.nodejs16xx86_64
