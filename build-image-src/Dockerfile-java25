@@ -70,7 +70,7 @@ COPY ATTRIBUTION.txt /
 # VFORK is deprecated in Java 25, use FORK instead
 # Set Gradle user home to a writable location
 ENV GRADLE_OPTS="-Dgradle.user.home=/tmp -Djdk.lang.Process.launchMechanism=FORK --enable-native-access=ALL-UNNAMED"
-ENV MAVEN_OPTS="-Djdk.lang.Process.launchMechanism=FORK --enable-native-access=ALL-UNNAMED"
+ENV MAVEN_OPTS="-Dmaven.repo.local=/tmp/.m2/repository -Djdk.lang.Process.launchMechanism=FORK --enable-native-access=ALL-UNNAMED"
 
 # Compatible with initial base image
 ENTRYPOINT []
