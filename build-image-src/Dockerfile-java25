@@ -57,18 +57,20 @@ RUN pip3 install wheel
 ENV JAVA_HOME="/var/lang"
 
 # Install Java build tools
-RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-8.4-bin.zip && \
+RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-9.2.0-bin.zip && \
   unzip -d /usr/local/gradle gradle.zip && rm gradle.zip && mkdir /usr/local/maven && \
   curl -L https://downloads.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz | \
   tar -zx -C /usr/local/maven
 
-ENV PATH="/usr/local/gradle/gradle-8.4/bin:/usr/local/maven/apache-maven-3.9.11/bin:${PATH}"
+ENV PATH="/usr/local/gradle/gradle-9.2.0/bin:/usr/local/maven/apache-maven-3.9.11/bin:${PATH}"
 
 COPY ATTRIBUTION.txt /
 
-# Set following GRADLE_OPTS and MAVEN_OPTS to fix issues with arm64 image
-ENV GRADLE_OPTS="-Djdk.lang.Process.launchMechanism=vfork"
-ENV MAVEN_OPTS="-Djdk.lang.Process.launchMechanism=vfork"
+# Set following GRADLE_OPTS and MAVEN_OPTS for Java 25 compatibility
+# VFORK is deprecated in Java 25, use FORK instead
+# Set Gradle user home to a writable location
+ENV GRADLE_OPTS="-Dgradle.user.home=/tmp -Djdk.lang.Process.launchMechanism=FORK --enable-native-access=ALL-UNNAMED"
+ENV MAVEN_OPTS="-Djdk.lang.Process.launchMechanism=FORK --enable-native-access=ALL-UNNAMED"
 
 # Compatible with initial base image
 ENTRYPOINT []
