@@ -3081,10 +3081,10 @@ The externally maintained libraries used by Node.js are:
      # Copyright (c) 2015 International Business Machines Corporation
      # and others. All Rights Reserved.
      #
-     # Project: https://github.com/rober42539/lao-dictionary
-     # Dictionary: https://github.com/rober42539/lao-dictionary/laodict.txt
-     # License: https://github.com/rober42539/lao-dictionary/LICENSE.txt
-     #          (copied below)
+     # Project: https://github.com/unicode-org/icu
+     # Dictionary: https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/laodict.txt
+     # License: https://github.com/unicode-org/icu/blob/main/LICENSE
+     #          (Unicode License V3, copied below)
      #
      # This file is derived from the above dictionary version of Nov 22, 2020
      #  ----------------------------------------------------------------------
@@ -7897,10 +7897,10 @@ The externally maintained libraries used by Node.js are:
      # Copyright (c) 2015 International Business Machines Corporation
      # and others. All Rights Reserved.
      #
-     # Project: https://github.com/rober42539/lao-dictionary
-     # Dictionary: https://github.com/rober42539/lao-dictionary/laodict.txt
-     # License: https://github.com/rober42539/lao-dictionary/LICENSE.txt
-     #          (copied below)
+     # Project: https://github.com/unicode-org/icu
+     # Dictionary: https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/laodict.txt
+     # License: https://github.com/unicode-org/icu/blob/main/LICENSE
+     #          (Unicode License V3, copied below)
      #
      # This file is derived from the above dictionary version of Nov 22, 2020
      #  ----------------------------------------------------------------------
