@@ -3120,7 +3120,7 @@ The externally maintained libraries used by Node.js are:
      #  and others. All Rights Reserved.
      #
      #  This list is part of a project hosted at:
-     #    github.com/kanyawtech/myanmar-karen-word-lists
+     #    https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/burmesedict.txt
      #
      #  --------------------------------------------------------------------------
      #  Copyright (c) 2013, LeRoy Benjamin Sharon
@@ -4737,7 +4737,7 @@ this
      #  and others. All Rights Reserved.
      #
      #  This list is part of a project hosted at:
-     #    github.com/kanyawtech/myanmar-karen-word-lists
+     #    https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/burmesedict.txt
      #
      #
 --------------------------------------------------------------------------
@@ -6339,7 +6339,7 @@ The externally maintained libraries used by Node.js are:
      #  and others. All Rights Reserved.
      #
      #  This list is part of a project hosted at:
-     #    github.com/kanyawtech/myanmar-karen-word-lists
+     #    https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/burmesedict.txt
      #
      #
      --------------------------------------------------------------------------
@@ -7938,7 +7938,7 @@ The externally maintained libraries used by Node.js are:
      #  and others. All Rights Reserved.
      #
      #  This list is part of a project hosted at:
-     #    github.com/kanyawtech/myanmar-karen-word-lists
+     #    https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/burmesedict.txt
      #
      #  --------------------------------------------------------------------------
      #  Copyright (c) 2013, LeRoy Benjamin Sharon
@@ -10451,7 +10451,7 @@ property of their respective owners.
  #  and others. All Rights Reserved.
  #
  #  This list is part of a project hosted at:
- #    github.com/kanyawtech/myanmar-karen-word-lists
+ #    https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/burmesedict.txt
  #
  #  --------------------------------------------------------------------------
  #  Copyright (c) 2013, LeRoy Benjamin Sharon
@@ -11008,7 +11008,7 @@ The externally maintained libraries used by Node.js are:
      #  and others. All Rights Reserved.
      #
      #  This list is part of a project hosted at:
-     #    github.com/kanyawtech/myanmar-karen-word-lists
+     #    https://github.com/unicode-org/icu/blob/main/icu4c/source/data/brkitr/dictionaries/burmesedict.txt
      #
      #
      --------------------------------------------------------------------------
