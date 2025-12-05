@@ -1,36 +1,28 @@
 ARG IMAGE_ARCH
-FROM public.ecr.aws/lambda/ruby:3.2-$IMAGE_ARCH
+# TODO (hawflau): remove preview tag
+FROM public.ecr.aws/lambda/java:25-$IMAGE_ARCH
 
-RUN yum groupinstall -y development && \
-  yum install -d1 -y \
-  yum \
+RUN dnf remove -y microdnf-dnf && \
+  microdnf install -y dnf
+
+RUN dnf groupinstall -y development && \
+  dnf install -y \
   tar \
   gzip \
   unzip \
+  python3 \
   jq \
   grep \
-  curl \
   make \
   rsync \
   binutils \
   gcc-c++ \
   procps \
-  libgmp3-dev \
-  zlib1g-dev \
   libmpc-devel \
-  libyaml-devel \
-  amazon-linux-extras
-
-# Install extras so that Python 3.8 is installable
-# https://aws.amazon.com/amazon-linux-2/faqs/#Amazon_Linux_Extras
-RUN amazon-linux-extras enable python3.8 && \
-  yum clean metadata && \
-  yum install -y python38 python38-devel && \
-  yum clean all && \
-  ln -s /usr/bin/python3.8 /usr/bin/python3 && \
-  ln -s /usr/bin/pip3.8 /usr/bin/pip3 && \
-  python3 --version && \
-  pip3 --version
+  gmp-devel \
+  zlib-devel \
+  python3-devel \
+  && dnf clean all
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
@@ -46,7 +38,7 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERS
 
 # Prepare virtualenv for lambda builders
 RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
-RUN curl https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
 # Install lambda builders in a dedicated Python virtualenv
 RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/requirements/base.txt | grep aws_lambda_builders | cut -d= -f3) && \
@@ -54,13 +46,31 @@ RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli
 
 ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
 
+ENV LANG=en_US.UTF-8
+
 # Wheel is required by SAM CLI to build libraries like cryptography. It needs to be installed in the system
 # Python for it to be picked up during `sam build`
 RUN pip3 install wheel
 
-ENV LANG=en_US.UTF-8
+# Setup Java Home
+
+ENV JAVA_HOME="/var/lang"
+
+# Install Java build tools
+RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-9.2.0-bin.zip && \
+  unzip -d /usr/local/gradle gradle.zip && rm gradle.zip && mkdir /usr/local/maven && \
+  curl -L https://downloads.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.tar.gz | \
+  tar -zx -C /usr/local/maven
+
+ENV PATH="/usr/local/gradle/gradle-9.2.0/bin:/usr/local/maven/apache-maven-3.9.11/bin:${PATH}"
 
 COPY ATTRIBUTION.txt /
+
+# Set following GRADLE_OPTS and MAVEN_OPTS for Java 25 compatibility
+# VFORK is deprecated in Java 25, use FORK instead
+# Set Gradle user home to a writable location
+ENV GRADLE_OPTS="-Dgradle.user.home=/tmp -Djdk.lang.Process.launchMechanism=FORK --enable-native-access=ALL-UNNAMED"
+ENV MAVEN_OPTS="-Djdk.lang.Process.launchMechanism=FORK --enable-native-access=ALL-UNNAMED"
 
 # Compatible with initial base image
 ENTRYPOINT []
