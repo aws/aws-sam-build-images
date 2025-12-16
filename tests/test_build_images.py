@@ -862,7 +862,7 @@ class TestBIDotNet8Arm(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_package_present("dotnet"))
 
 @pytest.mark.dotnet10x86_64
-class TestBIDotNet8(AL2023BasedBuildImageBase):
+class TestBIDotNet10(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
@@ -880,7 +880,7 @@ class TestBIDotNet8(AL2023BasedBuildImageBase):
 
 
 @pytest.mark.dotnet10arm64
-class TestBIDotNet8Arm(AL2023BasedBuildImageBase):
+class TestBIDotNet10Arm(AL2023BasedBuildImageBase):
     __test__ = True
 
     @classmethod
