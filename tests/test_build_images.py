@@ -861,6 +861,41 @@ class TestBIDotNet8Arm(AL2023BasedBuildImageBase):
         self.assertTrue(self.check_package_output("dotnet --version", "8"))
         self.assertTrue(self.is_package_present("dotnet"))
 
+@pytest.mark.dotnet10x86_64
+class TestBIDotNet10(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet10", "Dockerfile-dotnet10", tag="x86_64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "10"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
+@pytest.mark.dotnet10arm64
+class TestBIDotNet10Arm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet10", "Dockerfile-dotnet10", tag="arm64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "10"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
 
 @pytest.mark.ruby32x86_64
 class TestBIRuby32(BuildImageBase):

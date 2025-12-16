@@ -8,6 +8,7 @@ IS_dotnet6 := dotnet6
 IS_dotnet7 := dotnet7
 IS_dotnet8 := dotnet8
 IS_dotnet9 := dotnet9
+IS_dotnet10 := dotnet10
 IS_java8_al2 := java8.al2
 IS_java11 := java11
 IS_java17 := java17
