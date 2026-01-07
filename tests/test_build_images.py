@@ -556,6 +556,7 @@ class TestBIPython310ForArm(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python310x86_64
@@ -572,6 +573,7 @@ class TestBIPython310(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python311arm64
@@ -588,6 +590,7 @@ class TestBIPython311ForArm(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python311x86_64
@@ -604,6 +607,7 @@ class TestBIPython311(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python312arm64
@@ -620,6 +624,7 @@ class TestBIPython312ForArm(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.12."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python312x86_64
@@ -636,6 +641,7 @@ class TestBIPython312(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.12."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python313arm64
@@ -652,6 +658,7 @@ class TestBIPython313ForArm(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.13."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python313x86_64
@@ -668,6 +675,7 @@ class TestBIPython313(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.13."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python314arm64
@@ -684,6 +692,7 @@ class TestBIPython314ForArm(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.14."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python314x86_64
@@ -700,6 +709,7 @@ class TestBIPython314(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.14."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python39arm64
