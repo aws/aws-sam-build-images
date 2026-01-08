@@ -19,7 +19,12 @@ SKIP_CONTAINERIZED_BUILD_TESTS = {
 }
 # These are the runtimes which requires `--mount-with WRITE` option to build functions
 # in a containerized build
-MOUNT_WITH_WRITE_RUNTIMES = {"dotnet6", "dotnet8"}
+MOUNT_WITH_WRITE_RUNTIMES = {"dotnet6", "dotnet8", "dotnet10"}
+# Specific runtime+dep_manager+tag combinations that require write permissions
+# Format: (runtime, dep_manager, tag)
+MOUNT_WITH_WRITE_COMBINATIONS = {
+    ("java25", "gradle", "arm64"),
+}
 
 
 class BuildImageBase(TestCase):
@@ -94,7 +99,13 @@ class BuildImageBase(TestCase):
         """
         Test sam init hello world application for the given runtime and dependency manager
         """
-        if self.runtime in ["provided", "provided.al2", "provided.al2023", "dotnet7", "dotnet9"]:
+        if self.runtime in [
+            "provided",
+            "provided.al2",
+            "provided.al2023",
+            "dotnet7",
+            "dotnet9",
+        ]:
             pytest.skip("Skipping sam init test for self-provided images")
 
         sam_init = f"sam init \
@@ -184,8 +195,12 @@ class BuildImageBase(TestCase):
             self.tag,
         ]
         build_args = ["sam", "build", "--use-container", "--build-image", self.image]
-        # add --mount-with WRITE option for dotnet runtimes
-        if self.runtime in MOUNT_WITH_WRITE_RUNTIMES:
+        # add --mount-with WRITE option for dotnet runtimes or specific combinations
+        if self.runtime in MOUNT_WITH_WRITE_RUNTIMES or (
+            self.runtime,
+            self.dep_manager,
+            self.tag,
+        ) in MOUNT_WITH_WRITE_COMBINATIONS:
             build_args += ["--mount-with", "WRITE"]
         invoke_args = ["sam", "local", "invoke", "HelloWorldFunction"]
         with tempfile.TemporaryDirectory() as tmpdir:
