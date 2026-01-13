@@ -507,6 +507,7 @@ class TestBIPython38(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.8."))
         self.assertTrue(self.is_package_present("pip"))
         self.assertTrue(self.is_architecture("x86_64"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python38arm64
@@ -524,6 +525,7 @@ class TestBIPython38ForArm(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.8."))
         self.assertTrue(self.is_package_present("pip"))
         self.assertTrue(self.is_architecture("aarch64"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python39x86_64
@@ -540,6 +542,24 @@ class TestBIPython39(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python39arm64
+class TestBIPython39ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.9", "Dockerfile-python39", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python310arm64
@@ -710,22 +730,6 @@ class TestBIPython314(AL2023BasedBuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.14."))
         self.assertTrue(self.is_package_present("pip"))
         self.assertTrue(self.check_package_output("uv --version", "uv"))
-
-
-@pytest.mark.python39arm64
-class TestBIPython39ForArm(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.9", "Dockerfile-python39", "pip", tag="arm64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
-        self.assertTrue(self.is_package_present("pip"))
 
 
 @pytest.mark.dotnet6x86_64
