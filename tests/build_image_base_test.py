@@ -19,7 +19,7 @@ SKIP_CONTAINERIZED_BUILD_TESTS = {
 }
 # These are the runtimes which requires `--mount-with WRITE` option to build functions
 # in a containerized build
-MOUNT_WITH_WRITE_RUNTIMES = {"dotnet6", "dotnet8"}
+MOUNT_WITH_WRITE_RUNTIMES = {"dotnet6", "dotnet8", "dotnet10"}
 # Specific runtime+dep_manager+tag combinations that require write permissions
 # Format: (runtime, dep_manager, tag)
 MOUNT_WITH_WRITE_COMBINATIONS = {
