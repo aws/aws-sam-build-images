@@ -56,7 +56,7 @@ ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
 
 # Wheel is required by SAM CLI to build libraries like cryptography. It needs to be installed in the system
 # Python for it to be picked up during `sam build`
-RUN pip3 install wheel
+RUN pip3 install wheel==0.45.1
 
 ENV LANG=en_US.UTF-8
 
