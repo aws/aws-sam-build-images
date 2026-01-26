@@ -51,6 +51,9 @@ ENV LANG=en_US.UTF-8
 # Python for it to be picked up during `sam build`
 RUN pip3 install wheel==0.45.1 setuptools
 
+# Install uv
+RUN pip3 install uv==0.9.22
+
 COPY ATTRIBUTION.txt /
 
 # Compatible with initial base image
