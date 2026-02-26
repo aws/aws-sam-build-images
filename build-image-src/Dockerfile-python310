@@ -48,7 +48,10 @@ ENV LANG=en_US.UTF-8
 
 # Wheel is required by SAM CLI to build libraries like cryptography. It needs to be installed in the system
 # Python for it to be picked up during `sam build`
-RUN pip3 install wheel
+RUN pip3 install wheel==0.45.1
+
+# Install uv
+RUN pip3 install uv==0.9.22
 
 COPY ATTRIBUTION.txt /
 
