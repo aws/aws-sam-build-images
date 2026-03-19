@@ -41,7 +41,7 @@ RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
 # Install lambda builders in a dedicated Python virtualenv
-RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/requirements/base.txt | grep aws_lambda_builders | cut -d= -f3) && \
+RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/pyproject.toml | grep aws_lambda_builders | cut -d'=' -f3 | tr -d '",') && \
   /usr/local/opt/lambda-builders/bin/pip3 --no-cache-dir install "aws-lambda-builders==$AWS_LB_VERSION"
 
 ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
@@ -59,10 +59,10 @@ ENV JAVA_HOME="/var/lang"
 # Install Java build tools
 RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-9.2.0-bin.zip && \
   unzip -d /usr/local/gradle gradle.zip && rm gradle.zip && mkdir /usr/local/maven && \
-  curl -L https://downloads.apache.org/maven/maven-3/3.9.12/binaries/apache-maven-3.9.12-bin.tar.gz | \
+  curl -L https://downloads.apache.org/maven/maven-3/3.9.14/binaries/apache-maven-3.9.14-bin.tar.gz | \
   tar -zx -C /usr/local/maven
 
-ENV PATH="/usr/local/gradle/gradle-9.2.0/bin:/usr/local/maven/apache-maven-3.9.12/bin:${PATH}"
+ENV PATH="/usr/local/gradle/gradle-9.2.0/bin:/usr/local/maven/apache-maven-3.9.14/bin:${PATH}"
 
 COPY ATTRIBUTION.txt /
 
