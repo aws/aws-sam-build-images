@@ -48,6 +48,7 @@ jobs:
           - "dotnet7"
           - "dotnet8"
           - "dotnet9"
+          - "dotnet10"
           - "java8_al2"
           - "java11"
           - "java17"
@@ -77,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [get-sam-cli-version]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.event_name == 'schedule' && 'develop' || github.ref }}
       - uses: actions/setup-python@v6

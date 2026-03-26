@@ -507,6 +507,7 @@ class TestBIPython38(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.8."))
         self.assertTrue(self.is_package_present("pip"))
         self.assertTrue(self.is_architecture("x86_64"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python38arm64
@@ -524,6 +525,7 @@ class TestBIPython38ForArm(BuildImageBase):
         self.assertTrue(self.check_package_output("python --version", "Python 3.8."))
         self.assertTrue(self.is_package_present("pip"))
         self.assertTrue(self.is_architecture("aarch64"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python39x86_64
@@ -540,166 +542,7 @@ class TestBIPython39(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
         self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.python310arm64
-class TestBIPython310ForArm(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.10", "Dockerfile-python310", "pip", tag="arm64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
-        self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.python310x86_64
-class TestBIPython310(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.10", "Dockerfile-python310", "pip", tag="x86_64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
-        self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.python311arm64
-class TestBIPython311ForArm(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.11", "Dockerfile-python311", "pip", tag="arm64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
-        self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.python311x86_64
-class TestBIPython311(BuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.11", "Dockerfile-python311", "pip", tag="x86_64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
-        self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.python312arm64
-class TestBIPython312ForArm(AL2023BasedBuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.12", "Dockerfile-python312", "pip", tag="arm64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.12."))
-        self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.python312x86_64
-class TestBIPython312(AL2023BasedBuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.12", "Dockerfile-python312", "pip", tag="x86_64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.12."))
-        self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.python313arm64
-class TestBIPython313ForArm(AL2023BasedBuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.13", "Dockerfile-python313", "pip", tag="arm64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.13."))
-        self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.python313x86_64
-class TestBIPython313(AL2023BasedBuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.13", "Dockerfile-python313", "pip", tag="x86_64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.13."))
-        self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.python314arm64
-class TestBIPython314ForArm(AL2023BasedBuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.14", "Dockerfile-python314", "pip", tag="arm64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.14."))
-        self.assertTrue(self.is_package_present("pip"))
-
-
-@pytest.mark.python314x86_64
-class TestBIPython314(AL2023BasedBuildImageBase):
-    __test__ = True
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass("python3.14", "Dockerfile-python314", "pip", tag="x86_64")
-
-    def test_packages(self):
-        """
-        Test packages specific to this build image
-        """
-        self.assertTrue(self.check_package_output("python --version", "Python 3.14."))
-        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.python39arm64
@@ -716,6 +559,177 @@ class TestBIPython39ForArm(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.9."))
         self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python310arm64
+class TestBIPython310ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.10", "Dockerfile-python310", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python310x86_64
+class TestBIPython310(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.10", "Dockerfile-python310", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.10."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python311arm64
+class TestBIPython311ForArm(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.11", "Dockerfile-python311", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python311x86_64
+class TestBIPython311(BuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.11", "Dockerfile-python311", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.11."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python312arm64
+class TestBIPython312ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.12", "Dockerfile-python312", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.12."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python312x86_64
+class TestBIPython312(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.12", "Dockerfile-python312", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.12."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python313arm64
+class TestBIPython313ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.13", "Dockerfile-python313", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.13."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python313x86_64
+class TestBIPython313(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.13", "Dockerfile-python313", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.13."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python314arm64
+class TestBIPython314ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.14", "Dockerfile-python314", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.14."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python314x86_64
+class TestBIPython314(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.14", "Dockerfile-python314", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.14."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
 @pytest.mark.dotnet6x86_64
@@ -859,6 +873,41 @@ class TestBIDotNet8Arm(AL2023BasedBuildImageBase):
         Test packages specific to this build image
         """
         self.assertTrue(self.check_package_output("dotnet --version", "8"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+@pytest.mark.dotnet10x86_64
+class TestBIDotNet10(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet10", "Dockerfile-dotnet10", tag="x86_64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "10"))
+        self.assertTrue(self.is_package_present("dotnet"))
+
+
+@pytest.mark.dotnet10arm64
+class TestBIDotNet10Arm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass(
+            "dotnet10", "Dockerfile-dotnet10", tag="arm64", dep_manager="cli-package"
+        )
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("dotnet --version", "10"))
         self.assertTrue(self.is_package_present("dotnet"))
 
 

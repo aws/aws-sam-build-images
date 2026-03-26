@@ -1,12 +1,15 @@
 ARG IMAGE_ARCH
-FROM public.ecr.aws/lambda/dotnet:7-$IMAGE_ARCH
+FROM public.ecr.aws/lambda/dotnet:10-$IMAGE_ARCH
 
-RUN yum groupinstall -y development && \
-  yum install -d1 -y \
-  yum \
+RUN dnf remove -y microdnf-dnf && \
+  microdnf install -y dnf
+
+RUN dnf groupinstall -y development && \
+  dnf install -y --allowerasing \
   tar \
   gzip \
   unzip \
+  python3 \
   jq \
   grep \
   curl \
@@ -15,31 +18,20 @@ RUN yum groupinstall -y development && \
   binutils \
   gcc-c++ \
   procps \
-  libgmp3-dev \
-  zlib1g-dev \
   libmpc-devel \
-  amazon-linux-extras \
+  gmp-devel \
+  zlib-devel \
+  python3-devel \
   clang krb5-devel \
   openssl-devel \
   llvm \
-  libicu
-
-RUN yum remove -y python3 python3-devel
-
-# Install extras so that Python 3.8 is installable
-# https://aws.amazon.com/amazon-linux-2/faqs/#Amazon_Linux_Extras
-RUN amazon-linux-extras enable python3.8 && \
-  yum clean metadata && \
-  yum install -y python38 python38-devel && \
-  yum clean all && \
-  ln -s /usr/bin/python3.8 /usr/bin/python3 && \
-  ln -s /usr/bin/pip3.8 /usr/bin/pip3 && \
-  python3 --version && \
-  pip3 --version
+  libicu \
+  tzdata \
+  && dnf clean all
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm -rf awscliv2.zip && rm -rf ./aws
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install && rm awscliv2.zip && rm -rf ./aws
 
 # Install SAM CLI from native installer
 ARG SAM_CLI_VERSION
@@ -51,7 +43,7 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERS
 
 # Prepare virtualenv for lambda builders
 RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
-RUN curl https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
 # Install lambda builders in a dedicated Python virtualenv
 RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/pyproject.toml | grep aws_lambda_builders | cut -d'=' -f3 | tr -d '",') && \
@@ -71,13 +63,13 @@ ENV DOTNET_ROOT=/var/lang/bin
 
 # Install .NET build tools
 
-ENV AWS_EXECUTION_ENV=AWS_Lambda_dotnet7 \
+ENV AWS_EXECUTION_ENV=AWS_Lambda_dotnet10 \
     DOTNET_CLI_TELEMETRY_OPTOUT=1 \
     DOTNET_NOLOGO=1 \
     NUGET_XMLDOC_MODE=skip
 
 # Warm up the nuget cache once now for faster startup on each use.
-RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -s -- -c 7.0 -i "${DOTNET_ROOT}" && \
+RUN curl -L https://dot.net/v1/dotnet-install.sh | bash -s -- -c 10.0 -i "${DOTNET_ROOT}" && \
   mkdir /tmp/warmup && \
   cd /tmp/warmup && \
   dotnet new > /dev/null && \
