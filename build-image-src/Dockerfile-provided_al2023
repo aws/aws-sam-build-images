@@ -18,6 +18,8 @@ RUN dnf install -y tar\
   git \
   && dnf clean all
 
+RUN dnf upgrade -y --releasever=latest
+
 # Install AWS CLI
 ARG AWS_CLI_ARCH
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-$AWS_CLI_ARCH.zip" -o "awscliv2.zip"
