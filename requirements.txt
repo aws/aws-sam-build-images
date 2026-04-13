@@ -5,7 +5,7 @@ urllib3<2
 requests~=2.32.0
 
 # Test requirements
-pytest==7.3.1
+pytest==9.0.3
 
 # formatter
 black==24.3.0
