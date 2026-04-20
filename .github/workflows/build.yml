@@ -71,6 +71,7 @@ jobs:
           - "ruby32"
           - "ruby33"
           - "ruby34"
+          - "ruby40"
         include:
           - skip_arm_test: false
           - runtime: "dotnet8"

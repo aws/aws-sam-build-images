@@ -4,18 +4,16 @@ set -e
 # Of course, you can also run a single one of these commands manually.
 # If you use this script, ensure that you run with --skip-pull-image, else the remote image may be used.
 
-if [ -z ${SAM_CLI_VERSION+x} ];
-then
-    echo "Must set SAM_CLI_VERSION to run this script."
-    exit 1;
+if [ -z ${SAM_CLI_VERSION+x} ]; then
+  echo "Must set SAM_CLI_VERSION to run this script."
+  exit 1
 else
-    echo "SAM CLI VERSION: $SAM_CLI_VERSION";
+  echo "SAM CLI VERSION: $SAM_CLI_VERSION"
 fi
 
 # Disable DOCKER_CONTENT_TRUST for pulling from public ECR
 export DOCKER_CONTENT_TRUST=0
 export DOCKER_CLI_EXPERIMENTAL=enabled
-
 
 # Multi arch images
 # First build all x86
@@ -46,6 +44,7 @@ docker build -f Dockerfile-python314 -t amazon/aws-sam-cli-build-image-python3.1
 docker build -f Dockerfile-ruby32 -t amazon/aws-sam-cli-build-image-ruby3.2:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-ruby33 -t amazon/aws-sam-cli-build-image-ruby3.3:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-ruby34 -t amazon/aws-sam-cli-build-image-ruby3.4:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
+docker build -f Dockerfile-ruby40 -t amazon/aws-sam-cli-build-image-ruby4.0:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 wait
 
 # Build arm64 images
@@ -77,4 +76,5 @@ docker build -f Dockerfile-python314 -t amazon/aws-sam-cli-build-image-python3.1
 docker build -f Dockerfile-ruby32 -t amazon/aws-sam-cli-build-image-ruby3.2:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-ruby33 -t amazon/aws-sam-cli-build-image-ruby3.3:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-ruby34 -t amazon/aws-sam-cli-build-image-ruby3.4:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
+docker build -f Dockerfile-ruby40 -t amazon/aws-sam-cli-build-image-ruby4.0:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 wait

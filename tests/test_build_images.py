@@ -1019,6 +1019,36 @@ class TestBIRuby34ForArm(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.ruby40x86_64
+class TestBIRuby40(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("ruby4.0", "Dockerfile-ruby40", "bundler", tag="x86_64")
+
+    def test_packages(self):
+        self.assertTrue(self.check_package_output("ruby --version", "ruby 4.0."))
+        self.assertTrue(self.is_package_present("bundler"))
+        self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.ruby40arm64
+class TestBIRuby40ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("ruby4.0", "Dockerfile-ruby40", "bundler", tag="arm64")
+
+    def test_packages(self):
+        self.assertTrue(self.check_package_output("ruby --version", "ruby 4.0."))
+        self.assertTrue(self.is_package_present("bundler"))
+        self.assertTrue(self.is_package_present("gem"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
 @pytest.mark.provided_al2x86_64
 class TestBIProvidedAL2(BuildImageBase):
     __test__ = True
