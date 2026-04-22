@@ -6,11 +6,11 @@ ENV PATH=/var/lang/bin:$PATH \
   AWS_EXECUTION_ENV=AWS_Lambda_nodejs22.x \
   NODE_PATH=/opt/nodejs/node22/node_modules:/opt/nodejs/node_modules:/var/runtime/node_modules
 
-RUN dnf remove -y microdnf-dnf && \
-  microdnf install -y dnf
+RUN LD_LIBRARY_PATH= dnf remove -y microdnf-dnf && \
+  LD_LIBRARY_PATH= microdnf install -y dnf
 
-RUN dnf groupinstall -y development && \
-  dnf install -y \
+RUN LD_LIBRARY_PATH= dnf groupinstall -y development && \
+  LD_LIBRARY_PATH= dnf install -y \
   tar \
   gzip \
   unzip \
@@ -28,7 +28,7 @@ RUN dnf groupinstall -y development && \
   python3-devel \
   && dnf clean all
 
-RUN dnf upgrade -y --releasever=latest
+RUN LD_LIBRARY_PATH= dnf upgrade -y --releasever=latest
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
