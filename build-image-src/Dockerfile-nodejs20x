@@ -2,15 +2,14 @@ ARG IMAGE_ARCH
 FROM public.ecr.aws/lambda/nodejs:20-$IMAGE_ARCH
 
 ENV PATH=/var/lang/bin:$PATH \
-  LD_LIBRARY_PATH=/var/lang/lib:$LD_LIBRARY_PATH \
   AWS_EXECUTION_ENV=AWS_Lambda_nodejs20.x \
   NODE_PATH=/opt/nodejs/node20/node_modules:/opt/nodejs/node_modules:/var/runtime/node_modules
 
-RUN LD_LIBRARY_PATH= dnf remove -y microdnf-dnf && \
-  LD_LIBRARY_PATH= microdnf install -y dnf
+RUN dnf remove -y microdnf-dnf && \
+  microdnf install -y dnf
 
-RUN LD_LIBRARY_PATH= dnf groupinstall -y development && \
-  LD_LIBRARY_PATH= dnf install -y \
+RUN dnf groupinstall -y development && \
+  dnf install -y \
   tar \
   gzip \
   unzip \
@@ -28,7 +27,7 @@ RUN LD_LIBRARY_PATH= dnf groupinstall -y development && \
   python3-devel \
   && dnf clean all
 
-RUN LD_LIBRARY_PATH= dnf upgrade -y --releasever=latest
+RUN dnf upgrade -y --releasever=latest
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
@@ -45,12 +44,10 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERS
 # Prepare virtualenv for lambda builders
 RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-RUN LD_LIBRARY_PATH= /usr/local/opt/lambda-builders/bin/python3 get-pip.py
+RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
 # Install lambda builders in a dedicated Python virtualenv
-# Nodejs20 uses a different version (3.1.3) of OpenSSL. This caused an error when Python (installed via dnf) tries to use the ssl module.
-# Temporarily set LD_LIBRARY_PATH to empty for python and pip to pick up the right OpenSSL version
 RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/pyproject.toml | grep aws_lambda_builders | cut -d'=' -f3 | tr -d '",') && \
-  LD_LIBRARY_PATH= /usr/local/opt/lambda-builders/bin/pip3 --no-cache-dir install "aws-lambda-builders==$AWS_LB_VERSION"
+  /usr/local/opt/lambda-builders/bin/pip3 --no-cache-dir install "aws-lambda-builders==$AWS_LB_VERSION"
 
 ENV PATH=$PATH:/usr/local/opt/lambda-builders/bin
 
@@ -58,9 +55,17 @@ ENV LANG=en_US.UTF-8
 
 # Wheel is required by SAM CLI to build libraries like cryptography. It needs to be installed in the system
 # Python for it to be picked up during `sam build`
-RUN LD_LIBRARY_PATH= pip3 install wheel==0.45.1
+RUN pip3 install wheel==0.45.1
 
 COPY ATTRIBUTION.txt /
+
+# Set LD_LIBRARY_PATH for the Node.js runtime at the end to avoid conflicts
+# with system Python/OpenSSL during package installation steps above.
+# Node uses a different version of OpenSSL than the system Python, which
+# causes an ImportError when Python tries to use the ssl/hashlib modules.
+# By deferring LD_LIBRARY_PATH until after all package installations, we
+# ensure dnf/pip/python pick up the correct system OpenSSL.
+ENV LD_LIBRARY_PATH=/var/lang/lib:$LD_LIBRARY_PATH
 
 # Compatible with initial base image
 ENTRYPOINT []
