@@ -20,16 +20,14 @@ RUN yum groupinstall -y development && \
   libmpc-devel \
   amazon-linux-extras
 
-# Install extras so that Python 3.8 is installable
+# Install Python 3.11 (aws-lambda-builders requires Python >= 3.10)
 # https://aws.amazon.com/amazon-linux-2/faqs/#Amazon_Linux_Extras
-RUN amazon-linux-extras enable python3.8 && \
+RUN amazon-linux-extras enable python3.11 && \
   yum clean metadata && \
-  yum install -y python38 python38-devel && \
+  yum install -y python3.11 python3.11-devel && \
   yum clean all && \
-  ln -s /usr/bin/python3.8 /usr/bin/python3 && \
-  ln -s /usr/bin/pip3.8 /usr/bin/pip3 && \
-  python3 --version && \
-  pip3 --version
+  ln -s /usr/bin/python3.11 /usr/bin/python3 && \
+  ln -s /usr/bin/pip3.11 /usr/bin/pip3
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
@@ -45,7 +43,7 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERS
 
 # Prepare virtualenv for lambda builders
 RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
-RUN curl https://bootstrap.pypa.io/pip/3.8/get-pip.py -o get-pip.py
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
 # Install lambda builders in a dedicated Python virtualenv
 RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/pyproject.toml | grep aws_lambda_builders | cut -d'=' -f3 | tr -d '",') && \
