@@ -15,6 +15,8 @@ RUN dnf install -y tar\
   libxslt-devel \
   libmpc-devel \
   python3-devel \
+  python3.11 \
+  python3.11-devel \
   git \
   && dnf clean all
 
@@ -34,7 +36,8 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERS
   rm samcli.zip && rm -rf sam-installation && sam --version
 
 # Prepare virtualenv for lambda builders
-RUN python3 -m venv --without-pip /usr/local/opt/lambda-builders
+# Use python3.11 because aws-lambda-builders requires Python >= 3.10
+RUN python3.11 -m venv --without-pip /usr/local/opt/lambda-builders
 RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 RUN /usr/local/opt/lambda-builders/bin/python3 get-pip.py
 # Install lambda builders in a dedicated Python virtualenv
