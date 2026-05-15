@@ -31,6 +31,7 @@ IS_python314 := python3.14
 IS_ruby32 := ruby3.2
 IS_ruby33 := ruby3.3
 IS_ruby34 := ruby3.4
+IS_ruby40 := ruby4.0
 
 init:
 	pip install -Ur requirements.txt
