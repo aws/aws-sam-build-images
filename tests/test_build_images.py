@@ -1070,6 +1070,15 @@ class TestBIProvidedAL2(BuildImageBase):
         self.assertTrue(self.check_package_output("go version", "go1."))
         self.assertTrue(self.is_package_present("go"))
 
+    def test_python_pip_available(self):
+        """
+        Customer Makefile build hooks for provided.al2 routinely call
+        `python3 -m pip install ...`. Regression-test that python3 and pip
+        are both reachable inside the image.
+        """
+        self.assertTrue(self.is_package_present("python3"))
+        self.assertTrue(self.check_package_output("python3 -m pip --version", "pip "))
+
 
 @pytest.mark.provided_al2arm64
 class TestBIProvidedAL2ForArm(BuildImageBase):
@@ -1091,6 +1100,15 @@ class TestBIProvidedAL2ForArm(BuildImageBase):
         """
         self.assertTrue(self.check_package_output("go version", "go1."))
         self.assertTrue(self.is_package_present("go"))
+
+    def test_python_pip_available(self):
+        """
+        Customer Makefile build hooks for provided.al2 routinely call
+        `python3 -m pip install ...`. Regression-test that python3 and pip
+        are both reachable inside the image.
+        """
+        self.assertTrue(self.is_package_present("python3"))
+        self.assertTrue(self.check_package_output("python3 -m pip --version", "pip "))
 
 
 @pytest.mark.provided_al2023x86_64
@@ -1116,6 +1134,15 @@ class TestBIProvidedAL2023(AL2023BasedBuildImageBase):
         self.assertTrue(self.check_package_output("go version", "go1."))
         self.assertTrue(self.is_package_present("go"))
 
+    def test_python_pip_available(self):
+        """
+        Customer Makefile build hooks for provided.al2023 routinely call
+        `python3 -m pip install ...`. Regression-test that python3 and pip
+        are both reachable inside the image.
+        """
+        self.assertTrue(self.is_package_present("python3"))
+        self.assertTrue(self.check_package_output("python3 -m pip --version", "pip "))
+
 
 @pytest.mark.provided_al2023arm64
 class TestBIProvidedAL2023ForArm(AL2023BasedBuildImageBase):
@@ -1137,3 +1164,12 @@ class TestBIProvidedAL2023ForArm(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("go version", "go1."))
         self.assertTrue(self.is_package_present("go"))
+
+    def test_python_pip_available(self):
+        """
+        Customer Makefile build hooks for provided.al2023 routinely call
+        `python3 -m pip install ...`. Regression-test that python3 and pip
+        are both reachable inside the image.
+        """
+        self.assertTrue(self.is_package_present("python3"))
+        self.assertTrue(self.check_package_output("python3 -m pip --version", "pip "))
