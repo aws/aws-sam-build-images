@@ -40,8 +40,10 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH=/root/.local/bin:$PATH
 ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python
 
-# Prepare virtualenv for lambda builders
-RUN uv venv --python 3.11 /usr/local/opt/lambda-builders
+# Prepare virtualenv for lambda builders.
+# --seed installs pip/setuptools/wheel into the venv so customer Makefile build hooks
+# that invoke `python3 -m pip ...` continue to work (this venv is on PATH below).
+RUN uv venv --seed --python 3.11 /usr/local/opt/lambda-builders
 # Install lambda builders in a dedicated Python virtualenv
 RUN AWS_LB_VERSION=$(curl -sSL https://raw.githubusercontent.com/aws/aws-sam-cli/v$SAM_CLI_VERSION/pyproject.toml | grep aws_lambda_builders | cut -d'=' -f3 | tr -d '",') && \
   uv pip install --python /usr/local/opt/lambda-builders "aws-lambda-builders==$AWS_LB_VERSION"
