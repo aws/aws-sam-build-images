@@ -41,6 +41,7 @@ RUN curl -L "https://github.com/aws/aws-sam-cli/releases/download/v$SAM_CLI_VERS
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH=/root/.local/bin:$PATH
 ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python
+ENV UV_PYTHON_PREFERENCE=system
 
 # Prepare virtualenv for lambda builders
 RUN uv venv --python 3.11 /usr/local/opt/lambda-builders
