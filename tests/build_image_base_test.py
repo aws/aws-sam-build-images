@@ -14,6 +14,7 @@ SKIP_CONTAINERIZED_BUILD_TESTS = {
     "provided",
     "provided.al2",
     "provided.al2023",
+    "dotnet6",
     "dotnet7",
     "dotnet9",
 }
