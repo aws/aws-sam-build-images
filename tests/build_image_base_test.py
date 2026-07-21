@@ -103,6 +103,7 @@ class BuildImageBase(TestCase):
             "provided",
             "provided.al2",
             "provided.al2023",
+            "dotnet6",
             "dotnet7",
             "dotnet9",
         ]:
