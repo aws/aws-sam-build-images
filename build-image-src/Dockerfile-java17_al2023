@@ -68,6 +68,10 @@ RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.or
 
 ENV PATH="/usr/local/gradle/gradle-7.3.1/bin:/usr/local/maven/apache-maven-3.9.16/bin:${PATH}"
 
+# Set following GRADLE_OPTS and MAVEN_OPTS to fix issues with arm64 image
+ENV GRADLE_OPTS="-Djdk.lang.Process.launchMechanism=vfork"
+ENV MAVEN_OPTS="-Djdk.lang.Process.launchMechanism=vfork"
+
 COPY ATTRIBUTION.txt /
 
 # Compatible with initial base image
