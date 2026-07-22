@@ -1181,7 +1181,7 @@ class TestBIJava8AL2023(AL2023BasedBuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("java8.al2023", "Dockerfile-java8_al2023", "maven", tag="x86_64")
+        super().setUpClass("java8.al2023", "Dockerfile-java8_al2023", "gradle", tag="x86_64")
 
     def test_packages(self):
         self.assertTrue(
@@ -1198,7 +1198,7 @@ class TestBIJava8AL2023ForArm(AL2023BasedBuildImageBase):
 
     @classmethod
     def setUpClass(cls):
-        super().setUpClass("java8.al2023", "Dockerfile-java8_al2023", "maven", tag="arm64")
+        super().setUpClass("java8.al2023", "Dockerfile-java8_al2023", "gradle", tag="arm64")
 
     def test_packages(self):
         self.assertTrue(
