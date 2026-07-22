@@ -90,7 +90,7 @@ ENV PATH=~/.dotnet/tools:$PATH
 
 # We're using the -v diag argument to output extra logs because in the past we've seen intermittent failures
 # and want to be able to better understand them if they happen again
-RUN dotnet tool install --tool-path "${DOTNET_ROOT}" Amazon.Lambda.Tools -v diag
+RUN dotnet tool install --tool-path "${DOTNET_ROOT}" Amazon.Lambda.Tools --version 5.14.0 -v diag
 
 COPY ATTRIBUTION.txt /
 
