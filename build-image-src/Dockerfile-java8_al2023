@@ -21,6 +21,7 @@ RUN dnf groupinstall -y development && \
   gmp-devel \
   zlib-devel \
   python3-devel \
+  java-1.8.0-amazon-corretto-devel \
   && dnf clean all
 
 RUN dnf upgrade -y --releasever=latest
@@ -58,7 +59,7 @@ RUN uv pip install --python /usr/local/opt/lambda-builders wheel==0.45.1
 
 # Setup Java Home
 
-ENV JAVA_HOME="/var/lang"
+ENV JAVA_HOME="/usr/lib/jvm/java-1.8.0-amazon-corretto"
 
 # Install Java build tools
 RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-6.2.2-bin.zip && \
