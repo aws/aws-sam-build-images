@@ -45,7 +45,6 @@ jobs:
       matrix:
         runtime: 
           - "dotnet6"
-          - "dotnet7"
           - "dotnet8"
           - "dotnet9"
           - "dotnet10"
