@@ -87,7 +87,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.9"
-      - uses: aws-actions/setup-sam@v2
+      - uses: aws-actions/setup-sam@v3
         with:
           use-installer: true
       - run: make init
