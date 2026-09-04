@@ -50,8 +50,11 @@ jobs:
           - "dotnet9"
           - "dotnet10"
           - "java8_al2"
+          - "java8_al2023"
           - "java11"
+          - "java11_al2023"
           - "java17"
+          - "java17_al2023"
           - "java21"
           - "java25"
           - "nodejs16x"
@@ -85,7 +88,7 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: "3.10"
-      - uses: aws-actions/setup-sam@v2
+      - uses: aws-actions/setup-sam@v3
         with:
           use-installer: true
       - run: make init

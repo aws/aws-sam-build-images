@@ -1173,3 +1173,105 @@ class TestBIProvidedAL2023ForArm(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.is_package_present("python3"))
         self.assertTrue(self.check_package_output("python3 -m pip --version", "pip "))
+
+
+@pytest.mark.java8_al2023x86_64
+class TestBIJava8AL2023(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java8.al2023", "Dockerfile-java8_al2023", "maven", tag="x86_64")
+
+    def test_packages(self):
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "1.8.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java8_al2023arm64
+class TestBIJava8AL2023ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java8.al2023", "Dockerfile-java8_al2023", "maven", tag="arm64")
+
+    def test_packages(self):
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "1.8.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
+@pytest.mark.java11_al2023x86_64
+class TestBIJava11AL2023(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java11.al2023", "Dockerfile-java11_al2023", "maven", tag="x86_64")
+
+    def test_packages(self):
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "11.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java11_al2023arm64
+class TestBIJava11AL2023ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java11.al2023", "Dockerfile-java11_al2023", "maven", tag="arm64")
+
+    def test_packages(self):
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "11.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
+@pytest.mark.java17_al2023x86_64
+class TestBIJava17AL2023(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java17.al2023", "Dockerfile-java17_al2023", "maven", tag="x86_64")
+
+    def test_packages(self):
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "17.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.java17_al2023arm64
+class TestBIJava17AL2023ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("java17.al2023", "Dockerfile-java17_al2023", "maven", tag="arm64")
+
+    def test_packages(self):
+        self.assertTrue(
+            self.check_package_output("java -version", 'openjdk version "17.', True)
+        )
+        self.assertTrue(self.is_package_present("mvn"))
+        self.assertTrue(self.is_package_present("gradle"))
+        self.assertTrue(self.is_architecture("aarch64"))
