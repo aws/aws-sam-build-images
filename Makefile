@@ -5,7 +5,6 @@ export DOCKER_CLI_EXPERIMENTAL := enabled
 
 # image suffix lookup
 IS_dotnet6 := dotnet6
-IS_dotnet7 := dotnet7
 IS_dotnet8 := dotnet8
 IS_dotnet9 := dotnet9
 IS_dotnet10 := dotnet10
