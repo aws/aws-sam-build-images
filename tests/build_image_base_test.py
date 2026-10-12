@@ -15,7 +15,6 @@ SKIP_CONTAINERIZED_BUILD_TESTS = {
     "provided.al2",
     "provided.al2023",
     "dotnet6",
-    "dotnet7",
     "dotnet9",
 }
 # These are the runtimes which requires `--mount-with WRITE` option to build functions
@@ -105,7 +104,6 @@ class BuildImageBase(TestCase):
             "provided.al2",
             "provided.al2023",
             "dotnet6",
-            "dotnet7",
             "dotnet9",
         ]:
             pytest.skip("Skipping sam init test for self-provided images")

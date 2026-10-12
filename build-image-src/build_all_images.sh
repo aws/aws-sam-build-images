@@ -18,7 +18,6 @@ export DOCKER_CLI_EXPERIMENTAL=enabled
 # Multi arch images
 # First build all x86
 docker build -f Dockerfile-dotnet6 -t amazon/aws-sam-cli-build-image-dotnet6:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
-docker build -f Dockerfile-dotnet7 -t amazon/aws-sam-cli-build-image-dotnet7:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-dotnet8 -t amazon/aws-sam-cli-build-image-dotnet8:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-dotnet9 -t amazon/aws-sam-cli-build-image-dotnet9:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
 docker build -f Dockerfile-dotnet10 -t amazon/aws-sam-cli-build-image-dotnet10:x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=x86_64 --build-arg IMAGE_ARCH=x86_64 . &
@@ -53,7 +52,6 @@ wait
 # Build arm64 images
 docker run --privileged --rm tonistiigi/binfmt --install arm64
 docker build -f Dockerfile-dotnet6 -t amazon/aws-sam-cli-build-image-dotnet6:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
-docker build -f Dockerfile-dotnet7 -t amazon/aws-sam-cli-build-image-dotnet7:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-dotnet8 -t amazon/aws-sam-cli-build-image-dotnet8:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-dotnet9 -t amazon/aws-sam-cli-build-image-dotnet9:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
 docker build -f Dockerfile-dotnet10 -t amazon/aws-sam-cli-build-image-dotnet10:arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$SAM_CLI_VERSION --build-arg AWS_CLI_ARCH=aarch64 --build-arg IMAGE_ARCH=arm64 . &
