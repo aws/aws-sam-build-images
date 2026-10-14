@@ -229,6 +229,17 @@ class BuildImageBase(TestCase):
         except docker.errors.ContainerError:
             return False
 
+    def is_command_successful_as_non_root(self, command):
+        """
+        Helper function to check if a command succeeds when the container runs as a non-root user,
+        as `sam build --use-container` does on posix systems
+        """
+        try:
+            self.client.containers.run(self.image, command=command, user="1001:1001")
+            return True
+        except docker.errors.ContainerError:
+            return False
+
     def check_package_output(self, pkg_cmd, output, std_err=False):
         """
         Helper function to check a package's actual output contains the given expected substring
