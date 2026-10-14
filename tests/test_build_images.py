@@ -784,6 +784,9 @@ class TestBIDotNet9(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("dotnet --version", "9"))
         self.assertTrue(self.is_package_present("dotnet"))
+        self.assertTrue(
+            self.is_command_successful_as_non_root("dotnet new console -o /tmp/app")
+        )
 
 
 @pytest.mark.dotnet9arm64
@@ -802,6 +805,9 @@ class TestBIDotNet9Arm(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("dotnet --version", "9"))
         self.assertTrue(self.is_package_present("dotnet"))
+        self.assertTrue(
+            self.is_command_successful_as_non_root("dotnet new console -o /tmp/app")
+        )
 
 
 @pytest.mark.dotnet8x86_64
@@ -820,6 +826,9 @@ class TestBIDotNet8(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("dotnet --version", "8"))
         self.assertTrue(self.is_package_present("dotnet"))
+        self.assertTrue(
+            self.is_command_successful_as_non_root("dotnet new console -o /tmp/app")
+        )
 
 
 @pytest.mark.dotnet8arm64
@@ -838,6 +847,9 @@ class TestBIDotNet8Arm(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("dotnet --version", "8"))
         self.assertTrue(self.is_package_present("dotnet"))
+        self.assertTrue(
+            self.is_command_successful_as_non_root("dotnet new console -o /tmp/app")
+        )
 
 @pytest.mark.dotnet10x86_64
 class TestBIDotNet10(AL2023BasedBuildImageBase):
@@ -855,6 +867,9 @@ class TestBIDotNet10(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("dotnet --version", "10"))
         self.assertTrue(self.is_package_present("dotnet"))
+        self.assertTrue(
+            self.is_command_successful_as_non_root("dotnet new console -o /tmp/app")
+        )
 
 
 @pytest.mark.dotnet10arm64
@@ -873,6 +888,9 @@ class TestBIDotNet10Arm(AL2023BasedBuildImageBase):
         """
         self.assertTrue(self.check_package_output("dotnet --version", "10"))
         self.assertTrue(self.is_package_present("dotnet"))
+        self.assertTrue(
+            self.is_command_successful_as_non_root("dotnet new console -o /tmp/app")
+        )
 
 
 @pytest.mark.ruby32x86_64

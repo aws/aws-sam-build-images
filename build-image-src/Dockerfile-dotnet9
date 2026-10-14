@@ -107,6 +107,7 @@ COPY ATTRIBUTION.txt /
 # They work the same as using docker arguments `-e DOTNET_CLI_HOME=/tmp/dotnet XDG_DATA_HOME=/tmp/xdg`
 ENV DOTNET_CLI_HOME=/tmp/dotnet
 ENV XDG_DATA_HOME=/tmp/xdg
+ENV XDG_RUNTIME_DIR=/tmp
 
 # Compatible with initial base image
 ENTRYPOINT []
