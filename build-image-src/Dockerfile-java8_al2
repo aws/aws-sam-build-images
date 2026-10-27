@@ -23,6 +23,7 @@ RUN yum groupinstall -y development && \
   amazon-linux-extras \
   java-1.8.0-openjdk-devel
 
+RUN yum update -y && yum clean all
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
