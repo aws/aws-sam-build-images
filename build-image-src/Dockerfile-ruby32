@@ -21,7 +21,6 @@ RUN yum groupinstall -y development && \
   libyaml-devel \
   amazon-linux-extras
 
-RUN yum update -y && yum clean all
 
 # Install AWS CLI
 ARG AWS_CLI_ARCH
