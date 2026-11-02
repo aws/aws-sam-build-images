@@ -70,6 +70,7 @@ jobs:
           - "python312"
           - "python313"
           - "python314"
+          - "python315"
           - "ruby32"
           - "ruby33"
           - "ruby34"

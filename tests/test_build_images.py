@@ -732,6 +732,40 @@ class TestBIPython314(AL2023BasedBuildImageBase):
         self.assertTrue(self.check_package_output("uv --version", "uv"))
 
 
+@pytest.mark.python315arm64
+class TestBIPython315ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.15", "Dockerfile-python315", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.15."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python315x86_64
+class TestBIPython315(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.15", "Dockerfile-python315", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.15."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
 @pytest.mark.dotnet6x86_64
 class TestBIDotNet6(BuildImageBase):
     __test__ = True
