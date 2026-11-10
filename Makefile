@@ -21,6 +21,7 @@ IS_nodejs18x := nodejs18.x
 IS_nodejs20x := nodejs20.x
 IS_nodejs22x := nodejs22.x
 IS_nodejs24x := nodejs24.x
+IS_nodejs26x := nodejs26.x
 IS_provided_al2 := provided.al2
 IS_provided_al2023 := provided.al2023
 IS_python38 := python3.8
