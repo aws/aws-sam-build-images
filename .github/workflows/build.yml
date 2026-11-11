@@ -87,7 +87,7 @@ jobs:
           ref: ${{ github.event_name == 'schedule' && 'develop' || github.ref }}
       - uses: actions/setup-python@v7
         with:
-          python-version: "3.9"
+          python-version: "3.12"
       - uses: aws-actions/setup-sam@v3
         with:
           use-installer: true
