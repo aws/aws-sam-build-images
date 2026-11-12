@@ -30,6 +30,7 @@ IS_python311 := python3.11
 IS_python312 := python3.12
 IS_python313 := python3.13
 IS_python314 := python3.14
+IS_python315 := python3.15
 IS_ruby32 := ruby3.2
 IS_ruby33 := ruby3.3
 IS_ruby34 := ruby3.4
