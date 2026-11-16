@@ -492,6 +492,40 @@ class TestBINode24ForArm(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.nodejs26xx86_64
+class TestBINode26(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs26.x", "Dockerfile-nodejs26x", "npm", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v26."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.nodejs26xarm64
+class TestBINode26ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs26.x", "Dockerfile-nodejs26x", "npm", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v26."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
 @pytest.mark.python38x86_64
 class TestBIPython38(BuildImageBase):
     __test__ = True
