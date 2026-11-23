@@ -74,9 +74,11 @@ test: pre-build
 
 # Vulnerability scan of a locally built image (run after a build target).
 # Fails on CVEs at SCAN_SEVERITY that have a fixed version available; accepted
-# findings go in .trivyignore with a reason.
+# findings go in .trivyignore with a reason. HIGH is included because Trivy
+# often rates lower than NVD/Amazon Inspector (e.g. CVE-2022-1471 is HIGH in
+# Trivy, CRITICAL in ECR enhanced scanning).
 TRIVY_IMAGE ?= public.ecr.aws/aquasecurity/trivy:0.76.2@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb
-SCAN_SEVERITY ?= CRITICAL
+SCAN_SEVERITY ?= HIGH,CRITICAL
 scan:
 	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(CURDIR)":/src:ro -w /src $(TRIVY_IMAGE) \
 		image --scanners vuln --severity $(SCAN_SEVERITY) --ignore-unfixed --ignorefile /src/.trivyignore \
