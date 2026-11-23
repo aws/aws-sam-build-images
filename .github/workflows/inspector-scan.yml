@@ -1,0 +1,90 @@
+name: Inspector scan (published images)
+
+# Scans the images users actually pull (public.ecr.aws/sam/build-*:latest-<arch>)
+# with Amazon Inspector, the same engine as ECR enhanced scanning, so results
+# match what the ECR console and AWS Vulnerability Management report.
+
+on:
+  schedule:
+    # Every day at 07:00 UTC
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # OIDC token for the AWS role below
+
+env:
+  # PLACEHOLDER: replace with the IAM role GitHub Actions assumes via OIDC.
+  # It needs only inspector-scan:ScanSbom. Prefer setting the repository
+  # variable INSPECTOR_SCAN_ROLE_ARN over editing this default.
+  INSPECTOR_SCAN_ROLE_ARN: ${{ vars.INSPECTOR_SCAN_ROLE_ARN || 'arn:aws:iam::123456789012:role/REPLACE-ME-sam-build-images-inspector-scan' }}
+  AWS_REGION: us-east-1
+
+jobs:
+  inspector-scan:
+    if: github.repository_owner == 'aws'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - "dotnet6"
+          - "dotnet8"
+          - "dotnet9"
+          - "dotnet10"
+          - "java8.al2"
+          - "java8.al2023"
+          - "java11"
+          - "java11.al2023"
+          - "java17"
+          - "java17.al2023"
+          - "java21"
+          - "java25"
+          - "nodejs16.x"
+          - "nodejs18.x"
+          - "nodejs20.x"
+          - "nodejs22.x"
+          - "nodejs24.x"
+          - "nodejs26.x"
+          - "provided.al2"
+          - "provided.al2023"
+          - "python3.8"
+          - "python3.9"
+          - "python3.10"
+          - "python3.11"
+          - "python3.12"
+          - "python3.13"
+          - "python3.14"
+          - "python3.15"
+          - "ruby3.2"
+          - "ruby3.3"
+          - "ruby3.4"
+          - "ruby4.0"
+        arch:
+          - { tag: "x86_64", platform: "linux/amd64" }
+          - { tag: "arm64", platform: "linux/arm64" }
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ env.INSPECTOR_SCAN_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Scan public.ecr.aws/sam/build-${{ matrix.image }}:latest-${{ matrix.arch.tag }}
+        id: inspector
+        uses: aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
+        with:
+          artifact_type: container
+          artifact_path: public.ecr.aws/sam/build-${{ matrix.image }}:latest-${{ matrix.arch.tag }}
+          platform: ${{ matrix.arch.platform }}
+          display_vulnerability_findings: enabled
+          critical_threshold: 1
+          high_threshold: 1
+
+      - name: Fail on High or Critical findings
+        if: steps.inspector.outputs.vulnerability_threshold_exceeded == 'true'
+        run: |
+          echo "::error::Amazon Inspector found High/Critical vulnerabilities in public.ecr.aws/sam/build-${{ matrix.image }}:latest-${{ matrix.arch.tag }}; see the step summary."
+          exit 1
