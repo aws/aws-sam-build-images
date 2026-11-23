@@ -79,6 +79,10 @@ jobs:
           artifact_type: container
           artifact_path: public.ecr.aws/sam/build-${{ matrix.image }}:latest-${{ matrix.arch.tag }}
           platform: ${{ matrix.arch.platform }}
+          # Match ECR enhanced scanning: don't report dependencies that are only
+          # declared in pom.xml files nested inside jars (e.g. test-scope jetty
+          # in Maven's maven-resolver-transport-http jar), which aren't installed.
+          skip_nested_pomxml: true
           display_vulnerability_findings: enabled
           critical_threshold: 1
           high_threshold: 1
