@@ -1,0 +1,93 @@
+name: Inspector scan (PR)
+
+# Second half of the PR vulnerability scan. "Build & Test" builds the images for
+# a pull request (including from forks) and uploads their SBOMs without any AWS
+# credentials. This workflow runs in the base repository's context, downloads
+# those SBOMs, sends them to the Amazon Inspector Scan API, and reports the
+# result on the PR. It never checks out or runs PR code.
+
+on:
+  workflow_run:
+    workflows: ["Build & Test"]
+    types: [completed]
+
+permissions: {}
+
+env:
+  # PLACEHOLDER: same role as inspector-scan.yml (needs inspector-scan:ScanSbom).
+  INSPECTOR_SCAN_ROLE_ARN: ${{ vars.INSPECTOR_SCAN_ROLE_ARN || 'arn:aws:iam::123456789012:role/REPLACE-ME-sam-build-images-inspector-scan' }}
+  AWS_REGION: us-east-1
+
+jobs:
+  inspector-pr-scan:
+    if: github.repository_owner == 'aws' && github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read # download artifacts from the triggering run
+      contents: read
+      id-token: write # OIDC for the AWS role
+      statuses: write # commit status on the PR head
+      pull-requests: write # summary comment
+    steps:
+      # Base branch only (the default for workflow_run): the scan script is trusted code.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: sbom-*
+          path: sboms
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ env.INSPECTOR_SCAN_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Scan SBOMs with Amazon Inspector
+        env:
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: python3 .github/scripts/inspector_scan_sboms.py sboms "$HEAD_SHA"
+
+      - name: Report on the pull request
+        uses: actions/github-script@v9
+        env:
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        with:
+          script: |
+            const fs = require('fs');
+            const result = JSON.parse(fs.readFileSync('result.json', 'utf8'));
+            const body = fs.readFileSync('summary.md', 'utf8');
+            const found = result.critical + result.high;
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner, repo: context.repo.repo, sha: process.env.HEAD_SHA,
+              context: 'Amazon Inspector',
+              state: found > 0 ? 'failure' : 'success',
+              description: `${result.critical} Critical, ${result.high} High in ${result.images} image(s)`,
+              target_url: process.env.RUN_URL,
+            });
+            if (!result.pr) return;
+            // The PR number came from the artifact (untrusted): only comment if that
+            // PR's head really is the commit this run built.
+            const { data: pull } = await github.rest.pulls.get({
+              owner: context.repo.owner, repo: context.repo.repo, pull_number: result.pr,
+            });
+            if (pull.head.sha !== process.env.HEAD_SHA) return;
+            const marker = '<!-- amazon-inspector-pr-scan -->';
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: result.pr,
+            });
+            const mine = comments.find(c => c.user.type === 'Bot' && c.body.startsWith(marker));
+            if (mine) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner, repo: context.repo.repo, comment_id: mine.id, body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: result.pr, body,
+              });
+            }
