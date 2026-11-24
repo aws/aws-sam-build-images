@@ -384,3 +384,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/osx,node,macos,linux,python,windows,pycharm,intellij,sublimetext,visualstudiocode
+
+# Local tooling and scan output (make sbom)
+.tools/
+sbom/

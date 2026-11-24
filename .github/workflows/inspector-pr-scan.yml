@@ -1,0 +1,123 @@
+name: Inspector scan (PR)
+
+# Second half of the PR vulnerability scan. "Build & Test" builds the images for
+# a pull request (including from forks) and uploads their SBOMs without any AWS
+# credentials. This workflow runs in the base repository's context, downloads
+# those SBOMs, sends them to the Amazon Inspector Scan API, and reports the
+# result on the PR. It never checks out or runs PR code.
+
+on:
+  workflow_run:
+    workflows: ["Build & Test"]
+    types: [completed]
+
+permissions: {}
+
+env:
+  # Same role as inspector-scan.yml (repository variable INSPECTOR_SCAN_ROLE_ARN);
+  # until it is set the job is skipped.
+  INSPECTOR_SCAN_ROLE_ARN: ${{ vars.INSPECTOR_SCAN_ROLE_ARN }}
+  AWS_REGION: us-east-1
+
+jobs:
+  inspector-pr-scan:
+    if: github.repository_owner == 'aws' && github.event.workflow_run.event == 'pull_request' && vars.INSPECTOR_SCAN_ROLE_ARN != ''
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read # download artifacts from the triggering run
+      contents: read
+      id-token: write # OIDC for the AWS role
+      statuses: write # commit status on the PR head
+      pull-requests: write # summary comment
+    steps:
+      # Base branch only (the default for workflow_run): the scan script is trusted code.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: sbom-*
+          path: sboms
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ env.INSPECTOR_SCAN_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Scan SBOMs with Amazon Inspector
+        env:
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: python3 .github/scripts/inspector_scan_sboms.py sboms "$HEAD_SHA"
+
+      - name: Report on the pull request
+        # Also after a failed scan step: the script then leaves an error result,
+        # and the commit gets an "error" status rather than none.
+        if: always()
+        uses: actions/github-script@v9
+        env:
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          BUILD_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- amazon-inspector-pr-scan -->';
+            let result = { pr: null, critical: 0, high: 0, images: 0, error: true };
+            let body = `${marker}\n### Amazon Inspector scan of the images built by this PR\n\n**The scan failed** before it finished; see the workflow run log.\n`;
+            if (fs.existsSync('result.json')) {
+              result = JSON.parse(fs.readFileSync('result.json', 'utf8'));
+              body = fs.readFileSync('summary.md', 'utf8');
+            }
+            const found = result.critical + result.high;
+            // Only a successful Build & Test run uploaded an SBOM for every image
+            // (the upload runs after the tests and fails if it finds no files), so a
+            // green status needs that, plus a scan that hit none of the limits.
+            const built = process.env.BUILD_CONCLUSION === 'success';
+            if (!built) {
+              body += `\n**Build & Test ${process.env.BUILD_CONCLUSION}**: some images may not have been scanned.\n`;
+            }
+            let state = 'success';
+            let description = `${result.critical} Critical, ${result.high} High in ${result.images} image(s)`;
+            if (result.error) {
+              state = 'error';
+              description = 'Scan failed; see the workflow run log';
+            } else if (found > 0) {
+              state = 'failure';
+            } else if (result.incomplete) {
+              state = 'error';
+              description = `Incomplete: ${result.incomplete}`.slice(0, 140);
+            } else if (!built) {
+              state = 'error';
+              description = `Build & Test ${process.env.BUILD_CONCLUSION}; ${result.images} image(s) scanned`;
+            }
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner, repo: context.repo.repo, sha: process.env.HEAD_SHA,
+              context: 'Amazon Inspector',
+              state,
+              description,
+              target_url: process.env.RUN_URL,
+            });
+            if (!result.pr) return;
+            // The PR number came from the artifact (untrusted): only comment if that
+            // PR's head really is the commit this run built.
+            const { data: pull } = await github.rest.pulls.get({
+              owner: context.repo.owner, repo: context.repo.repo, pull_number: result.pr,
+            });
+            if (pull.head.sha !== process.env.HEAD_SHA) return;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner, repo: context.repo.repo, issue_number: result.pr,
+            });
+            const mine = comments.find(c => c.user.type === 'Bot' && c.body.startsWith(marker));
+            if (mine) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner, repo: context.repo.repo, comment_id: mine.id, body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo, issue_number: result.pr, body,
+              });
+            }

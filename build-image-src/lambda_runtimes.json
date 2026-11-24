@@ -1,0 +1,390 @@
+{
+  "last_updated": "2026-11-24",
+  "sources": [
+    "https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported",
+    "https://docs.aws.amazon.com/lambda/latest/dg/runtime-support-policy.html#runtimes-deprecated"
+  ],
+  "runtimes": {
+    "nodejs26.x": {
+      "dockerfile": "nodejs26x",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-04-30",
+      "block_function_create": "2029-06-01",
+      "block_function_update": "2029-07-01"
+    },
+    "nodejs24.x": {
+      "dockerfile": "nodejs24x",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2028-04-30",
+      "block_function_create": "2028-06-01",
+      "block_function_update": "2028-07-01"
+    },
+    "nodejs22.x": {
+      "dockerfile": "nodejs22x",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2027-05-30",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "python3.15": {
+      "dockerfile": "python315",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-06-30",
+      "block_function_create": "2029-07-31",
+      "block_function_update": "2029-08-31"
+    },
+    "python3.14": {
+      "dockerfile": "python314",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-06-30",
+      "block_function_create": "2029-07-31",
+      "block_function_update": "2029-08-31"
+    },
+    "python3.13": {
+      "dockerfile": "python313",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-06-30",
+      "block_function_create": "2029-07-31",
+      "block_function_update": "2029-08-31"
+    },
+    "python3.12": {
+      "dockerfile": "python312",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2028-10-31",
+      "block_function_create": "2028-11-30",
+      "block_function_update": "2029-01-10"
+    },
+    "python3.11": {
+      "dockerfile": "python311",
+      "os": "Amazon Linux 2",
+      "deprecation": "2027-06-30",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "java25": {
+      "dockerfile": "java25",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-06-30",
+      "block_function_create": "2029-07-31",
+      "block_function_update": "2029-08-31"
+    },
+    "java21": {
+      "dockerfile": "java21",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-06-30",
+      "block_function_create": "2029-07-31",
+      "block_function_update": "2029-08-31"
+    },
+    "java17.al2023": {
+      "dockerfile": "java17_al2023",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-06-30",
+      "block_function_create": "2029-07-31",
+      "block_function_update": "2029-08-31"
+    },
+    "java11.al2023": {
+      "dockerfile": "java11_al2023",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-06-30",
+      "block_function_create": "2029-07-31",
+      "block_function_update": "2029-08-31"
+    },
+    "java8.al2023": {
+      "dockerfile": "java8_al2023",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-06-30",
+      "block_function_create": "2029-07-31",
+      "block_function_update": "2029-08-31"
+    },
+    "java17": {
+      "dockerfile": "java17",
+      "os": "Amazon Linux 2",
+      "deprecation": "2027-06-30",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "java11": {
+      "dockerfile": "java11",
+      "os": "Amazon Linux 2",
+      "deprecation": "2027-06-30",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "java8.al2": {
+      "dockerfile": "java8_al2",
+      "os": "Amazon Linux 2",
+      "deprecation": "2027-06-30",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "dotnet10": {
+      "dockerfile": "dotnet10",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2028-11-14",
+      "block_function_create": "2028-12-14",
+      "block_function_update": "2029-01-15"
+    },
+    "ruby4.0": {
+      "dockerfile": "ruby40",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-03-31",
+      "block_function_create": "2029-04-30",
+      "block_function_update": "2029-05-31"
+    },
+    "ruby3.4": {
+      "dockerfile": "ruby34",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2028-03-31",
+      "block_function_create": "2028-04-30",
+      "block_function_update": "2028-05-31"
+    },
+    "ruby3.3": {
+      "dockerfile": "ruby33",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2027-03-31",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "provided.al2023": {
+      "dockerfile": "provided_al2023",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2029-06-30",
+      "block_function_create": "2029-07-31",
+      "block_function_update": "2029-08-31"
+    },
+    "dotnet8": {
+      "dockerfile": "dotnet8",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2026-11-10",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "dotnet9": {
+      "dockerfile": "dotnet9",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2026-11-10",
+      "block_function_create": null,
+      "block_function_update": null,
+      "note": "container only"
+    },
+    "python3.10": {
+      "dockerfile": "python310",
+      "os": "Amazon Linux 2",
+      "deprecation": "2026-10-31",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "provided.al2": {
+      "dockerfile": "provided_al2",
+      "os": "Amazon Linux 2",
+      "deprecation": "2026-07-31",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "nodejs20.x": {
+      "dockerfile": "nodejs20x",
+      "os": "Amazon Linux 2023",
+      "deprecation": "2026-04-30",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "ruby3.2": {
+      "dockerfile": "ruby32",
+      "os": "Amazon Linux 2",
+      "deprecation": "2026-03-31",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "python3.9": {
+      "dockerfile": "python39",
+      "os": "Amazon Linux 2",
+      "deprecation": "2025-12-15",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "nodejs18.x": {
+      "dockerfile": "nodejs18x",
+      "os": "Amazon Linux 2",
+      "deprecation": "2025-09-01",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "dotnet6": {
+      "dockerfile": "dotnet6",
+      "os": "Amazon Linux 2",
+      "deprecation": "2024-12-20",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "python3.8": {
+      "dockerfile": "python38",
+      "os": "Amazon Linux 2",
+      "deprecation": "2024-10-14",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "nodejs16.x": {
+      "dockerfile": "nodejs16x",
+      "os": "Amazon Linux 2",
+      "deprecation": "2024-06-12",
+      "block_function_create": "2027-07-29",
+      "block_function_update": "2027-08-31"
+    },
+    "dotnet7": {
+      "dockerfile": null,
+      "os": "Amazon Linux 2",
+      "deprecation": "2024-05-14",
+      "block_function_create": null,
+      "block_function_update": null,
+      "note": "container only"
+    },
+    "java8": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2024-01-08",
+      "block_function_create": "2024-02-08",
+      "block_function_update": "2027-08-31"
+    },
+    "go1.x": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2024-01-08",
+      "block_function_create": "2024-02-08",
+      "block_function_update": "2027-08-31"
+    },
+    "provided": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2024-01-08",
+      "block_function_create": "2024-02-08",
+      "block_function_update": "2027-08-31"
+    },
+    "ruby2.7": {
+      "dockerfile": null,
+      "os": "Amazon Linux 2",
+      "deprecation": "2023-12-07",
+      "block_function_create": "2024-01-09",
+      "block_function_update": "2027-08-31"
+    },
+    "nodejs14.x": {
+      "dockerfile": null,
+      "os": "Amazon Linux 2",
+      "deprecation": "2023-12-04",
+      "block_function_create": "2024-01-09",
+      "block_function_update": "2027-08-31"
+    },
+    "python3.7": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2023-12-04",
+      "block_function_create": "2024-01-09",
+      "block_function_update": "2027-08-31"
+    },
+    "dotnetcore3.1": {
+      "dockerfile": null,
+      "os": "Amazon Linux 2",
+      "deprecation": "2023-04-03",
+      "block_function_create": "2023-04-03",
+      "block_function_update": "2023-05-03"
+    },
+    "nodejs12.x": {
+      "dockerfile": null,
+      "os": "Amazon Linux 2",
+      "deprecation": "2023-03-31",
+      "block_function_create": "2023-03-31",
+      "block_function_update": "2023-04-30"
+    },
+    "python3.6": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2022-07-18",
+      "block_function_create": "2022-07-18",
+      "block_function_update": "2022-08-29"
+    },
+    "dotnet5.0": {
+      "dockerfile": null,
+      "os": "Amazon Linux 2",
+      "deprecation": "2022-05-10",
+      "block_function_create": null,
+      "block_function_update": null,
+      "note": "container only"
+    },
+    "dotnetcore2.1": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2022-01-05",
+      "block_function_create": "2022-01-05",
+      "block_function_update": "2022-04-13"
+    },
+    "nodejs10.x": {
+      "dockerfile": null,
+      "os": "Amazon Linux 2",
+      "deprecation": "2021-07-30",
+      "block_function_create": "2021-07-30",
+      "block_function_update": "2022-02-14"
+    },
+    "ruby2.5": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2021-07-30",
+      "block_function_create": "2021-07-30",
+      "block_function_update": "2022-03-31"
+    },
+    "python2.7": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2021-07-15",
+      "block_function_create": "2021-07-15",
+      "block_function_update": "2022-05-30"
+    },
+    "nodejs8.10": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2020-03-06",
+      "block_function_create": "2020-02-04",
+      "block_function_update": "2020-03-06"
+    },
+    "nodejs4.3": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2020-03-05",
+      "block_function_create": "2020-02-03",
+      "block_function_update": "2020-03-05"
+    },
+    "nodejs4.3-edge": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2020-03-05",
+      "block_function_create": "2019-03-31",
+      "block_function_update": "2019-04-30"
+    },
+    "nodejs6.10": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2019-08-12",
+      "block_function_create": "2019-07-12",
+      "block_function_update": "2019-08-12"
+    },
+    "dotnetcore1.0": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2019-06-27",
+      "block_function_create": "2019-06-30",
+      "block_function_update": "2019-07-30"
+    },
+    "dotnetcore2.0": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2019-05-30",
+      "block_function_create": "2019-04-30",
+      "block_function_update": "2019-05-30"
+    },
+    "nodejs": {
+      "dockerfile": null,
+      "os": "Amazon Linux",
+      "deprecation": "2016-08-30",
+      "block_function_create": "2016-09-30",
+      "block_function_update": "2016-10-31"
+    }
+  }
+}

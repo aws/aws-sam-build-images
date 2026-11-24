@@ -97,3 +97,25 @@ jobs:
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} ARCH=x86_64 make test
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} ARCH=arm64 make test
         if: ${{ ! matrix.skip_arm_test }}
+      # SBOMs for the Amazon Inspector PR scan. This job has no AWS credentials;
+      # inspector-pr-scan.yml (workflow_run, trusted) downloads the artifact and
+      # sends only the SBOMs to Inspector, so PR code never runs next to the role.
+      - name: Generate SBOMs for the Inspector scan
+        if: github.event_name == 'pull_request'
+        run: |
+          RUNTIME=${{matrix.runtime}} ARCH=x86_64 make sbom
+          RUNTIME=${{matrix.runtime}} ARCH=arm64 make sbom
+      - name: Record PR metadata for the Inspector scan
+        if: github.event_name == 'pull_request'
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          printf '{"pr": %d, "head_sha": "%s"}\n' "$PR_NUMBER" "$HEAD_SHA" > sbom/pr.json
+      - uses: actions/upload-artifact@v7
+        if: github.event_name == 'pull_request'
+        with:
+          name: sbom-${{ matrix.runtime }}
+          path: sbom/
+          retention-days: 7
+          if-no-files-found: error

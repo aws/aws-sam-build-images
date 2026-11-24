@@ -1,0 +1,83 @@
+name: Inspector scan (published images)
+
+# Scans the images users actually pull (public.ecr.aws/sam/build-*:latest-<arch>)
+# with Amazon Inspector, the same engine as ECR enhanced scanning, so results
+# match what the ECR console and AWS Vulnerability Management report.
+
+on:
+  schedule:
+    # Every day at 07:00 UTC
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # OIDC token for the AWS role below
+
+env:
+  # IAM role GitHub Actions assumes via OIDC (needs only inspector-scan:ScanSbom;
+  # see .github/iam/inspector-scan-role.yaml). Set it as the repository variable
+  # INSPECTOR_SCAN_ROLE_ARN; until then the job is skipped.
+  INSPECTOR_SCAN_ROLE_ARN: ${{ vars.INSPECTOR_SCAN_ROLE_ARN }}
+  AWS_REGION: us-east-1
+
+jobs:
+  supported-runtimes:
+    if: github.repository_owner == 'aws' && vars.INSPECTOR_SCAN_ROLE_ARN != ''
+    runs-on: ubuntu-latest
+    outputs:
+      images: ${{ steps.list.outputs.images }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - run: python3 build-image-src/deprecated_runtimes.py validate
+      # Image names (public.ecr.aws/sam/build-<name>) are the Lambda runtime
+      # identifiers of the runtimes that are not deprecated today.
+      - id: list
+        run: |
+          images=$(python3 -c 'import json, sys; sys.path.insert(0, "build-image-src"); import deprecated_runtimes as d; s = set(d.supported_dockerfiles()); print(json.dumps(sorted(r.identifier for r in d.RUNTIMES.values() if r.dockerfile in s)))')
+          echo "images=$images" >> "$GITHUB_OUTPUT"
+          echo "Scanning: $images"
+
+  inspector-scan:
+    needs: supported-runtimes
+    if: github.repository_owner == 'aws' && vars.INSPECTOR_SCAN_ROLE_ARN != ''
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Supported runtimes from build-image-src/lambda_runtimes.json; images
+        # of deprecated runtimes are frozen and no longer published.
+        image: ${{ fromJSON(needs.supported-runtimes.outputs.images) }}
+        arch:
+          - { tag: "x86_64", platform: "linux/amd64" }
+          - { tag: "arm64", platform: "linux/arm64" }
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ env.INSPECTOR_SCAN_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Scan public.ecr.aws/sam/build-${{ matrix.image }}:latest-${{ matrix.arch.tag }}
+        id: inspector
+        uses: aws-actions/vulnerability-scan-github-action-for-amazon-inspector@v1
+        with:
+          artifact_type: container
+          artifact_path: public.ecr.aws/sam/build-${{ matrix.image }}:latest-${{ matrix.arch.tag }}
+          platform: ${{ matrix.arch.platform }}
+          # Match ECR enhanced scanning: don't report dependencies that are only
+          # declared in pom.xml files nested inside jars (e.g. test-scope jetty
+          # in Maven's maven-resolver-transport-http jar), which aren't installed.
+          skip_nested_pomxml: true
+          display_vulnerability_findings: enabled
+          critical_threshold: 1
+          high_threshold: 1
+
+      - name: Fail on High or Critical findings
+        if: steps.inspector.outputs.vulnerability_threshold_exceeded == '1'
+        run: |
+          echo "::error::Amazon Inspector found High/Critical vulnerabilities in public.ecr.aws/sam/build-${{ matrix.image }}:latest-${{ matrix.arch.tag }}; see the step summary."
+          exit 1

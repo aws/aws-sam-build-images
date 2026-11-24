@@ -72,6 +72,26 @@ build-arm64-arch: pre-build
 test: pre-build
 	pytest tests -vv -m "$(RUNTIME)$(ARCH)"
 
+# CycloneDX SBOM of a locally built image, for the Amazon Inspector PR scan
+# (.github/workflows/inspector-pr-scan.yml). Needs no AWS credentials.
+# skip-nested-pomxml matches ECR enhanced scanning.
+SBOMGEN_VERSION ?= 1.17.7
+SBOMGEN_SHA256 ?= 3a50a5f6f0d825aa1aef5e568a2273a0e01285c5bbfda16e3155023a8ca9d816
+SBOMGEN := .tools/inspector-sbomgen-$(SBOMGEN_VERSION)/linux/amd64/inspector-sbomgen
+$(SBOMGEN):
+	mkdir -p .tools
+	curl -sSfL -o .tools/sbomgen.zip https://amazon-inspector-sbomgen.s3.amazonaws.com/$(SBOMGEN_VERSION)/linux/amd64/inspector-sbomgen.zip
+	echo "$(SBOMGEN_SHA256)  .tools/sbomgen.zip" | sha256sum -c -
+	unzip -qo .tools/sbomgen.zip -d .tools
+	chmod +x $@
+
+.PHONY: sbom
+sbom: $(SBOMGEN)
+	mkdir -p sbom
+	$(SBOMGEN) container --image amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):$(ARCH) \
+		--platform linux/$(if $(filter arm64,$(ARCH)),arm64,amd64) --skip-nested-pomxml --quiet \
+		-o sbom/$(IS_$(RUNTIME))-$(ARCH).cdx.json
+
 lint:
 	# Linter performs static analysis to catch latent bugs
 	pylint --rcfile .pylintrc tests
