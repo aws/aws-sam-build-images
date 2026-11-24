@@ -28,10 +28,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Supported Lambda runtimes only; deprecated runtimes are no longer
+        # published (see #217), so their frozen images aren't scanned.
         image:
-          - "dotnet6"
-          - "dotnet8"
-          - "dotnet9"
           - "dotnet10"
           - "java8.al2"
           - "java8.al2023"
@@ -41,23 +40,15 @@ jobs:
           - "java17.al2023"
           - "java21"
           - "java25"
-          - "nodejs16.x"
-          - "nodejs18.x"
-          - "nodejs20.x"
           - "nodejs22.x"
           - "nodejs24.x"
           - "nodejs26.x"
-          - "provided.al2"
           - "provided.al2023"
-          - "python3.8"
-          - "python3.9"
-          - "python3.10"
           - "python3.11"
           - "python3.12"
           - "python3.13"
           - "python3.14"
           - "python3.15"
-          - "ruby3.2"
           - "ruby3.3"
           - "ruby3.4"
           - "ruby4.0"
