@@ -22,36 +22,34 @@ env:
   AWS_REGION: us-east-1
 
 jobs:
+  supported-runtimes:
+    if: github.repository_owner == 'aws' && vars.INSPECTOR_SCAN_ROLE_ARN != ''
+    runs-on: ubuntu-latest
+    outputs:
+      images: ${{ steps.list.outputs.images }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - run: python3 build-image-src/deprecated_runtimes.py validate
+      # Image names (public.ecr.aws/sam/build-<name>) are the Lambda runtime
+      # identifiers of the runtimes that are not deprecated today.
+      - id: list
+        run: |
+          images=$(python3 -c 'import json, sys; sys.path.insert(0, "build-image-src"); import deprecated_runtimes as d; s = set(d.supported_dockerfiles()); print(json.dumps(sorted(r.identifier for r in d.RUNTIMES.values() if r.dockerfile in s)))')
+          echo "images=$images" >> "$GITHUB_OUTPUT"
+          echo "Scanning: $images"
+
   inspector-scan:
+    needs: supported-runtimes
     if: github.repository_owner == 'aws' && vars.INSPECTOR_SCAN_ROLE_ARN != ''
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # Supported Lambda runtimes only; deprecated runtimes are no longer
-        # published (see #217), so their frozen images aren't scanned.
-        image:
-          - "dotnet10"
-          - "java8.al2"
-          - "java8.al2023"
-          - "java11"
-          - "java11.al2023"
-          - "java17"
-          - "java17.al2023"
-          - "java21"
-          - "java25"
-          - "nodejs22.x"
-          - "nodejs24.x"
-          - "nodejs26.x"
-          - "provided.al2023"
-          - "python3.11"
-          - "python3.12"
-          - "python3.13"
-          - "python3.14"
-          - "python3.15"
-          - "ruby3.3"
-          - "ruby3.4"
-          - "ruby4.0"
+        # Supported runtimes from build-image-src/lambda_runtimes.json; images
+        # of deprecated runtimes are frozen and no longer published.
+        image: ${{ fromJSON(needs.supported-runtimes.outputs.images) }}
         arch:
           - { tag: "x86_64", platform: "linux/amd64" }
           - { tag: "arm64", platform: "linux/arm64" }
