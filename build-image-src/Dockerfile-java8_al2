@@ -60,12 +60,12 @@ ENV JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk"
 
 # Install Java build tools
 
-RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-6.2.2-bin.zip && \
+RUN mkdir /usr/local/gradle && curl -L -o gradle.zip https://downloads.gradle.org/distributions/gradle-8.14.8-bin.zip && \
   unzip -d /usr/local/gradle gradle.zip && rm gradle.zip && mkdir /usr/local/maven && \
   curl -L https://archive.apache.org/dist/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.tar.gz | \
   tar -zx -C /usr/local/maven
 
-ENV PATH="/usr/local/gradle/gradle-6.2.2/bin:/usr/local/maven/apache-maven-3.9.16/bin:${PATH}"
+ENV PATH="/usr/local/gradle/gradle-8.14.8/bin:/usr/local/maven/apache-maven-3.9.16/bin:${PATH}"
 
 COPY ATTRIBUTION.txt /
 
