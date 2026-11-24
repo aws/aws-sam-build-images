@@ -56,7 +56,7 @@ ENV LANG=en_US.UTF-8
 RUN uv pip install --python /usr/local/opt/lambda-builders wheel setuptools
 
 # Install uv
-RUN pip3 install uv==0.9.22
+RUN pip3 install uv==0.13.9
 
 COPY ATTRIBUTION.txt /
 
