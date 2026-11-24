@@ -57,18 +57,37 @@ jobs:
         uses: actions/github-script@v9
         env:
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          BUILD_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         with:
           script: |
             const fs = require('fs');
             const result = JSON.parse(fs.readFileSync('result.json', 'utf8'));
-            const body = fs.readFileSync('summary.md', 'utf8');
+            let body = fs.readFileSync('summary.md', 'utf8');
             const found = result.critical + result.high;
+            // Only a successful Build & Test run uploaded an SBOM for every image
+            // (the upload runs after the tests and fails if it finds no files), so a
+            // green status needs that, plus a scan that hit none of the limits.
+            const built = process.env.BUILD_CONCLUSION === 'success';
+            if (!built) {
+              body += `\n**Build & Test ${process.env.BUILD_CONCLUSION}**: some images may not have been scanned.\n`;
+            }
+            let state = 'success';
+            let description = `${result.critical} Critical, ${result.high} High in ${result.images} image(s)`;
+            if (found > 0) {
+              state = 'failure';
+            } else if (result.incomplete) {
+              state = 'error';
+              description = `Incomplete: ${result.incomplete}`.slice(0, 140);
+            } else if (!built) {
+              state = 'error';
+              description = `Build & Test ${process.env.BUILD_CONCLUSION}; ${result.images} image(s) scanned`;
+            }
             await github.rest.repos.createCommitStatus({
               owner: context.repo.owner, repo: context.repo.repo, sha: process.env.HEAD_SHA,
               context: 'Amazon Inspector',
-              state: found > 0 ? 'failure' : 'success',
-              description: `${result.critical} Critical, ${result.high} High in ${result.images} image(s)`,
+              state,
+              description,
               target_url: process.env.RUN_URL,
             });
             if (!result.pr) return;

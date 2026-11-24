@@ -15,6 +15,12 @@ import subprocess
 import sys
 
 MAX_SBOM_BYTES = 50 * 1024 * 1024
+# The artifacts come from PR code, so they decide how many (billed) ScanSbom
+# calls run under the AWS role. Bound them well above real use: 2 SBOMs per
+# runtime, at most ~2,900 components per image, ~1,400 calls for all images.
+MAX_SBOM_FILES = 80
+MAX_COMPONENTS = 10_000
+MAX_SCAN_CALLS = 3_000
 COUNTED = ("critical", "high")
 MARKER = "<!-- amazon-inspector-pr-scan -->"
 
@@ -29,7 +35,17 @@ def inspector_severity(vuln):
 CHUNK = 100
 
 
+class LimitExceeded(Exception):
+    pass
+
+
+calls = [0]
+
+
 def _scan_file(path):
+    calls[0] += 1
+    if calls[0] > MAX_SCAN_CALLS:
+        raise LimitExceeded(f"more than {MAX_SCAN_CALLS} ScanSbom calls")
     proc = subprocess.run(
         [
             "aws", "inspector-scan", "scan-sbom",
@@ -86,13 +102,17 @@ def scan(path):
 
 
 def main(artifact_dir, expected_sha):
-    rows, details, pr = [], [], None
+    rows, details, pr, incomplete = [], [], None, None
     for meta in pathlib.Path(artifact_dir).glob("*/pr.json"):
         data = json.loads(meta.read_text())
         number, sha = data.get("pr"), data.get("head_sha")
         if isinstance(number, int) and number > 0 and sha == expected_sha:
             pr = number
-    for path in sorted(pathlib.Path(artifact_dir).glob("*/*.cdx.json")):
+    paths = sorted(pathlib.Path(artifact_dir).glob("*/*.cdx.json"))
+    if len(paths) > MAX_SBOM_FILES:
+        incomplete = f"{len(paths)} SBOMs, more than the limit of {MAX_SBOM_FILES}; nothing scanned"
+        paths = []
+    for path in paths:
         name = path.name[: -len(".cdx.json")]
         if path.stat().st_size > MAX_SBOM_BYTES:
             rows.append((name, "skipped (SBOM too large)", 0, 0))
@@ -101,7 +121,16 @@ def main(artifact_dir, expected_sha):
         if sbom.get("bomFormat") != "CycloneDX":
             rows.append((name, "skipped (not a CycloneDX SBOM)", 0, 0))
             continue
-        result = scan(path)
+        if len(sbom.get("components", [])) > MAX_COMPONENTS:
+            incomplete = f"{name} has more than {MAX_COMPONENTS} components"
+            rows.append((name, "not scanned (too many components)", 0, 0))
+            continue
+        try:
+            result = scan(path)
+        except LimitExceeded as exc:
+            incomplete = str(exc)
+            rows.append((name, "not scanned (call limit reached)", 0, 0))
+            break
         comps = {c.get("bom-ref"): c for c in result.get("components", [])}
         # A CVE can come back from several chunks: count unique IDs per severity.
         found = {s: {} for s in COUNTED}
@@ -126,6 +155,10 @@ def main(artifact_dir, expected_sha):
         f"**{total_c} Critical, {total_h} High** across {len(rows)} image(s). "
         "Same engine and settings as ECR enhanced scanning.",
         "",
+    ]
+    if incomplete:
+        lines += [f"**Incomplete scan:** {incomplete}.", ""]
+    lines += [
         "| Image | Status | Critical | High |",
         "|---|---|---|---|",
     ]
@@ -139,7 +172,8 @@ def main(artifact_dir, expected_sha):
     summary = "\n".join(lines) + "\n"
     pathlib.Path("summary.md").write_text(summary)
     pathlib.Path("result.json").write_text(json.dumps(
-        {"pr": pr, "critical": total_c, "high": total_h, "images": len(rows)}))
+        {"pr": pr, "critical": total_c, "high": total_h, "images": len(rows),
+         "incomplete": incomplete}))
     with open(os.environ.get("GITHUB_STEP_SUMMARY", os.devnull), "a") as fh:
         fh.write(summary)
 
