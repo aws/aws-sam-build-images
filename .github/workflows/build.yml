@@ -97,15 +97,6 @@ jobs:
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} ARCH=x86_64 make test
       - run: SAM_CLI_VERSION=${{needs.get-sam-cli-version.outputs.sam_cli_version}} RUNTIME=${{matrix.runtime}} ARCH=arm64 make test
         if: ${{ ! matrix.skip_arm_test }}
-      # High and Critical CVEs with an available fix. Report-only for now so existing
-      # findings (e.g. Gradle 6.2.2 in java11) don't block unrelated PRs;
-      # remove continue-on-error once the current images scan clean.
-      - name: Scan x86_64 image for High and Critical CVEs
-        continue-on-error: true
-        run: RUNTIME=${{matrix.runtime}} ARCH=x86_64 make scan
-      - name: Scan arm64 image for High and Critical CVEs
-        continue-on-error: true
-        run: RUNTIME=${{matrix.runtime}} ARCH=arm64 make scan
       # SBOMs for the Amazon Inspector PR scan. This job has no AWS credentials;
       # inspector-pr-scan.yml (workflow_run, trusted) downloads the artifact and
       # sends only the SBOMs to Inspector, so PR code never runs next to the role.

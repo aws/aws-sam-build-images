@@ -72,19 +72,6 @@ build-arm64-arch: pre-build
 test: pre-build
 	pytest tests -vv -m "$(RUNTIME)$(ARCH)"
 
-# Vulnerability scan of a locally built image (run after a build target).
-# Fails on CVEs at SCAN_SEVERITY that have a fixed version available; accepted
-# findings go in .trivyignore with a reason. Severities come from NVD to stay
-# close to Amazon Inspector / ECR enhanced scanning (Trivy's default vendor
-# ratings are often lower, e.g. CVE-2022-1471 is HIGH there). The exact
-# Inspector view is the daily inspector-scan workflow.
-TRIVY_IMAGE ?= public.ecr.aws/aquasecurity/trivy:0.76.2@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb
-SCAN_SEVERITY ?= HIGH,CRITICAL
-scan:
-	docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$(CURDIR)":/src:ro -w /src $(TRIVY_IMAGE) \
-		image --scanners vuln --vuln-severity-source nvd --severity $(SCAN_SEVERITY) --ignore-unfixed --ignorefile /src/.trivyignore \
-		--exit-code 1 --no-progress amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):$(ARCH)
-
 # CycloneDX SBOM of a locally built image, for the Amazon Inspector PR scan
 # (.github/workflows/inspector-pr-scan.yml). Needs no AWS credentials.
 # skip-nested-pomxml matches ECR enhanced scanning.
