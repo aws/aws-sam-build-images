@@ -39,49 +39,33 @@ jobs:
       - id: sam_cli_version
         run: echo "sam_cli_version=$(curl -s https://pypi.org/pypi/aws-sam-cli/json | jq -r .info.version)" >> $GITHUB_OUTPUT
 
+  supported-runtimes:
+    runs-on: ubuntu-latest
+    outputs:
+      runtimes: ${{ steps.list.outputs.runtimes }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'schedule' && 'develop' || github.ref }}
+      - name: Check every Dockerfile has an entry in lambda_runtimes.json and vice versa
+        run: python3 build-image-src/deprecated_runtimes.py validate
+      - id: list
+        run: |
+          runtimes=$(python3 build-image-src/deprecated_runtimes.py supported)
+          echo "runtimes=$runtimes" >> "$GITHUB_OUTPUT"
+          echo "Building: $runtimes"
+
   build-multi-arch:
     strategy:
       fail-fast: false
       matrix:
-        runtime: 
-          - "dotnet6"
-          - "dotnet8"
-          - "dotnet9"
-          - "dotnet10"
-          - "java8_al2"
-          - "java8_al2023"
-          - "java11"
-          - "java11_al2023"
-          - "java17"
-          - "java17_al2023"
-          - "java21"
-          - "java25"
-          - "nodejs16x"
-          - "nodejs18x"
-          - "nodejs20x"
-          - "nodejs22x"
-          - "nodejs24x"
-          - "nodejs26x"
-          - "provided_al2"
-          - "provided_al2023"
-          - "python38"
-          - "python39"
-          - "python310"
-          - "python311"
-          - "python312"
-          - "python313"
-          - "python314"
-          - "python315"
-          - "ruby32"
-          - "ruby33"
-          - "ruby34"
-          - "ruby40"
+        # Every Dockerfile-* except runtimes past their deprecation date in
+        # build-image-src/deprecated_runtimes.py (see the supported-runtimes job).
+        runtime: ${{ fromJSON(needs.supported-runtimes.outputs.runtimes) }}
         include:
           - skip_arm_test: false
-          - runtime: "dotnet8"
-            skip_arm_test: true
     runs-on: ubuntu-latest
-    needs: [get-sam-cli-version]
+    needs: [get-sam-cli-version, supported-runtimes]
     steps:
       - uses: actions/checkout@v7
         with:
