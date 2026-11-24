@@ -58,15 +58,21 @@ else
 	@echo "Building runtime $(RUNTIME)"
 endif
 
-build-multi-arch: pre-build
+# Refuse to build runtimes past their Lambda deprecation date (build-image-src/lambda_runtimes.json).
+# Set ALLOW_DEPRECATED=1 to build one anyway (e.g. for an urgent fix).
+check-supported:
+	@if [ "$(ALLOW_DEPRECATED)" != "1" ] && python3 build-image-src/deprecated_runtimes.py is-deprecated $(RUNTIME); then \
+		echo "Not building $(RUNTIME). Set ALLOW_DEPRECATED=1 to override."; exit 1; fi
+
+build-multi-arch: pre-build check-supported
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=x86_64 --build-arg GO_ARCH=amd64 --build-arg IMAGE_ARCH=x86_64 ./build-image-src
 	docker run --privileged --rm tonistiigi/binfmt --install arm64
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=aarch64 --build-arg GO_ARCH=arm64 --build-arg IMAGE_ARCH=arm64 ./build-image-src
 
-build-x86_64-arch: pre-build
+build-x86_64-arch: pre-build check-supported
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):x86_64 --platform linux/amd64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=x86_64 --build-arg GO_ARCH=amd64 --build-arg IMAGE_ARCH=x86_64 ./build-image-src
 
-build-arm64-arch: pre-build
+build-arm64-arch: pre-build check-supported
 	docker build -f build-image-src/Dockerfile-$(RUNTIME) -t amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):arm64 --platform linux/arm64 --build-arg SAM_CLI_VERSION=$(SAM_CLI_VERSION) --build-arg AWS_CLI_ARCH=aarch64 --build-arg GO_ARCH=arm64 --build-arg IMAGE_ARCH=arm64 ./build-image-src
 
 test: pre-build
