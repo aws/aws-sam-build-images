@@ -492,6 +492,40 @@ class TestBINode24ForArm(AL2023BasedBuildImageBase):
         self.assertTrue(self.is_architecture("aarch64"))
 
 
+@pytest.mark.nodejs26xx86_64
+class TestBINode26(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs26.x", "Dockerfile-nodejs26x", "npm", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v26."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("x86_64"))
+
+
+@pytest.mark.nodejs26xarm64
+class TestBINode26ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("nodejs26.x", "Dockerfile-nodejs26x", "npm", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("node --version", "v26."))
+        self.assertTrue(self.is_package_present("npm"))
+        self.assertTrue(self.is_architecture("aarch64"))
+
+
 @pytest.mark.python38x86_64
 class TestBIPython38(BuildImageBase):
     __test__ = True
@@ -728,6 +762,40 @@ class TestBIPython314(AL2023BasedBuildImageBase):
         Test packages specific to this build image
         """
         self.assertTrue(self.check_package_output("python --version", "Python 3.14."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python315arm64
+class TestBIPython315ForArm(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.15", "Dockerfile-python315", "pip", tag="arm64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.15."))
+        self.assertTrue(self.is_package_present("pip"))
+        self.assertTrue(self.check_package_output("uv --version", "uv"))
+
+
+@pytest.mark.python315x86_64
+class TestBIPython315(AL2023BasedBuildImageBase):
+    __test__ = True
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass("python3.15", "Dockerfile-python315", "pip", tag="x86_64")
+
+    def test_packages(self):
+        """
+        Test packages specific to this build image
+        """
+        self.assertTrue(self.check_package_output("python --version", "Python 3.15."))
         self.assertTrue(self.is_package_present("pip"))
         self.assertTrue(self.check_package_output("uv --version", "uv"))
 

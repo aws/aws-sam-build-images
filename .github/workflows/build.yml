@@ -61,6 +61,7 @@ jobs:
           - "nodejs20x"
           - "nodejs22x"
           - "nodejs24x"
+          - "nodejs26x"
           - "provided_al2"
           - "provided_al2023"
           - "python38"
@@ -70,6 +71,7 @@ jobs:
           - "python312"
           - "python313"
           - "python314"
+          - "python315"
           - "ruby32"
           - "ruby33"
           - "ruby34"
@@ -86,7 +88,7 @@ jobs:
           ref: ${{ github.event_name == 'schedule' && 'develop' || github.ref }}
       - uses: actions/setup-python@v7
         with:
-          python-version: "3.9"
+          python-version: "3.12"
       - uses: aws-actions/setup-sam@v3
         with:
           use-installer: true
