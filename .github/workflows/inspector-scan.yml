@@ -15,15 +15,15 @@ permissions:
   id-token: write # OIDC token for the AWS role below
 
 env:
-  # PLACEHOLDER: replace with the IAM role GitHub Actions assumes via OIDC.
-  # It needs only inspector-scan:ScanSbom. Prefer setting the repository
-  # variable INSPECTOR_SCAN_ROLE_ARN over editing this default.
-  INSPECTOR_SCAN_ROLE_ARN: ${{ vars.INSPECTOR_SCAN_ROLE_ARN || 'arn:aws:iam::123456789012:role/REPLACE-ME-sam-build-images-inspector-scan' }}
+  # IAM role GitHub Actions assumes via OIDC (needs only inspector-scan:ScanSbom;
+  # see .github/iam/inspector-scan-role.yaml). Set it as the repository variable
+  # INSPECTOR_SCAN_ROLE_ARN; until then the job is skipped.
+  INSPECTOR_SCAN_ROLE_ARN: ${{ vars.INSPECTOR_SCAN_ROLE_ARN }}
   AWS_REGION: us-east-1
 
 jobs:
   inspector-scan:
-    if: github.repository_owner == 'aws'
+    if: github.repository_owner == 'aws' && vars.INSPECTOR_SCAN_ROLE_ARN != ''
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

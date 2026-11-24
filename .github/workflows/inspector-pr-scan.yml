@@ -14,13 +14,14 @@ on:
 permissions: {}
 
 env:
-  # PLACEHOLDER: same role as inspector-scan.yml (needs inspector-scan:ScanSbom).
-  INSPECTOR_SCAN_ROLE_ARN: ${{ vars.INSPECTOR_SCAN_ROLE_ARN || 'arn:aws:iam::123456789012:role/REPLACE-ME-sam-build-images-inspector-scan' }}
+  # Same role as inspector-scan.yml (repository variable INSPECTOR_SCAN_ROLE_ARN);
+  # until it is set the job is skipped.
+  INSPECTOR_SCAN_ROLE_ARN: ${{ vars.INSPECTOR_SCAN_ROLE_ARN }}
   AWS_REGION: us-east-1
 
 jobs:
   inspector-pr-scan:
-    if: github.repository_owner == 'aws' && github.event.workflow_run.event == 'pull_request'
+    if: github.repository_owner == 'aws' && github.event.workflow_run.event == 'pull_request' && vars.INSPECTOR_SCAN_ROLE_ARN != ''
     runs-on: ubuntu-latest
     permissions:
       actions: read # download artifacts from the triggering run
