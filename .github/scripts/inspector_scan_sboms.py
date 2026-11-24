@@ -115,10 +115,12 @@ def main(artifact_dir, expected_sha):
     for path in paths:
         name = path.name[: -len(".cdx.json")]
         if path.stat().st_size > MAX_SBOM_BYTES:
+            incomplete = f"{name} SBOM is larger than {MAX_SBOM_BYTES} bytes"
             rows.append((name, "skipped (SBOM too large)", 0, 0))
             continue
         sbom = json.loads(path.read_text())
         if sbom.get("bomFormat") != "CycloneDX":
+            incomplete = f"{name} is not a CycloneDX SBOM"
             rows.append((name, "skipped (not a CycloneDX SBOM)", 0, 0))
             continue
         if len(sbom.get("components", [])) > MAX_COMPONENTS:
@@ -178,5 +180,30 @@ def main(artifact_dir, expected_sha):
         fh.write(summary)
 
 
+def find_pr(artifact_dir, expected_sha):
+    for meta in pathlib.Path(artifact_dir).glob("*/pr.json"):
+        try:
+            data = json.loads(meta.read_text())
+        except ValueError:
+            continue
+        if isinstance(data.get("pr"), int) and data["pr"] > 0 and data.get("head_sha") == expected_sha:
+            return data["pr"]
+    return None
+
+
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    try:
+        main(sys.argv[1], sys.argv[2])
+    except Exception:
+        # Always leave a result for the report step, so the commit gets an "error"
+        # status instead of none. The details (which can name the AWS account or
+        # role) stay in this job's log; the PR only sees a generic message.
+        import traceback
+        traceback.print_exc()
+        pathlib.Path("summary.md").write_text(
+            f"{MARKER}\n### Amazon Inspector scan of the images built by this PR\n\n"
+            "**The scan failed** before it finished; see the workflow run log.\n")
+        pathlib.Path("result.json").write_text(json.dumps(
+            {"pr": find_pr(sys.argv[1], sys.argv[2]), "critical": 0, "high": 0,
+             "images": 0, "incomplete": None, "error": True}))
+        sys.exit(1)

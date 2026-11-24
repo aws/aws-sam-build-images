@@ -77,7 +77,7 @@ jobs:
           high_threshold: 1
 
       - name: Fail on High or Critical findings
-        if: steps.inspector.outputs.vulnerability_threshold_exceeded == 'true'
+        if: steps.inspector.outputs.vulnerability_threshold_exceeded == '1'
         run: |
           echo "::error::Amazon Inspector found High/Critical vulnerabilities in public.ecr.aws/sam/build-${{ matrix.image }}:latest-${{ matrix.arch.tag }}; see the step summary."
           exit 1

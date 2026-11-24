@@ -85,6 +85,7 @@ $(SBOMGEN):
 	unzip -qo .tools/sbomgen.zip -d .tools
 	chmod +x $@
 
+.PHONY: sbom
 sbom: $(SBOMGEN)
 	mkdir -p sbom
 	$(SBOMGEN) container --image amazon/aws-sam-cli-build-image-$(IS_$(RUNTIME)):$(ARCH) \

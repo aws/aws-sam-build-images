@@ -54,6 +54,9 @@ jobs:
         run: python3 .github/scripts/inspector_scan_sboms.py sboms "$HEAD_SHA"
 
       - name: Report on the pull request
+        # Also after a failed scan step: the script then leaves an error result,
+        # and the commit gets an "error" status rather than none.
+        if: always()
         uses: actions/github-script@v9
         env:
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
@@ -62,8 +65,13 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const result = JSON.parse(fs.readFileSync('result.json', 'utf8'));
-            let body = fs.readFileSync('summary.md', 'utf8');
+            const marker = '<!-- amazon-inspector-pr-scan -->';
+            let result = { pr: null, critical: 0, high: 0, images: 0, error: true };
+            let body = `${marker}\n### Amazon Inspector scan of the images built by this PR\n\n**The scan failed** before it finished; see the workflow run log.\n`;
+            if (fs.existsSync('result.json')) {
+              result = JSON.parse(fs.readFileSync('result.json', 'utf8'));
+              body = fs.readFileSync('summary.md', 'utf8');
+            }
             const found = result.critical + result.high;
             // Only a successful Build & Test run uploaded an SBOM for every image
             // (the upload runs after the tests and fails if it finds no files), so a
@@ -74,7 +82,10 @@ jobs:
             }
             let state = 'success';
             let description = `${result.critical} Critical, ${result.high} High in ${result.images} image(s)`;
-            if (found > 0) {
+            if (result.error) {
+              state = 'error';
+              description = 'Scan failed; see the workflow run log';
+            } else if (found > 0) {
               state = 'failure';
             } else if (result.incomplete) {
               state = 'error';
@@ -97,7 +108,6 @@ jobs:
               owner: context.repo.owner, repo: context.repo.repo, pull_number: result.pr,
             });
             if (pull.head.sha !== process.env.HEAD_SHA) return;
-            const marker = '<!-- amazon-inspector-pr-scan -->';
             const comments = await github.paginate(github.rest.issues.listComments, {
               owner: context.repo.owner, repo: context.repo.repo, issue_number: result.pr,
             });
