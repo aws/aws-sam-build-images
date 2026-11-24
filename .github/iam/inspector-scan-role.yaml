@@ -1,0 +1,77 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  IAM role that GitHub Actions in aws/aws-sam-build-images assumes via OIDC to
+  call the Amazon Inspector Scan API (inspector-scan.yml and inspector-pr-scan.yml).
+  After deploying, set the repository variable INSPECTOR_SCAN_ROLE_ARN to the
+  RoleArn output.
+
+Parameters:
+  GitHubRepo:
+    Type: String
+    Default: aws/aws-sam-build-images
+  DefaultBranch:
+    Type: String
+    Default: develop
+    Description: >-
+      Both workflows run on the default branch (schedule, workflow_run, and
+      workflow_dispatch from it), so only tokens for this ref may assume the role.
+  ExistingOidcProviderArn:
+    Type: String
+    Default: ""
+    Description: >-
+      ARN of an existing token.actions.githubusercontent.com OIDC provider in
+      this account. Leave empty to create one (an account can have only one).
+
+Conditions:
+  CreateOidcProvider: !Equals [!Ref ExistingOidcProviderArn, ""]
+
+Resources:
+  GitHubOidcProvider:
+    Type: AWS::IAM::OIDCProvider
+    Condition: CreateOidcProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList:
+        - sts.amazonaws.com
+      # IAM validates GitHub's certificate through its trusted CA library and
+      # ignores these values; they're here for older tooling that requires them.
+      ThumbprintList:
+        - 6938fd4d98bab03faadb97b34396831e3780aea1
+        - 1c58a3a8518e8759bf075b76b750d4f2df264fcb
+
+  InspectorScanRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: GitHub Actions (OIDC) role for Amazon Inspector SBOM scans of SAM build images
+      MaxSessionDuration: 3600
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !If
+                - CreateOidcProvider
+                - !Ref GitHubOidcProvider
+                - !Ref ExistingOidcProviderArn
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                # Exact match, no wildcard: PR, fork and feature-branch runs
+                # can't assume the role.
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubRepo}:ref:refs/heads/${DefaultBranch}
+      Policies:
+        - PolicyName: inspector-scan-sbom
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              # ScanSbom has no resource-level permissions; it reads and writes
+              # no customer resources, it only returns findings for the SBOM sent.
+              - Effect: Allow
+                Action: inspector-scan:ScanSbom
+                Resource: "*"
+
+Outputs:
+  RoleArn:
+    Description: Set as the repository variable INSPECTOR_SCAN_ROLE_ARN
+    Value: !GetAtt InspectorScanRole.Arn
