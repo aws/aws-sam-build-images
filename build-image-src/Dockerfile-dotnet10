@@ -93,7 +93,11 @@ ENV PATH=~/.dotnet/tools:$PATH
 
 # We're using the -v diag argument to output extra logs because in the past we've seen intermittent failures
 # and want to be able to better understand them if they happen again
-RUN dotnet tool install --tool-path "${DOTNET_ROOT}" Amazon.Lambda.Tools -v diag
+# Amazon.Lambda.Tools only runs the bundled build-lambda-zip.exe on Windows (to keep Linux file
+# permissions when zipping there). On Linux it is never used, but it is built with an old Go
+# toolchain and shows up in image CVE scans, so remove every copy of it.
+RUN dotnet tool install --tool-path "${DOTNET_ROOT}" Amazon.Lambda.Tools -v diag && \
+  find "${DOTNET_ROOT}/.store/amazon.lambda.tools" -type f -name build-lambda-zip.exe -print -delete
 
 COPY ATTRIBUTION.txt /
 
